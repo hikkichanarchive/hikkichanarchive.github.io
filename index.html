@@ -10,7 +10,7 @@
 
 <style>
 :root {
-  color-scheme: dark;
+  color-scheme:dark;
   --bg:#101117;
   --panel:#101522;
   --border:#303e60;
@@ -116,7 +116,7 @@ html.archive-locked #top-button {
 }
 
 html.archive-entering .wrapper {
-  animation:archive-fade-in .8s cubic-bezier(.2,.7,.25,1) both;
+  animation:archive-fade-in .55s cubic-bezier(.2,.7,.25,1) both;
 }
 
 @keyframes archive-fade-in {
@@ -179,7 +179,7 @@ body:after {
   background-position:43px 17px,83px 61px;
 }
 
-/* Additional atmospheric light and faint nebula texture */
+/* Additional atmospheric light */
 .ambient-glow:after {
   content:"";
   position:absolute;
@@ -203,7 +203,7 @@ body:after {
   }
 }
 
-/* Shooting stars: fast, down-right motion with the tail behind the head */
+/* Shooting stars */
 #shooting-stars {
   position:fixed;
   inset:0;
@@ -215,18 +215,20 @@ body:after {
 
 .shooting-star {
   position:absolute;
-  left:-25vw;
+  left:-30vw;
   top:var(--start-y,20%);
   display:block;
-  width:clamp(100px,15vw,190px);
+  width:clamp(110px,16vw,200px);
   height:2px;
   opacity:0;
   pointer-events:none;
+  border-radius:100%;
+  transform-origin:right center;
 
   /*
-    The gradient is transparent on the left and brightest on the right.
-    A positive angle creates a \ streak on screen, matching the
-    down-right direction of travel.
+    The bright head stays at the right-hand end.
+    The positive rotation gives the streak a backslash shape on screen.
+    The star travels down and to the right, with its tail behind it.
   */
   background:linear-gradient(
     90deg,
@@ -237,9 +239,7 @@ body:after {
     #ffffff 100%
   );
 
-  border-radius:100%;
   box-shadow:0 0 5px #8ca9ef35;
-  transform-origin:right center;
 
   animation:
     shooting-star-flight
@@ -281,12 +281,12 @@ body:after {
 @keyframes shooting-star-flight {
   0% {
     opacity:0;
-    transform:translate3d(0,0,0) rotate(12deg) scaleX(.55);
+    transform:translate3d(0,0,0) rotate(32deg) scaleX(.55);
   }
 
   5% {
     opacity:1;
-    transform:translate3d(8vw,2vh,0) rotate(12deg) scaleX(1);
+    transform:translate3d(7vw,3vh,0) rotate(32deg) scaleX(1);
   }
 
   72% {
@@ -295,7 +295,7 @@ body:after {
 
   100% {
     opacity:0;
-    transform:translate3d(145vw,25vh,0) rotate(12deg) scaleX(.9);
+    transform:translate3d(145vw,62vh,0) rotate(32deg) scaleX(.9);
   }
 }
 
@@ -1021,6 +1021,58 @@ h1 {
   grid-column:1/-1;
 }
 
+/* Live archive snapshot */
+.snapshot-stats {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+  padding:14px;
+}
+
+.snapshot-stat {
+  min-width:0;
+  padding:13px 10px;
+  color:#b6c1d8;
+  background:#0c0f1740;
+  border:1px solid var(--border);
+  border-radius:8px;
+  text-align:center;
+  font-size:10px;
+  line-height:1.75;
+  letter-spacing:.5px;
+  overflow-wrap:anywhere;
+  transition:border-color .2s ease,background-color .2s ease;
+}
+
+.snapshot-stat:hover {
+  border-color:#6577a2;
+  background:#111522;
+}
+
+.snapshot-number {
+  display:block;
+  margin-bottom:7px;
+  color:var(--mint);
+  font-size:clamp(21px,4vw,29px);
+  line-height:1.2;
+  font-weight:bold;
+  letter-spacing:0;
+  font-variant-numeric:tabular-nums;
+}
+
+.snapshot-label {
+  display:block;
+  color:var(--blue-light);
+  font-weight:bold;
+}
+
+.snapshot-note {
+  padding:0 14px 15px;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.8;
+}
+
 .quick-links {
   display:flex;
   justify-content:center;
@@ -1736,6 +1788,25 @@ footer a:hover {
     grid-column:auto;
   }
 
+  .snapshot-stats {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
+    padding:11px;
+  }
+
+  .snapshot-stat {
+    padding:12px 8px;
+    font-size:9px;
+  }
+
+  .snapshot-number {
+    font-size:26px;
+  }
+
+  .snapshot-note {
+    padding:0 11px 12px;
+  }
+
   .quick-links {
     padding:12px;
     gap:7px;
@@ -1906,7 +1977,8 @@ footer a:hover {
   .nav-item:hover,
   .quick-links a:hover,
   .alias-link:hover,
-  .about-box:hover {
+  .about-box:hover,
+  .snapshot-stat:hover {
     transform:none;
   }
 }
@@ -1925,10 +1997,7 @@ footer a:hover {
     scroll-behavior:auto!important;
   }
 
-  #shooting-stars {
-    display:none!important;
-  }
-
+  #shooting-stars,
   .shooting-star {
     display:none!important;
   }
@@ -1978,7 +2047,7 @@ footer a:hover {
         <input type="checkbox" id="agree-checkbox">
         <span>I understand this is an independent fan archive and agree not to use it for hacking, doxxing, harassment, privacy violations, or other misuse.</span>
       </label>
-      <button class="entry-agree-button" id="agree-button" type="button" disabled>I AGREE — ENTER ARCHIVE</button>
+      <button class="entry-agree-button" id="agree-button" type="button" disabled>I agree, enter archive</button>
       <p class="entry-error" id="entry-error" aria-live="polite"></p>
       <p class="entry-footnote">✧ INDEPENDENT FAN ARCHIVE · NO OFFICIAL AFFILIATION ✧</p>
     </div>
@@ -2012,10 +2081,37 @@ footer a:hover {
   </div>
 </section>
 
+<section class="panel" id="snapshot-section">
+  <button class="panel-top" type="button" aria-expanded="true">Archive Snapshot</button>
+  <p class="panel-subtext">A quick look at what's currently listed in the archive.</p>
+
+  <div class="snapshot-stats" aria-label="Archive statistics">
+    <div class="snapshot-stat">
+      <span class="snapshot-number" data-count="all-links">0</span>
+      <span class="snapshot-label">LINKS INDEXED</span>
+    </div>
+    <div class="snapshot-stat">
+      <span class="snapshot-number" data-count="youtube-links">0</span>
+      <span class="snapshot-label">YOUTUBE LINKS</span>
+    </div>
+    <div class="snapshot-stat">
+      <span class="snapshot-number" data-count="profile-links">0</span>
+      <span class="snapshot-label">OTHER PROFILES</span>
+    </div>
+    <div class="snapshot-stat">
+      <span class="snapshot-number" data-count="aliases">0</span>
+      <span class="snapshot-label">ALIASES LISTED</span>
+    </div>
+  </div>
+
+  <p class="snapshot-note">These numbers are counted from the entries on this page. A link being listed does not guarantee that it still works or that its status has been independently verified.</p>
+</section>
+
 <section class="panel" id="quick-section">
   <button class="panel-top" type="button" aria-expanded="true">Quick Links</button>
   <p class="panel-subtext">Jump to a section of the archive.</p>
   <div class="quick-links">
+    <a href="#snapshot-section">Archive Snapshot</a>
     <a href="#archive-section">Archive Links</a>
     <a href="#yt-section">YouTube Channels</a>
     <a href="#media-section">Other Profiles</a>
@@ -2205,6 +2301,7 @@ footer a:hover {
   <button class="panel-top" type="button" aria-expanded="true">Recent Updates</button>
   <p class="panel-subtext">A few recent changes to the archive.</p>
   <ul class="changelog-list">
+    <li><span class="changelog-date">OCTOBER 19, 2026</span>Added a live archive snapshot and refined search, navigation, and background effects.</li>
     <li><span class="changelog-date">OCTOBER 18, 2026</span>Added and organized links across several platforms.</li>
     <li><span class="changelog-date">OCTOBER 17, 2026</span>Updated the layout and status labels.</li>
     <li><span class="changelog-date">ONGOING</span>Reviewing links and adding missing archive references.</li>
@@ -2312,7 +2409,7 @@ function openGate() {
     if (!gate.hidden && !gate.classList.contains("is-leaving")) {
       safelyFocus(checkbox);
     }
-  }, 30);
+  },30);
 }
 
 function closeGate() {
@@ -2356,7 +2453,7 @@ function closeGate() {
   if (reducedMotion.matches) {
     finish();
   } else {
-    gateFinishTimer = window.setTimeout(finish,850);
+    gateFinishTimer = window.setTimeout(finish,580);
   }
 }
 
@@ -2366,6 +2463,14 @@ if (hasAgreed()) {
 } else {
   gate.hidden = false;
   root.classList.add("archive-locked");
+
+  gateFocusTimer = window.setTimeout(() => {
+    gateFocusTimer = null;
+
+    if (!gate.hidden && !gate.classList.contains("is-leaving")) {
+      safelyFocus(checkbox);
+    }
+  },50);
 }
 
 agreeButton.setAttribute("aria-disabled",String(agreeButton.disabled));
@@ -2444,11 +2549,6 @@ function createShootingStars() {
     star.className = "shooting-star";
     star.style.setProperty("--start-y",(4 + Math.random() * 68) + "%");
     star.style.setProperty("--duration",(1.8 + Math.random() * 1.8) + "s");
-
-    /*
-      Randomized negative delays stagger the shooting stars so they
-      appear at different points in their fast animation cycles.
-    */
     star.style.setProperty("--delay",-(Math.random() * 3.5) + "s");
 
     fragment.appendChild(star);
@@ -2524,6 +2624,24 @@ function searchableText(entry) {
     (entry.dataset.category || "") + " " +
     entryStatus(entry)
   );
+}
+
+/* Update the dashboard from the entries actually on the page */
+function updateSnapshot() {
+  const counts = {
+    "all-links":document.querySelectorAll(".row").length,
+    "youtube-links":document.querySelectorAll("#yt-section .row").length,
+    "profile-links":document.querySelectorAll("#media-section .row").length,
+    "aliases":document.querySelectorAll("#aliases-section .alias-link").length
+  };
+
+  Object.entries(counts).forEach(([key,value]) => {
+    const counter = document.querySelector('[data-count="' + key + '"]');
+
+    if (counter) {
+      counter.textContent = value.toLocaleString("en-US");
+    }
+  });
 }
 
 /* Turn platform headings into collapsible groups */
@@ -3041,6 +3159,7 @@ createDecorations();
 createShootingStars();
 setupSocialGroups();
 setupPanels();
+updateSnapshot();
 updateResults();
 refreshScroll();
 
