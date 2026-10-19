@@ -1,0 +1,2329 @@
+<!DOCTYPE html>
+<html lang="en" class="archive-locked">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101117">
+<meta name="description" content="An independent fan-made reference archive of public links and older web resources.">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>EARTH'S HIKKICHAN ARCHIVE</title>
+
+<style>
+:root {
+  color-scheme: dark;
+  --bg:#101117;
+  --panel:#101522;
+  --border:#303e60;
+  --blue:#8ca9ef;
+  --blue-light:#a7b9e4;
+  --pink:#ed7887;
+  --pink-light:#ffb4c9;
+  --mint:#9ed3bd;
+  --yellow:#ffd447;
+  --red:#ff858c;
+  --muted:#929db6;
+  --font:"Courier New",Courier,monospace;
+}
+
+* { box-sizing:border-box; margin:0; padding:0; }
+
+html {
+  scroll-behavior:smooth;
+  scroll-padding-top:18px;
+  background:var(--bg);
+}
+
+body {
+  min-height:100vh;
+  padding:30px 12px;
+  overflow-x:hidden;
+  background:var(--bg);
+  color:#fff;
+  font:14px var(--font);
+}
+
+button,input { font:inherit; }
+button { touch-action:manipulation; }
+[hidden] { display:none!important; }
+
+::selection { background:#8298c7; color:#08090d; }
+::-webkit-scrollbar { width:9px; }
+::-webkit-scrollbar-track { background:#08090d; }
+::-webkit-scrollbar-thumb { background:#34456f; border-radius:8px; }
+
+:focus-visible {
+  outline:2px solid #a7b9e4;
+  outline-offset:3px;
+}
+
+html.archive-locked,
+html.archive-locked body {
+  overflow:hidden;
+}
+
+/* Keep the archive hidden until the access notice closes. */
+html.archive-locked .wrapper,
+html.archive-locked #top-button {
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+
+.wrapper,
+#top-button {
+  transition:opacity .65s ease;
+}
+
+html.archive-entering .wrapper {
+  animation:archive-fade-in .8s ease both;
+}
+
+@keyframes archive-fade-in {
+  from { opacity:0; transform:translateY(10px); }
+  to { opacity:1; transform:translateY(0); }
+}
+
+/* Background glow */
+.ambient-glow {
+  position:fixed;
+  inset:-8%;
+  z-index:0;
+  pointer-events:none;
+  background:
+    radial-gradient(ellipse at 10% 15%,#40518b4d,transparent 38%),
+    radial-gradient(ellipse at 82% 18%,#7330443b,transparent 36%),
+    radial-gradient(ellipse at 48% 38%,#40518b45,transparent 42%),
+    radial-gradient(ellipse at 18% 52%,#73304433,transparent 38%),
+    radial-gradient(ellipse at 83% 55%,#40518b40,transparent 40%),
+    radial-gradient(ellipse at 45% 72%,#73304438,transparent 42%),
+    radial-gradient(ellipse at 12% 88%,#40518b40,transparent 38%),
+    radial-gradient(ellipse at 88% 91%,#73304438,transparent 38%),
+    radial-gradient(ellipse at 52% 100%,#9ed3bd1a,transparent 40%);
+  contain:strict;
+}
+
+body:before,
+body:after {
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+}
+
+body:before {
+  opacity:.55;
+  background-image:
+    radial-gradient(circle,#d5e5ff 1px,transparent 1.8px),
+    radial-gradient(circle,#8badff 1.2px,transparent 2px),
+    radial-gradient(circle,#ffb4c9 1px,transparent 1.8px),
+    radial-gradient(circle,#b7ffe5 1.2px,transparent 2px);
+  background-size:73px 79px,113px 107px,149px 137px,181px 163px;
+  background-position:7px 13px,31px 47px,67px 19px,17px 83px;
+}
+
+body:after {
+  opacity:.3;
+  background-image:
+    radial-gradient(circle,#fff 1px,transparent 1.8px),
+    radial-gradient(circle,#8badffb3 1px,transparent 2px);
+  background-size:97px 113px,137px 127px;
+  background-position:43px 17px,83px 61px;
+}
+
+#cornerDecorations {
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  overflow:hidden;
+  contain:strict;
+}
+
+.corner-decoration {
+  position:absolute;
+  display:block;
+  line-height:1;
+  user-select:none;
+  animation:twinkle var(--duration,3s) ease-in-out infinite;
+  animation-delay:var(--delay,0s);
+}
+
+.corner-decoration.star,
+.corner-decoration.pink-star,
+.corner-decoration.mint-star {
+  font-size:var(--size,13px);
+}
+
+.corner-decoration.star {
+  color:#b9ccff;
+  text-shadow:0 0 7px #8badff;
+}
+
+.corner-decoration.pink-star {
+  color:#ffb4c9;
+  text-shadow:0 0 7px #ffb4c9;
+}
+
+.corner-decoration.mint-star {
+  color:#b7ffe5;
+  text-shadow:0 0 7px #b7ffe5;
+}
+
+.corner-decoration.dot,
+.corner-decoration.pink-dot,
+.corner-decoration.mint-dot {
+  width:var(--size,3px);
+  height:var(--size,3px);
+  border-radius:50%;
+}
+
+.corner-decoration.dot {
+  background:#d5e5ff;
+  box-shadow:0 0 5px #8badff;
+}
+
+.corner-decoration.pink-dot {
+  background:#ffb4c9;
+  box-shadow:0 0 5px #ffb4c9;
+}
+
+.corner-decoration.mint-dot {
+  background:#b7ffe5;
+  box-shadow:0 0 5px #b7ffe5;
+}
+
+@keyframes twinkle {
+  0%,100% { opacity:.3; transform:scale(.85); }
+  50% { opacity:.95; transform:scale(1.08); }
+}
+
+#scroll-progress {
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:3px;
+  z-index:10001;
+  background:linear-gradient(90deg,#8298c7,#ed687b,#9ed3bd);
+  transform:scaleX(0);
+  transform-origin:left;
+  pointer-events:none;
+}
+
+/* Transparent access notice */
+.entry-gate {
+  position:fixed;
+  inset:0;
+  z-index:10000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:16px;
+  overflow-y:auto;
+  overflow-x:hidden;
+  background:transparent;
+  opacity:1;
+  visibility:visible;
+  transition:opacity .55s ease,visibility .55s ease;
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+}
+
+.entry-gate.is-leaving {
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+
+.entry-gate[hidden] { display:none!important; }
+
+.entry-card {
+  position:relative;
+  flex:0 1 610px;
+  width:100%;
+  max-width:610px;
+  max-height:calc(100vh - 32px);
+  max-height:calc(100dvh - 32px);
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  margin:auto;
+  overflow:hidden;
+  color:#e8ebf5;
+
+  /* Match the transparency of the archive notice/panels. */
+  background-color:#0b0e18b8;
+  background-image:
+    radial-gradient(circle,#8badff30 1px,transparent 1.8px),
+    radial-gradient(circle,#ffb4c930 1px,transparent 1.8px),
+    linear-gradient(135deg,#40518b12,#73304412);
+  background-size:73px 79px,113px 107px,100% 100%;
+  background-position:7px 13px,31px 47px,center;
+  border:1px solid #53668f;
+  border-radius:10px;
+  box-shadow:0 0 35px #40518b30,0 18px 65px #0008;
+}
+
+.entry-heading {
+  flex:0 0 auto;
+  padding:25px 22px 18px;
+  text-align:center;
+  border-bottom:1px solid #303e60;
+  background:linear-gradient(135deg,#40518b35,#73304430);
+}
+
+.entry-kicker {
+  color:#9eafd7;
+  font-size:10px;
+  letter-spacing:2px;
+  line-height:1.8;
+  margin-bottom:12px;
+}
+
+.entry-heading h2 {
+  color:var(--pink);
+  font-size:clamp(20px,5vw,27px);
+  line-height:1.4;
+  margin-bottom:8px;
+}
+
+.entry-subtitle {
+  color:var(--blue-light);
+  font-size:11px;
+  letter-spacing:1px;
+  line-height:1.8;
+}
+
+.entry-ornament {
+  color:var(--blue);
+  letter-spacing:12px;
+  margin-top:12px;
+}
+
+.entry-ornament span:nth-child(2) { color:var(--pink-light); }
+.entry-ornament span:nth-child(3) { color:var(--mint); }
+
+.entry-body {
+  flex:1 1 auto;
+  min-height:0;
+  padding:19px 22px 8px;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  line-height:1.85;
+  font-size:12px;
+}
+
+.entry-body p {
+  color:#c2cbe0;
+  margin-bottom:12px;
+}
+
+.entry-body strong { color:#f0a0ac; }
+
+.entry-body h3 {
+  color:var(--blue-light);
+  font-size:11px;
+  letter-spacing:1px;
+  margin:16px 0 6px;
+}
+
+.entry-body ul {
+  padding-left:20px;
+  margin-bottom:13px;
+  color:#c2cbe0;
+}
+
+.entry-body li { margin-bottom:5px; }
+
+.entry-body .legal-small {
+  color:#9ba7c2;
+  font-size:11px;
+}
+
+.entry-footer {
+  position:relative;
+  z-index:1;
+  flex:0 0 auto;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  width:100%;
+  padding:14px 22px 20px;
+  border-top:1px solid #303e60;
+
+  /* Same transparency as the access card and archive panels. */
+  background:#0b0e18b8;
+  text-align:center;
+}
+
+.entry-agreement {
+  display:flex;
+  align-items:flex-start;
+  gap:9px;
+  width:100%;
+  color:#b6c1d8;
+  font-size:11px;
+  line-height:1.7;
+  margin-bottom:13px;
+  cursor:pointer;
+  text-align:left;
+}
+
+.entry-agreement input {
+  appearance:auto;
+  accent-color:#8298c7;
+  width:16px;
+  height:16px;
+  flex:0 0 16px;
+  margin:2px 0 0;
+  cursor:pointer;
+}
+
+.entry-agree-button {
+  display:flex!important;
+  visibility:visible!important;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  width:100%;
+  min-height:47px;
+  margin:0 auto;
+  padding:12px;
+  border:1px solid #6577a2;
+  border-radius:7px;
+  background:#303e6038;
+  color:#f0a0ac;
+  font-weight:bold;
+  letter-spacing:.7px;
+  cursor:pointer;
+  transition:background .2s,border-color .2s,color .2s,opacity .2s;
+}
+
+.entry-agree-button:hover:not(:disabled) {
+  color:#fff;
+  border-color:#a5b5d8;
+  background:#40518b70;
+}
+
+.entry-agree-button:disabled {
+  opacity:.65;
+  cursor:not-allowed;
+}
+
+.entry-error {
+  width:100%;
+  min-height:17px;
+  text-align:center;
+  color:var(--pink-light);
+  font-size:10px;
+  margin-top:7px;
+}
+
+.entry-footnote {
+  width:100%;
+  color:#7f8aa5;
+  text-align:center;
+  font-size:10px;
+  line-height:1.7;
+  margin-top:8px;
+}
+
+/* Main layout */
+.wrapper {
+  position:relative;
+  isolation:isolate;
+  z-index:1;
+  width:100%;
+  max-width:820px;
+  margin:auto;
+  padding:20px 22px 38px;
+  overflow-wrap:anywhere;
+  background:#08090d66;
+  border:1px solid var(--border);
+  border-radius:13px;
+  box-shadow:0 8px 35px #0003,0 0 35px #40518b12;
+}
+
+header {
+  padding:28px 8px 20px;
+  margin-bottom:22px;
+  text-align:center;
+  border-bottom:1px solid #28334d;
+}
+
+header:before {
+  content:"Z O M B I E B E A T Z 2 0 0 0  A R C H I V E";
+  display:block;
+  color:var(--blue);
+  font-size:10px;
+  letter-spacing:2px;
+  margin-bottom:18px;
+}
+
+h1 {
+  color:#ed687b;
+  font-size:clamp(25px,6vw,36px);
+  line-height:1.35;
+  text-decoration:underline;
+  text-decoration-color:#873d50;
+  text-underline-offset:6px;
+  margin-bottom:22px;
+  text-shadow:2px 2px 0 #321b2a,0 0 8px #ed687b33;
+}
+
+.subtitle {
+  display:inline-block;
+  color:#a5b5d8;
+  font-size:11px;
+  letter-spacing:1px;
+  line-height:1.6;
+  margin-bottom:18px;
+  padding:7px 10px;
+  border-block:1px solid var(--border);
+}
+
+.top-nav {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:8px;
+  width:100%;
+}
+
+.nav-item {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:42px;
+  padding:10px 14px;
+  color:var(--pink);
+  font-weight:bold;
+  text-align:center;
+  background:#0c0f1740;
+  border:1px solid var(--border);
+  border-radius:7px;
+  cursor:pointer;
+  transition:background .35s,border-color .35s,color .35s,box-shadow .35s;
+}
+
+.nav-item:hover {
+  color:#b5c9ff;
+  border-color:#6577a2;
+  background:#111522;
+}
+
+/* Temporary highlight only. It fades away instead of sticking. */
+.nav-item.is-active {
+  color:#fff;
+  background:#40518b50;
+  border-color:#8ca9ef;
+  box-shadow:0 0 14px #8298c733,inset 0 0 10px #8298c71a;
+}
+
+.archive-decoration {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:16px;
+  margin-bottom:25px;
+  padding:10px;
+  color:var(--blue);
+  font-size:15px;
+  letter-spacing:2px;
+}
+
+.archive-decoration span:nth-child(2) { color:#b65d70; }
+.archive-decoration span:nth-child(3) { color:var(--mint); }
+
+/* Panels */
+.panel {
+  position:relative;
+  isolation:isolate;
+  margin-bottom:20px;
+  overflow:hidden;
+  border:1px solid var(--border);
+  border-radius:10px;
+  scroll-margin-top:18px;
+  transition:border-color .25s,box-shadow .25s;
+}
+
+.panel:hover { border-color:#53668f; }
+.panel.is-collapsed { border-color:var(--border); }
+.panel.is-glowing { animation:panel-highlight 1.25s ease-out; }
+
+@keyframes panel-highlight {
+  0% { border-color:#ed7887; box-shadow:0 0 0 1px #ed7887,0 0 30px #ed788755; }
+  35% { border-color:#8ca9ef; box-shadow:0 0 0 1px #8ca9ef,0 0 26px #8ca9ef55; }
+  70% { border-color:#9ed3bd; box-shadow:0 0 0 1px #9ed3bd,0 0 18px #9ed3bd35; }
+  100% { border-color:var(--border); box-shadow:0 0 0 transparent; }
+}
+
+.panel-top {
+  display:block;
+  position:relative;
+  width:100%;
+  padding:14px 48px 14px 15px;
+  color:var(--pink);
+  background:#10111770;
+  border:0;
+  text-align:left;
+  font-weight:bold;
+  line-height:1.5;
+  cursor:pointer;
+}
+
+.panel-top:before {
+  content:"✦";
+  color:var(--blue);
+  margin-right:10px;
+}
+
+/* Fixed dimensions: only rotation changes, never the icon's size. */
+.panel-top:after,
+.social-group-heading:after {
+  content:"";
+  box-sizing:border-box;
+  position:absolute;
+  top:50%;
+  display:block;
+  background-color:transparent;
+  background-image:linear-gradient(var(--blue-light),var(--blue-light));
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:10px 1px;
+  transform:translateY(-50%) rotate(0deg);
+  transform-origin:center;
+  border:1px solid var(--border);
+  border-radius:5px;
+  transition:border-color .2s;
+}
+
+.panel-top:after {
+  right:13px;
+  width:24px;
+  height:24px;
+}
+
+.social-group-heading:after {
+  right:12px;
+  width:23px;
+  height:23px;
+}
+
+.panel.is-collapsed>.panel-top:after,
+.social-group.is-collapsed>.social-group-heading:after {
+  background-image:
+    linear-gradient(var(--blue-light),var(--blue-light)),
+    linear-gradient(var(--blue-light),var(--blue-light));
+  background-size:10px 1px,1px 10px;
+  background-position:center,center;
+  background-repeat:no-repeat;
+}
+
+.panel-top:hover {
+  background:#111522;
+  color:var(--pink-light);
+}
+
+.panel-top:hover:after { border-color:#6577a2; }
+
+/* Rotate exactly 90 degrees on each click. */
+.panel-top.is-spinning:after,
+.social-group-heading.is-spinning:after {
+  animation:swirl-mark .3s ease-in-out;
+}
+
+@keyframes swirl-mark {
+  from { transform:translateY(-50%) rotate(0deg); }
+  to { transform:translateY(-50%) rotate(90deg); }
+}
+
+.panel-collapse-content {
+  display:grid;
+  grid-template-rows:1fr;
+  min-height:0;
+  overflow:hidden;
+  opacity:1;
+  transition:grid-template-rows .3s ease,opacity .2s ease;
+}
+
+.panel-collapse-inner {
+  min-height:0;
+  min-width:0;
+  overflow:hidden;
+}
+
+.panel.is-collapsed>.panel-collapse-content {
+  grid-template-rows:0fr;
+  opacity:0;
+  pointer-events:none;
+}
+
+.panel-subtext {
+  color:var(--muted);
+  font-size:12px;
+  padding:12px 15px 5px;
+  line-height:1.8;
+}
+
+.panel-content { padding:15px; line-height:1.9; }
+
+.intro-text { color:#c5ccdc; line-height:1.95; }
+.intro-text strong { color:var(--pink); }
+.small-note { color:var(--muted); font-size:12px; line-height:1.85; }
+
+.about-boxes {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+  padding:14px;
+}
+
+.about-box {
+  min-width:0;
+  padding:13px;
+  color:#c5ccdc;
+  border:1px solid var(--border);
+  border-radius:8px;
+  line-height:1.85;
+  transition:border-color .2s,transform .2s;
+}
+
+.about-box:hover {
+  border-color:#6577a2;
+  transform:translateY(-1px);
+}
+
+.about-box:before {
+  content:"✧";
+  display:block;
+  color:var(--blue);
+  margin-bottom:6px;
+}
+
+.about-box h3 {
+  color:var(--pink);
+  font-size:12px;
+  margin-bottom:7px;
+}
+
+.about-box p { font-size:12px; }
+.about-box.full-width { grid-column:1/-1; }
+
+.quick-links {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:8px;
+  padding:14px;
+}
+
+.quick-links a,
+.alias-link {
+  display:block;
+  min-width:0;
+  padding:9px 11px;
+  color:var(--blue);
+  font-weight:bold;
+  text-decoration:none;
+  text-align:center;
+  background:transparent;
+  border:1px solid var(--border);
+  border-radius:7px;
+  transition:background .2s,border-color .2s,color .2s;
+}
+
+.quick-links a:hover,
+.alias-link:hover {
+  color:var(--pink-light);
+  border-color:#6577a2;
+  background:#111522;
+}
+
+/* Search and filters */
+.search-area { padding:15px; }
+
+.search-label {
+  display:block;
+  color:var(--blue-light);
+  margin-bottom:9px;
+  font-size:11px;
+}
+
+.search-row {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+#archive-search {
+  flex:1 1 200px;
+  min-width:0;
+  padding:11px;
+  color:#b6c9ff;
+  background:#08090d;
+  border:1px solid var(--border);
+  border-radius:7px;
+  font-size:16px;
+}
+
+#archive-search::placeholder { color:#626d85; }
+
+#archive-search:focus {
+  outline:2px solid #8298c7;
+  outline-offset:1px;
+}
+
+.search-button {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:42px;
+  padding:10px 13px;
+  color:var(--blue-light);
+  background:transparent;
+  border:1px solid var(--border);
+  border-radius:7px;
+  font-size:12px;
+  font-weight:bold;
+  text-align:center;
+  cursor:pointer;
+}
+
+.search-button:hover {
+  color:var(--pink-light);
+  border-color:#6577a2;
+  background:#111522;
+}
+
+#search-status {
+  min-height:30px;
+  padding-top:10px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.7;
+}
+
+.filter-row {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:7px;
+  padding:0 15px 15px;
+}
+
+.filter-chip {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:38px;
+  padding:8px 10px;
+  color:var(--blue-light);
+  background:transparent;
+  border:1px solid #28334d;
+  border-radius:7px;
+  font-size:11px;
+  text-align:center;
+  cursor:pointer;
+}
+
+.filter-chip[aria-pressed=true],
+.filter-chip:hover {
+  color:var(--pink-light);
+  border-color:#6577a2;
+  background:#111522;
+}
+
+.status-filter-available[aria-pressed=true] { color:var(--mint); border-color:#477d68; }
+.status-filter-deleted[aria-pressed=true],
+.status-filter-banned[aria-pressed=true] { color:var(--red); border-color:#985060; }
+.status-filter-corrupted[aria-pressed=true] { color:var(--yellow); border-color:#826b46; }
+
+/* Link rows */
+.link-list {
+  padding:10px 15px 16px;
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+  min-width:0;
+}
+
+.row {
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:7px;
+  min-width:0;
+  padding:8px;
+  line-height:1.8;
+  border-bottom:1px solid #303e6033;
+  border-radius:5px;
+}
+
+.row:last-child { border-bottom-color:transparent; }
+.row:hover { background:#2733511f; }
+
+.link-list a {
+  min-width:0;
+  max-width:100%;
+  color:var(--blue);
+  font-weight:bold;
+  text-decoration:none;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+
+.link-list a:hover {
+  color:var(--pink-light);
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+
+.row>a { flex:0 1 auto; order:1; }
+.row .status-separator { order:2; color:var(--muted); }
+.row>.status-notice { order:3; }
+.row .username-description { display:none; }
+
+.media a { color:var(--mint); }
+.media a:hover { color:#d0f1df; }
+
+.media .row>a {
+  font-size:15px;
+  line-height:1.7;
+  padding:4px 0;
+}
+
+.group-heading {
+  margin:20px 0 5px;
+  padding:12px 11px;
+  color:#f08a9a;
+  border:1px solid var(--border);
+  border-left:3px solid var(--blue);
+  border-bottom:2px solid #53668f;
+  border-radius:7px;
+  font-size:15px;
+  font-weight:bold;
+  letter-spacing:1px;
+  line-height:1.5;
+}
+
+.group-heading:before { content:"✧ "; color:var(--blue); }
+
+.status-notice {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  max-width:100%;
+  padding:4px 8px;
+  margin:3px;
+  border:1px solid;
+  border-radius:5px;
+  font-size:10px;
+  font-weight:bold;
+  line-height:1.5;
+  letter-spacing:.2px;
+  overflow-wrap:anywhere;
+  white-space:normal;
+}
+
+.status-notice:before {
+  content:"";
+  width:7px;
+  height:7px;
+  flex:0 0 7px;
+  border-radius:50%;
+  background:var(--status-light);
+  box-shadow:0 0 5px var(--status-light);
+}
+
+.status-available {
+  --status-light:#55f29b;
+  color:var(--mint);
+  border-color:#477d68;
+  background:#477d6812;
+}
+
+.status-deleted,
+.status-banned {
+  --status-light:#ff3838;
+  color:var(--red);
+  border-color:#985060;
+  background:#98506012;
+}
+
+.status-corrupt {
+  --status-light:#ffd447;
+  color:var(--yellow);
+  border-color:#826b46;
+  background:#826b4612;
+}
+
+.status-notice.status-available:before,
+.status-notice.status-deleted:before,
+.status-notice.status-banned:before,
+.status-notice.status-corrupt:before {
+  animation:pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  50% { opacity:.55; transform:scale(.88); }
+}
+
+/* Platform groups */
+.social-group {
+  min-width:0;
+  margin:12px 0;
+  overflow:hidden;
+  border:1px solid var(--border);
+  border-radius:9px;
+  background:transparent;
+}
+
+.social-group:hover { border-color:#6577a2; }
+
+.social-group-heading {
+  position:relative;
+  display:block;
+  width:100%;
+  padding:13px 45px 13px 13px;
+  color:#f08a9a;
+  background:transparent;
+  border:0;
+  text-align:left;
+  font-weight:bold;
+  letter-spacing:.5px;
+  line-height:1.5;
+  overflow-wrap:anywhere;
+  cursor:pointer;
+}
+
+.social-group-heading:before {
+  content:"✧";
+  color:var(--blue);
+  margin-right:9px;
+}
+
+.social-group-content {
+  display:grid;
+  grid-template-rows:1fr;
+  min-height:0;
+  overflow:hidden;
+  opacity:1;
+  border-top:1px solid #303e6059;
+  transition:grid-template-rows .3s ease,opacity .2s ease;
+}
+
+.social-group-inner {
+  min-height:0;
+  min-width:0;
+  overflow:hidden;
+  padding:7px 8px;
+}
+
+.social-group.is-collapsed>.social-group-content {
+  grid-template-rows:0fr;
+  opacity:0;
+  pointer-events:none;
+}
+
+.social-group.is-collapsed>.social-group-content>.social-group-inner {
+  padding-block:0;
+}
+
+.youtube-list .social-group[data-status=available]>.social-group-heading { color:var(--mint); }
+.youtube-list .social-group[data-status=deleted]>.social-group-heading { color:var(--red); }
+.youtube-list .social-group[data-status=corrupted]>.social-group-heading { color:var(--yellow); }
+
+.status-subgroup {
+  margin:10px 0;
+  overflow:hidden;
+  border:1px solid #252f46;
+  border-radius:7px;
+}
+
+.status-subgroup-title {
+  padding:9px 10px;
+  color:var(--blue-light);
+  border-bottom:1px solid var(--border);
+  font-size:11px;
+  font-weight:bold;
+  letter-spacing:.5px;
+}
+
+.status-subgroup[data-status=available] .status-subgroup-title { color:var(--mint); }
+
+.status-subgroup[data-status=deleted] .status-subgroup-title,
+.status-subgroup[data-status=banned] .status-subgroup-title { color:var(--red); }
+
+.status-subgroup[data-status=corrupted] .status-subgroup-title { color:var(--yellow); }
+
+/* Aliases, legend and updates */
+.alias-grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+  padding:15px;
+}
+
+.alias-link { position:relative; }
+.alias-link:after { content:"↗"; float:right; color:#53668f; margin-left:6px; }
+.alias-link span { display:none; }
+
+.legend-list {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:8px;
+  padding:15px;
+}
+
+.legend-list .status-notice {
+  min-height:32px;
+  margin:0;
+  padding:6px 10px;
+}
+
+.changelog-list {
+  list-style:none;
+  padding:15px 15px 4px;
+}
+
+.changelog-list li {
+  border-left:1px solid var(--border);
+  padding:2px 0 14px 13px;
+  margin-bottom:7px;
+  color:#a7b4d0;
+  line-height:1.8;
+}
+
+.changelog-date {
+  display:block;
+  color:var(--blue);
+  font-weight:bold;
+  margin-bottom:4px;
+}
+
+.contact-email {
+  color:var(--blue);
+  font-weight:bold;
+  text-decoration:underline;
+  overflow-wrap:anywhere;
+}
+
+.contact-email:hover { color:var(--pink-light); }
+
+/* Archive notice */
+.archive-help {
+  position:relative;
+  margin:12px 0;
+  padding:13px;
+  color:#a7b4d0;
+  background-color:#0b0e18b8;
+  background-image:
+    radial-gradient(circle,#8badff35 1px,transparent 1.8px),
+    radial-gradient(circle,#ffb4c935 1px,transparent 1.8px),
+    linear-gradient(135deg,#40518b18,#73304418);
+  background-size:73px 79px,113px 107px,100% 100%;
+  background-position:7px 13px,31px 47px,center;
+  border:1px solid var(--border);
+  border-radius:8px;
+  box-shadow:0 0 18px #40518b12;
+  font-size:12px;
+  line-height:1.85;
+}
+
+.archive-help strong { color:var(--pink); }
+
+footer {
+  margin-top:24px;
+  padding:24px 10px 5px;
+  color:var(--muted);
+  border-top:1px solid #28334d;
+  text-align:center;
+  font-size:11px;
+  line-height:1.9;
+}
+
+footer .footer-title { color:var(--blue-light); letter-spacing:1px; }
+footer a { color:var(--blue); text-decoration:none; }
+footer a:hover { color:var(--pink-light); text-decoration:underline; }
+
+.status-dot {
+  display:inline-block;
+  width:8px;
+  height:8px;
+  margin-left:7px;
+  border-radius:50%;
+  background:#55f29b;
+  box-shadow:0 0 5px #55f29b;
+}
+
+.reopen-notice {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  margin:8px auto 0;
+  padding:7px 10px;
+  color:var(--blue-light);
+  background:transparent;
+  border:1px solid var(--border);
+  border-radius:6px;
+  font-size:11px;
+  cursor:pointer;
+}
+
+.reopen-notice:hover { color:var(--pink-light); border-color:#6577a2; }
+
+.back-to-top {
+  position:fixed;
+  z-index:20;
+  right:20px;
+  bottom:20px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  min-height:44px;
+  padding:11px 14px;
+  color:var(--blue-light);
+  background:#08090dee;
+  border:1px solid var(--border);
+  border-radius:8px;
+  font-weight:bold;
+  cursor:pointer;
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  transform:translateY(10px);
+  transition:opacity .2s,visibility .2s,transform .2s;
+}
+
+.back-to-top.is-visible {
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+  transform:none;
+}
+
+.back-to-top:before { content:"↑"; font-size:16px; }
+.back-to-top:hover { color:var(--pink-light); border-color:#6577a2; }
+
+/* Mobile layout */
+@media(max-width:600px) {
+  body { padding:10px 5px; font-size:13px; }
+
+  .wrapper {
+    padding:10px 9px 26px;
+    border-radius:10px;
+  }
+
+  header { padding:24px 3px 16px; margin-bottom:16px; }
+  header:before { font-size:8px; letter-spacing:1px; }
+  h1 { font-size:clamp(22px,7vw,31px); margin-bottom:18px; }
+  .subtitle { font-size:10px; letter-spacing:.5px; }
+
+  .top-nav {
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    justify-items:stretch;
+    gap:7px;
+  }
+
+  .nav-item {
+    width:100%;
+    min-width:0;
+    min-height:44px;
+    padding:9px 5px;
+    font-size:12px;
+  }
+
+  .nav-item:last-child:nth-child(odd) { grid-column:1/-1; }
+
+  .archive-decoration { gap:12px; margin-bottom:17px; }
+  .panel { margin-bottom:15px; scroll-margin-top:10px; }
+  .panel-top { padding:13px 43px 13px 12px; font-size:13px; }
+
+  .about-boxes { grid-template-columns:1fr; padding:11px; gap:8px; }
+  .about-box.full-width { grid-column:auto; }
+
+  .quick-links { padding:12px; gap:7px; }
+  .quick-links a { flex:1 1 125px; text-align:center; }
+  .search-area { padding:12px; }
+
+  .search-row {
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    width:100%;
+  }
+
+  #archive-search { grid-column:1/-1; width:100%; min-height:46px; }
+  .search-button { width:100%; min-height:44px; }
+
+  .filter-row { gap:6px; padding:0 12px 12px; }
+
+  .filter-chip {
+    flex:1 1 105px;
+    min-width:0;
+    min-height:42px;
+    padding:9px 7px;
+  }
+
+  .link-list { padding:8px 8px 12px; }
+  .row { gap:5px; padding:8px 5px; }
+  .row>a { flex:0 1 auto; }
+  .status-notice { padding:4px 6px; font-size:9px; }
+  .group-heading { font-size:14px; padding:11px 9px; }
+  .social-group-heading { padding:13px 43px 13px 10px; font-size:13px; }
+  .alias-grid { grid-template-columns:1fr; gap:7px; padding:12px; }
+  .legend-list { gap:7px; padding:12px; }
+  .changelog-list { padding:12px 10px 4px; }
+  .back-to-top { right:12px; bottom:12px; }
+  .entry-gate { padding:10px; align-items:center; justify-content:center; }
+
+  .entry-card {
+    flex:0 1 610px;
+    width:100%;
+    max-height:calc(100vh - 20px);
+    max-height:calc(100dvh - 20px);
+    margin:auto;
+  }
+
+  .entry-heading { padding:18px 14px 12px; }
+  .entry-kicker { font-size:9px; letter-spacing:1.5px; }
+  .entry-heading h2 { font-size:21px; }
+  .entry-body { padding:13px 15px 5px; font-size:11px; }
+  .entry-footer { padding:12px 15px 14px; }
+  .entry-agree-button { width:100%; min-height:48px; font-size:12px; }
+}
+
+@media(max-width:350px) {
+  .wrapper { padding-inline:7px; }
+  .nav-item,.filter-chip { font-size:10px; }
+  .entry-heading h2 { font-size:19px; }
+  .entry-body { padding-inline:12px; }
+  .entry-kicker { letter-spacing:1px; }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  html { scroll-behavior:auto; }
+
+  *,
+  *:before,
+  *:after {
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+    scroll-behavior:auto!important;
+  }
+}
+</style>
+</head>
+
+<body>
+<div id="scroll-progress" aria-hidden="true"></div>
+<div class="ambient-glow" aria-hidden="true"></div>
+<div id="cornerDecorations" aria-hidden="true"></div>
+
+<!-- ACCESS NOTICE -->
+<div class="entry-gate" id="entry-gate" role="dialog" aria-modal="true" aria-labelledby="entry-title" aria-describedby="entry-description">
+  <div class="entry-card">
+    <div class="entry-heading">
+      <p class="entry-kicker">ZOMBIEBEATZ2000 · INDEPENDENT FAN PROJECT</p>
+      <h2 id="entry-title">ARCHIVE ACCESS NOTICE</h2>
+      <p class="entry-subtitle">PLEASE READ BEFORE ENTERING</p>
+      <div class="entry-ornament" aria-hidden="true"><span>✧</span><span>✦</span><span>✧</span></div>
+    </div>
+
+    <div class="entry-body" id="entry-description" tabindex="0">
+      <p>This website is an <strong>independent, non-commercial fan archive</strong> that organizes links and references to publicly accessible online material associated with Zombiebeatz2000 and related usernames.</p>
+
+      <h3>INDEPENDENT PROJECT</h3>
+      <p>This website is not affiliated with, endorsed by, or operated by Ashley Sakura Hanrahan, Hikkiarchive, or any person or platform mentioned here. It does not represent them or speak on their behalf.</p>
+
+      <h3>NO HACKING, DOXXING OR HARASSMENT</h3>
+      <p><strong>This archive is not intended for hacking, doxxing, harassment, stalking, threats, or targeting anyone.</strong> Do not use this website or its links to access accounts without permission, bypass security, expose private or sensitive information, impersonate anyone, or interfere with another person's accounts or activities.</p>
+      <p>Only use third-party websites lawfully and respectfully. Do not use publicly accessible information as an excuse to invade someone's privacy or contact them in an unwanted or threatening way.</p>
+
+      <h3>LINKS AND STATUS LABELS</h3>
+      <p>The archive is a reference index intended to make older online pages easier to locate. Links and labels may be outdated, incomplete, or incorrect. Status labels are descriptions recorded by this archive, not official statements from account owners or platforms.</p>
+      <p>Third-party websites have their own rules and privacy practices. Linking to a page does not mean this archive controls or endorses that page.</p>
+
+      <h3>OWNERSHIP AND REMOVAL REQUESTS</h3>
+      <p>Third-party names, usernames, trademarks, videos, images, music, artwork, and other material remain the property of their respective owners. This archive does not claim ownership of them.</p>
+      <p>If you believe a link is inaccurate or raises a legitimate copyright, privacy, or other rights concern, contact the site operator with the specific URL and your concern. Requests can be reviewed and appropriate corrections or removals made where warranted.</p>
+
+      <p class="legal-small">This notice explains the intended purpose of the site. It does not grant permission to use third-party content, override applicable law, or guarantee that the site or any entry will not be challenged or removed.</p>
+    </div>
+
+    <div class="entry-footer">
+      <label class="entry-agreement" for="agree-checkbox">
+        <input type="checkbox" id="agree-checkbox">
+        <span>I understand this is an independent fan archive and agree not to use it for hacking, doxxing, harassment, privacy violations, or other misuse.</span>
+      </label>
+      <button class="entry-agree-button" id="agree-button" type="button" disabled>I AGREE — ENTER ARCHIVE</button>
+      <p class="entry-error" id="entry-error" aria-live="polite"></p>
+      <p class="entry-footnote">✧ INDEPENDENT FAN ARCHIVE · NO OFFICIAL AFFILIATION ✧</p>
+    </div>
+  </div>
+</div>
+
+<main class="wrapper">
+<header id="top">
+  <h1>EARTH’S HIKKICHAN ARCHIVE</h1>
+  <p class="subtitle">USERNAME SHOWCASE · EST. 2026</p>
+
+  <nav class="top-nav" aria-label="Main navigation">
+    <button class="nav-item" data-target="archive-section" type="button">Archive</button>
+    <button class="nav-item" data-target="yt-section" type="button">YouTube</button>
+    <button class="nav-item" data-target="media-section" type="button">Other Profiles</button>
+    <button class="nav-item" data-target="aliases-section" type="button">Aliases</button>
+    <button class="nav-item" data-target="updates-section" type="button">Updates</button>
+  </nav>
+</header>
+
+<div class="archive-decoration" aria-hidden="true"><span>✧</span><span>✦</span><span>✧</span><span>✦</span><span>✧</span></div>
+
+<section class="panel" id="about-section">
+  <button class="panel-top" type="button" aria-expanded="true">About This Archive</button>
+  <div class="about-boxes">
+    <div class="about-box"><h3>WHAT IS THIS?</h3><p>This is an independent fan-made archive of public links and older online resources connected by usernames and archive references. It brings channels, websites, and profiles together in one place.</p></div>
+    <div class="about-box"><h3>WHY WAS IT MADE?</h3><p>I made this version to bring more links together than the previous one, making older online pages easier to browse in one place.</p></div>
+    <div class="about-box full-width"><h3>INDEPENDENT FAN PROJECT</h3><p>This archive is not affiliated with, sponsored by, or officially connected to Ashley Sakura Hanrahan or the original Hikkiarchive. It does not claim to represent them.</p></div>
+    <div class="about-box full-width"><h3>REFERENCE AND OWNERSHIP</h3><p>Names and links are included for reference and informational purposes. This site does not claim ownership of third-party accounts, names, photographs, videos, music, artwork, or other material. Rights remain with their respective owners.</p></div>
+    <div class="about-box full-width"><h3>STILL BEING UPDATED</h3><p>Links and status labels may change over time. Some pages may be unavailable, deleted, changed, or reassigned. Labels reflect the information recorded in this archive and may not always be up to date.</p></div>
+  </div>
+</section>
+
+<section class="panel" id="quick-section">
+  <button class="panel-top" type="button" aria-expanded="true">Quick Links</button>
+  <p class="panel-subtext">Jump to a section of the archive.</p>
+  <div class="quick-links">
+    <a href="#archive-section">Archive Links</a>
+    <a href="#yt-section">YouTube Channels</a>
+    <a href="#media-section">Other Profiles</a>
+    <a href="#aliases-section">Username Index</a>
+    <a href="#status-section">Status Labels</a>
+    <a href="#updates-section">Updates</a>
+    <a href="#contact-section">Contact</a>
+  </div>
+</section>
+
+<section class="panel" id="search-section">
+  <button class="panel-top" type="button" aria-expanded="true">Search and Filter the Archive</button>
+  <div class="search-area">
+    <label class="search-label" for="archive-search">SEARCH FOR A NAME, CHANNEL OR LINK</label>
+    <div class="search-row">
+      <input id="archive-search" type="search" placeholder="Type a name or keyword..." autocomplete="off" aria-label="Search the archive" aria-describedby="search-status" spellcheck="false">
+      <button class="search-button" id="search-button" type="button">Search</button>
+      <button class="search-button" id="clear-button" type="button">Reset All</button>
+    </div>
+    <p id="search-status" aria-live="polite">Showing all entries. Use the filters to narrow down the list.</p>
+  </div>
+
+  <div class="filter-row" aria-label="Filter archive entries">
+    <button class="filter-chip" data-filter="all" aria-pressed="true" type="button">Everything</button>
+    <button class="filter-chip" data-filter="youtube" aria-pressed="false" type="button">YouTube</button>
+    <button class="filter-chip" data-filter="blog" aria-pressed="false" type="button">Blogs and Websites</button>
+    <button class="filter-chip" data-filter="media" aria-pressed="false" type="button">Other Profiles</button>
+    <button class="filter-chip" data-filter="archived" aria-pressed="false" type="button">Archived / Unavailable</button>
+    <button class="filter-chip status-filter-available" data-filter="available" aria-pressed="false" type="button">ACTIVE</button>
+    <button class="filter-chip status-filter-corrupted" data-filter="corrupted" aria-pressed="false" type="button">CORRUPTED</button>
+    <button class="filter-chip status-filter-banned" data-filter="banned" aria-pressed="false" type="button">BANNED</button>
+    <button class="filter-chip status-filter-deleted" data-filter="deleted" aria-pressed="false" type="button">DELETED</button>
+  </div>
+</section>
+
+<section class="panel searchable-panel" id="archive-section">
+  <button class="panel-top" type="button" aria-expanded="true">Archive and Website Links</button>
+  <p class="panel-subtext">Archive pages, older websites, and saved links.</p>
+  <div class="link-list">
+    <div class="row" data-category="youtube"><a href="https://www.youtube.com/@zombiebeatz2000archive" target="_blank" rel="noopener noreferrer">YouTube Archive</a><span class="status-notice status-available">ARCHIVE CHANNEL</span></div>
+    <div class="row" data-category="archived"><a href="https://archive.org/details/i-am-house-cat-gao-gao" target="_blank" rel="noopener noreferrer">I Am House Cat (Gao Gao)</a><span class="status-notice status-available">ARCHIVED ITEM</span></div>
+    <div class="row" data-category="archived"><a href="https://web.archive.org/web/20100819070242/http://hikimate.com/index.php" target="_blank" rel="noopener noreferrer">Hikimate (Wayback Machine)</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="blog"><a href="https://visiunadeshiko.wordpress.com" target="_blank" rel="noopener noreferrer">VisiuNadeshiko on WordPress</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="blog"><a href="https://nadesicola.wordpress.com" target="_blank" rel="noopener noreferrer">Nadesicola on WordPress</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="blog"><a href="https://shiiiiiiiiiiiiiiiiiiiiiiii-blog2.tumblr.com/" target="_blank" rel="noopener noreferrer">Shiiiiiiiiiiiiiiiiiiiiiiii Blog</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="blog"><a href="https://tteyuu.tumblr.com/" target="_blank" rel="noopener noreferrer">tteyuu Tumblr</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="blog"><a href="https://rhombicdodecahedron.tumblr.com/" target="_blank" rel="noopener noreferrer">rhombicdodecahedron Tumblr</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="blog"><a href="https://dadadadadadadadadadadafullcombo.blogspot.com/" target="_blank" rel="noopener noreferrer">Dadadadadadadadadadadada Full Combo Blog</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="blog"><a href="https://www.blogger.com/profile/07544973948874550875" target="_blank" rel="noopener noreferrer">Blogger Profile</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="blog"><a href="https://4649nadeshiko.blogspot.com/" target="_blank" rel="noopener noreferrer">4649nadeshiko Blog</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="blog"><a href="http://potatodanmaku.cocolog-nifty.com/" target="_blank" rel="noopener noreferrer">Cocolog: potatodanmaku</a><span class="status-notice status-available">ACTIVE</span></div>
+  </div>
+</section>
+
+<section class="panel searchable-panel" id="yt-section">
+  <button class="panel-top" type="button" aria-expanded="true">YouTube Channels</button>
+  <p class="panel-subtext">YouTube links listed for reference. Statuses reflect information recorded in this archive and are not official platform assessments.</p>
+
+  <div class="link-list youtube-list">
+    <div class="group-heading">ACTIVE</div>
+    <div class="row" data-category="youtube"><a href="https://www.youtube.com/@zombiebeatz2000" target="_blank" rel="noopener noreferrer">Zombiebeatz2000</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="youtube"><a href="https://www.youtube.com/@37564nadeshiko" target="_blank" rel="noopener noreferrer">37564nadeshiko</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="youtube"><a href="https://www.youtube.com/SadnessCake" target="_blank" rel="noopener noreferrer">SadnessCake</a><span class="status-notice status-available">ACTIVE</span></div>
+
+    <div class="group-heading">DELETED</div>
+    <div class="row" data-category="youtube"><a href="https://www.youtube.com/@nadesicola" target="_blank" rel="noopener noreferrer">Nadesicola</a><span class="status-notice status-deleted">DELETED</span></div>
+    <div class="row" data-category="youtube"><a href="https://www.youtube.com/@AtsumiNyan" target="_blank" rel="noopener noreferrer">AtsumiNyan</a><span class="status-notice status-deleted">DELETED</span></div>
+    <div class="row" data-category="youtube"><a href="https://www.youtube.com/@nnnnnnhhhhhhhhh" target="_blank" rel="noopener noreferrer">nnnnnnhhhhhhhhh</a><span class="status-notice status-deleted">DELETED</span></div>
+    <div class="row" data-category="youtube"><a href="https://www.youtube.com/@binabinabinaaa" target="_blank" rel="noopener noreferrer">binabinabinaaa</a><span class="status-notice status-deleted">DELETED</span></div>
+    <div class="row" data-category="youtube"><a href="https://www.youtube.com/@Ddead__channel" target="_blank" rel="noopener noreferrer">Ddead__channel</a><span class="status-notice status-deleted">DELETED</span></div>
+
+    <div class="group-heading">CORRUPTED</div>
+    <div class="row" data-category="youtube"><a href="https://www.youtube.com/@NorikonStation" target="_blank" rel="noopener noreferrer">NorikonStation</a><span class="status-notice status-corrupt">CORRUPTED</span></div>
+    <div class="row" data-category="youtube"><a href="https://www.youtube.com/@nori314156" target="_blank" rel="noopener noreferrer">nori314156</a><span class="status-notice status-corrupt">CORRUPTED</span></div>
+    <div class="row" data-category="youtube"><a href="https://www.youtube.com/@nyaxnyaxnekoxnyaxx" target="_blank" rel="noopener noreferrer">nyaxnyaxnekoxnyaxx</a><span class="status-notice status-corrupt">CORRUPTED</span></div>
+  </div>
+</section>
+
+<section class="panel searchable-panel" id="media-section">
+  <button class="panel-top" type="button" aria-expanded="true">Other Websites and Profiles</button>
+  <p class="panel-subtext">Choose a platform to view its links. Platform sections can be collapsed individually.</p>
+
+  <div class="link-list media">
+    <div class="group-heading">SoundCloud</div>
+    <div class="row" data-category="media"><a href="https://soundcloud.com/37564nadeshiko" target="_blank" rel="noopener noreferrer">37564nadeshiko</a><span class="status-notice status-corrupt">CORRUPTED</span></div>
+    <div class="row" data-category="media"><a href="https://soundcloud.com/4649nadeshiko" target="_blank" rel="noopener noreferrer">4649nadeshiko</a><span class="status-notice status-corrupt">CORRUPTED</span></div>
+    <div class="row" data-category="media"><a href="https://soundcloud.com/nadesicodeine" target="_blank" rel="noopener noreferrer">nadesicodeine</a><span class="status-notice status-corrupt">CORRUPTED</span></div>
+    <div class="row" data-category="media"><a href="https://soundcloud.com/nadeshicola" target="_blank" rel="noopener noreferrer">nadeshicola</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="media"><a href="https://soundcloud.com/nadesico-la" target="_blank" rel="noopener noreferrer">nadesico-la</a><span class="status-notice status-corrupt">CORRUPTED</span></div>
+
+    <div class="group-heading">Discogs</div>
+    <div class="row" data-category="media"><a href="https://www.discogs.com/release/3794052-4649nadeshiko-Cooliostreetcat" target="_blank" rel="noopener noreferrer">4649nadeshiko - Cooliostreetcat</a><span class="status-notice status-available">ACTIVE</span></div>
+
+    <div class="group-heading">Last.fm</div>
+    <div class="row" data-category="media"><a href="https://www.last.fm/music/4649nadeshiko" target="_blank" rel="noopener noreferrer">4649nadeshiko</a><span class="status-notice status-corrupt">CORRUPTED</span></div>
+    <div class="row" data-category="media"><a href="https://www.last.fm/user/nadesicola" target="_blank" rel="noopener noreferrer">nadesicola</a><span class="status-notice status-deleted">DELETED</span></div>
+    <div class="row" data-category="media"><a href="https://www.last.fm/user/n37564" target="_blank" rel="noopener noreferrer">n37564</a><span class="status-notice status-deleted">DELETED</span></div>
+
+    <div class="group-heading">DeviantArt</div>
+    <div class="row" data-category="media"><a href="https://www.deviantart.com/4649nadeshiko" target="_blank" rel="noopener noreferrer">4649nadeshiko</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="media"><a href="https://www.deviantart.com/tamama-nitouhei" target="_blank" rel="noopener noreferrer">tamama-nitouhei</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="media"><a href="https://www.deviantart.com/sukiix" target="_blank" rel="noopener noreferrer">sukiix</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="media"><a href="https://www.deviantart.com/rinserona" target="_blank" rel="noopener noreferrer">rinserona</a><span class="status-notice status-deleted">DELETED</span></div>
+    <div class="row" data-category="media"><a href="https://www.deviantart.com/supremekitty" target="_blank" rel="noopener noreferrer">supremekitty</a><span class="status-notice status-deleted">DELETED</span></div>
+
+    <div class="group-heading">ED Support Forum</div>
+    <div class="row" data-category="media"><a href="https://www.edsupportforum.com/threads/i-really-need-you-guys.44426/" target="_blank" rel="noopener noreferrer">I Really Need You Guys</a><span class="status-notice status-available">ACTIVE</span></div>
+
+    <div class="group-heading">Gravatar</div>
+    <div class="row" data-category="media"><a href="https://gravatar.com/nadesicola" target="_blank" rel="noopener noreferrer">nadesicola</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="media"><a href="https://gravatar.com/visiunadeshiko" target="_blank" rel="noopener noreferrer">visiunadeshiko</a><span class="status-notice status-available">ACTIVE</span></div>
+
+    <div class="group-heading">MySpace</div>
+    <div class="row" data-category="media"><a href="https://myspace.com/nori314159265" target="_blank" rel="noopener noreferrer">nori314159265</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="media"><a href="https://myspace.com/hardcorexnekoxnyaxx" target="_blank" rel="noopener noreferrer">hardcorexnekoxnyaxx</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="media"><a href="https://myspace.com/randommusictimegt3" target="_blank" rel="noopener noreferrer">randommusictimegt3</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="media"><a href="https://myspace.com/2d2d2d" target="_blank" rel="noopener noreferrer">2d2d2d</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="media"><a href="https://myspace.com/okrhombus" target="_blank" rel="noopener noreferrer">okrhombus</a><span class="status-notice status-available">ACTIVE</span></div>
+
+    <div class="group-heading">Pinterest</div>
+    <div class="row" data-category="media"><a href="https://www.pinterest.com/cooliostreetcat/" target="_blank" rel="noopener noreferrer">cooliostreetcat</a><span class="status-notice status-corrupt">CORRUPTED</span></div>
+
+    <div class="group-heading">Twitter / X</div>
+    <div class="row" data-category="media"><a href="https://x.com/nadesicola" target="_blank" rel="noopener noreferrer">nadesicola</a><span class="status-notice status-banned">BANNED</span></div>
+    <div class="row" data-category="media"><a href="https://x.com/nadesicodeine" target="_blank" rel="noopener noreferrer">nadesicodeine</a><span class="status-notice status-deleted">DELETED</span></div>
+    <div class="row" data-category="media"><a href="https://x.com/cooliostreetcat" target="_blank" rel="noopener noreferrer">cooliostreetcat</a><span class="status-notice status-deleted">DELETED</span></div>
+    <div class="row" data-category="media"><a href="https://x.com/norikology" target="_blank" rel="noopener noreferrer">norikology</a><span class="status-notice status-corrupt">CORRUPTED</span></div>
+    <div class="row" data-category="media"><a href="https://x.com/potatodanmaku" target="_blank" rel="noopener noreferrer">potatodanmaku</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="media"><a href="https://x.com/norikonchan" target="_blank" rel="noopener noreferrer">norikonchan</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="media"><a href="https://x.com/bombiberite" target="_blank" rel="noopener noreferrer">bombiberite</a><span class="status-notice status-deleted">DELETED</span></div>
+    <div class="row" data-category="media"><a href="https://x.com/sonyashnyky" target="_blank" rel="noopener noreferrer">sonyashnyky</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="media"><a href="https://x.com/mori.shiba720" target="_blank" rel="noopener noreferrer">mori.shiba720</a><span class="status-notice status-deleted">DELETED</span></div>
+    <div class="row" data-category="media"><a href="https://x.com/dancefloor_degrader" target="_blank" rel="noopener noreferrer">dancefloor_degrader</a><span class="status-notice status-deleted">DELETED</span></div>
+    <div class="row" data-category="media"><a href="https://x.com/sodapopangel" target="_blank" rel="noopener noreferrer">sodapopangel</a><span class="status-notice status-deleted">DELETED</span></div>
+    <div class="row" data-category="media"><a href="https://x.com/vipstar0000" target="_blank" rel="noopener noreferrer">vipstar0000</a><span class="status-notice status-deleted">DELETED</span></div>
+    <div class="row" data-category="media"><a href="https://x.com/dopamina" target="_blank" rel="noopener noreferrer">dopamina</a><span class="status-notice status-deleted">DELETED</span></div>
+
+    <div class="group-heading">Instagram</div>
+    <div class="row" data-category="media"><a href="https://www.instagram.com/flight.f35/" target="_blank" rel="noopener noreferrer">flight.f35</a><span class="status-notice status-corrupt">CORRUPTED</span></div>
+
+    <div class="group-heading">Duolingo</div>
+    <div class="row" data-category="media"><a href="https://www.duolingo.com/profile/37564nadeshiko" target="_blank" rel="noopener noreferrer">37564nadeshiko</a><span class="status-notice status-deleted">DELETED</span></div>
+    <div class="row" data-category="media"><a href="https://www.duolingo.com/profile/sadnesscake" target="_blank" rel="noopener noreferrer">sadnesscake</a><span class="status-notice status-available">ACTIVE</span></div>
+
+    <div class="group-heading">Poshmark</div>
+    <div class="row" data-category="media"><a href="https://poshmark.com/closet/kiwka" target="_blank" rel="noopener noreferrer">kiwka</a><span class="status-notice status-available">ACTIVE</span></div>
+
+    <div class="group-heading">Tumblr</div>
+    <div class="row" data-category="media"><a href="https://nadesico-la.tumblr.com/" target="_blank" rel="noopener noreferrer">nadesico-la</a><span class="status-notice status-corrupt">CORRUPTED</span></div>
+
+    <div class="group-heading">Steam</div>
+    <div class="row" data-category="media"><a href="https://steamcommunity.com/id/somesortofinsanelolijetmachine/" target="_blank" rel="noopener noreferrer">somesortofinsane</a><span class="status-notice status-deleted">DELETED</span></div>
+
+    <div class="group-heading">Steam Groups</div>
+    <div class="row" data-category="media"><a href="https://steamcommunity.com/groups/777crycry" target="_blank" rel="noopener noreferrer">777crycry</a><span class="status-notice status-available">ACTIVE</span></div>
+  </div>
+</section>
+
+<section class="panel searchable-panel" id="aliases-section">
+  <button class="panel-top" type="button" aria-expanded="true">Username Index</button>
+  <p class="panel-subtext">Browse usernames used as labels throughout this archive. Select one to jump to a related section.</p>
+  <div class="alias-grid">
+    <a class="alias-link" href="#yt-section" data-category="youtube">Zombiebeatz2000</a>
+    <a class="alias-link" href="#archive-section" data-category="blog">Hikikomori-chan</a>
+    <a class="alias-link" href="#archive-section" data-category="blog">Hikkichan</a>
+    <a class="alias-link" href="#yt-section" data-category="youtube">Noriko</a>
+    <a class="alias-link" href="#archive-section" data-category="blog">4649nadeshiko</a>
+    <a class="alias-link" href="#yt-section" data-category="youtube">37564nadeshiko</a>
+    <a class="alias-link" href="#media-section" data-category="media">Nadesicola</a>
+    <a class="alias-link" href="#media-section" data-category="media">Other Aliases</a>
+  </div>
+</section>
+
+<section class="panel" id="status-section">
+  <button class="panel-top" type="button" aria-expanded="true">What the Status Labels Mean</button>
+  <p class="panel-subtext">A quick guide to the labels used on this page.</p>
+  <div class="legend-list">
+    <span class="status-notice status-available">ACTIVE</span>
+    <span class="status-notice status-deleted">DELETED</span>
+    <span class="status-notice status-banned">BANNED</span>
+    <span class="status-notice status-corrupt">CORRUPTED</span>
+  </div>
+  <div class="panel-content small-note">ACTIVE means an entry has been marked as active in this archive. It does not guarantee that the account is currently active or controlled by its original owner. DELETED means an account or channel is recorded here as deleted. BANNED means it is recorded here as banned. CORRUPTED means the original content or account is unavailable, incomplete, or has an uncertain status. These labels are archive descriptions, not official platform statements. Statuses may change over time.</div>
+</section>
+
+<section class="panel" id="updates-section">
+  <button class="panel-top" type="button" aria-expanded="true">Recent Updates</button>
+  <p class="panel-subtext">A few recent changes to the archive.</p>
+  <ul class="changelog-list">
+    <li><span class="changelog-date">OCTOBER 18, 2026</span>Added and organized links across several platforms.</li>
+    <li><span class="changelog-date">OCTOBER 17, 2026</span>Updated the layout and status labels.</li>
+    <li><span class="changelog-date">ONGOING</span>Reviewing links and adding missing archive references.</li>
+  </ul>
+</section>
+
+<section class="panel" id="contact-section">
+  <button class="panel-top" type="button" aria-expanded="true">Contact and Corrections</button>
+  <div class="panel-content intro-text">
+    For link corrections, accessibility issues, or removal requests, contact me below. Please include the specific URL and the change you are requesting. Requests will be reviewed.
+    <br><br>Discord: <strong>@earththeearthling</strong>
+    <br><br>Email: <a class="contact-email" href="mailto:bokusatsuxtenshi@yahoo.com">bokusatsuxtenshi@yahoo.com</a>
+  </div>
+</section>
+
+<div class="archive-help">
+  <strong>ARCHIVE AND RIGHTS NOTICE:</strong>
+  This is an independent fan-made reference project and is not affiliated with or endorsed by the people, accounts, or platforms mentioned. Links are provided to identify publicly accessible pages and help visitors locate older online material. The archive does not claim ownership of third-party content. All names, marks, and content remain the property of their respective owners. This archive is not intended for hacking, doxxing, harassment, stalking, or targeting anyone. Do not use its links to access accounts without permission, expose private information, or bypass security. If you believe an entry is inaccurate or have a rights-related concern, please contact me so it can be reviewed. This notice does not override copyright law or guarantee that a platform or rights holder will not request removal.
+</div>
+
+<footer>
+  <span class="footer-title">ARCHIVE STATUS: ALIVE</span><span class="status-dot" aria-hidden="true"></span>
+  <br><br>Independent fan archive. Not affiliated with Ashley Sakura Hanrahan or the original Hikkiarchive.
+  <br>© 2026 Earth’s Hikkichan Archive.
+  <br><span style="color:#53668f">✧ ─────── ✦ ─────── ✧</span>
+  <br><a href="#top">Return to the top ↑</a>
+  <br><button type="button" class="reopen-notice" id="reopen-notice">View Access Notice</button>
+</footer>
+</main>
+
+<button class="back-to-top" id="top-button" type="button" aria-label="Back to top">Back to Top</button>
+
+<script>
+(() => {
+"use strict";
+
+const root = document.documentElement;
+const gate = document.getElementById("entry-gate");
+const checkbox = document.getElementById("agree-checkbox");
+const agreeButton = document.getElementById("agree-button");
+const entryError = document.getElementById("entry-error");
+const reopenButton = document.getElementById("reopen-notice");
+const searchInput = document.getElementById("archive-search");
+const searchStatus = document.getElementById("search-status");
+const topButton = document.getElementById("top-button");
+const progressBar = document.getElementById("scroll-progress");
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+let activeFilter = "all";
+let gateClosing = false;
+let glowTimer = null;
+let navHighlightTimer = null;
+
+const searchablePanels = [...document.querySelectorAll(".searchable-panel")];
+const allPanels = [...document.querySelectorAll(".panel")];
+const filterButtons = [...document.querySelectorAll(".filter-chip")];
+const navButtons = [...document.querySelectorAll(".nav-item[data-target]")];
+
+function hasAgreed() {
+  try {
+    return localStorage.getItem("hikkichanArchiveAgreed") === "yes";
+  } catch (error) {
+    return false;
+  }
+}
+
+function openGate() {
+  gate.hidden = false;
+  gateClosing = false;
+  gate.classList.remove("is-leaving");
+  root.classList.remove("archive-entering");
+  root.classList.add("archive-locked");
+  checkbox.checked = false;
+  agreeButton.disabled = true;
+  entryError.textContent = "";
+
+  window.setTimeout(() => {
+    checkbox.focus({preventScroll:true});
+  }, 50);
+}
+
+function closeGate() {
+  if (!checkbox.checked || gateClosing) {
+    entryError.textContent = "Please check the agreement box before continuing.";
+    checkbox.focus();
+    return;
+  }
+
+  gateClosing = true;
+
+  try {
+    localStorage.setItem("hikkichanArchiveAgreed", "yes");
+  } catch (error) {}
+
+  gate.classList.add("is-leaving");
+  root.classList.add("archive-entering");
+  root.classList.remove("archive-locked");
+
+  const finish = () => {
+    gate.hidden = true;
+    gate.classList.remove("is-leaving");
+    root.classList.remove("archive-entering");
+    gateClosing = false;
+    refreshScroll();
+  };
+
+  if (reducedMotion.matches) {
+    finish();
+  } else {
+    window.setTimeout(finish, 560);
+  }
+}
+
+if (hasAgreed()) {
+  gate.hidden = true;
+  root.classList.remove("archive-locked");
+} else {
+  gate.hidden = false;
+  root.classList.add("archive-locked");
+}
+
+checkbox.addEventListener("change", () => {
+  agreeButton.disabled = !checkbox.checked;
+  entryError.textContent = "";
+});
+
+agreeButton.addEventListener("click", closeGate);
+reopenButton.addEventListener("click", openGate);
+
+/* Animated background stars */
+function createDecorations() {
+  const container = document.getElementById("cornerDecorations");
+
+  if (!container || container.dataset.created) return;
+  container.dataset.created = "true";
+
+  if (reducedMotion.matches) return;
+
+  const types = [
+    "dot","dot","dot","pink-dot","mint-dot",
+    "star","star","pink-star","mint-star"
+  ];
+
+  const fragment = document.createDocumentFragment();
+  const total = matchMedia("(max-width: 600px)").matches ? 22 : 40;
+
+  for (let i = 0; i < total; i++) {
+    const item = document.createElement("span");
+    const type = types[Math.floor(Math.random() * types.length)];
+
+    item.className = "corner-decoration " + type;
+
+    if (type.includes("star")) {
+      item.textContent = Math.random() > .5 ? "✦" : "✧";
+    }
+
+    item.style.left = Math.random() * 100 + "%";
+    item.style.top = Math.random() * 100 + "%";
+    item.style.setProperty(
+      "--size",
+      (type.includes("star") ? 8 + Math.random() * 9 : 2 + Math.random() * 3) + "px"
+    );
+    item.style.setProperty("--duration", (2.5 + Math.random() * 4) + "s");
+    item.style.setProperty("--delay", -(Math.random() * 4) + "s");
+
+    fragment.appendChild(item);
+  }
+
+  container.appendChild(fragment);
+}
+
+function normalize(value) {
+  return String(value ?? "").normalize("NFKC").toLowerCase().trim();
+}
+
+function getRowStatus(row) {
+  const notice = row.querySelector(".status-notice");
+
+  if (!notice) {
+    return row.dataset.category === "archived" ? "archived" : "unknown";
+  }
+
+  const label = normalize(notice.textContent);
+
+  if (label.includes("corrupt")) return "corrupted";
+  if (label.includes("banned")) return "banned";
+  if (label.includes("deleted")) return "deleted";
+  if (label.includes("archived") || label.includes("archive channel")) return "archived";
+  if (label === "active") return "available";
+
+  return "unknown";
+}
+
+function entryStatus(entry) {
+  return entry.classList.contains("alias-link") ? "unknown" : getRowStatus(entry);
+}
+
+function getGroupName(entry) {
+  return entry.closest(".social-group")
+    ?.querySelector(".social-group-heading")
+    ?.textContent || "";
+}
+
+function entryMatchesFilter(entry) {
+  const category = entry.dataset.category || "";
+  const status = entryStatus(entry);
+
+  if (activeFilter === "all") return true;
+
+  if (activeFilter === "archived") {
+    return category === "archived" ||
+      ["archived","deleted","banned","corrupted"].includes(status);
+  }
+
+  if (["available","deleted","banned","corrupted"].includes(activeFilter)) {
+    return status === activeFilter;
+  }
+
+  return category === activeFilter;
+}
+
+function searchableText(entry) {
+  const links = [];
+
+  if (entry.matches("a")) links.push(entry);
+  links.push(...entry.querySelectorAll("a"));
+
+  const urls = links
+    .map(link => (link.getAttribute("href") || "") + " " + link.href)
+    .join(" ");
+
+  return normalize(
+    (entry.textContent || "") + " " +
+    urls + " " +
+    getGroupName(entry) + " " +
+    (entry.dataset.category || "") + " " +
+    entryStatus(entry)
+  );
+}
+
+/* Turn platform headings into collapsible groups */
+function setupSocialGroups() {
+  document.querySelectorAll(".link-list.media,.link-list.youtube-list")
+    .forEach((list, listIndex) => {
+      if (list.dataset.groupsReady === "true") return;
+
+      const isYouTube = list.classList.contains("youtube-list");
+      const children = [...list.children];
+      const fragment = document.createDocumentFragment();
+
+      let headingText = "";
+      let rows = [];
+      let groupIndex = 0;
+
+      function finishGroup() {
+        if (!headingText) return;
+
+        const group = document.createElement("section");
+        group.className = "social-group";
+        groupIndex++;
+
+        const heading = document.createElement("button");
+        heading.type = "button";
+        heading.className = "social-group-heading";
+        heading.textContent = headingText;
+        heading.setAttribute("aria-expanded", "true");
+
+        const content = document.createElement("div");
+        content.className = "social-group-content";
+        content.id = "social-group-" + listIndex + "-" + groupIndex;
+
+        const inner = document.createElement("div");
+        inner.className = "social-group-inner";
+        content.appendChild(inner);
+        group.append(heading, content);
+
+        if (isYouTube) {
+          const key = normalize(headingText) === "active"
+            ? "available"
+            : normalize(headingText) === "deleted"
+              ? "deleted"
+              : "corrupted";
+
+          group.dataset.status = key;
+          rows.forEach(row => inner.appendChild(row));
+        } else {
+          const buckets = [
+            ["available", "ACTIVE"],
+            ["deleted", "DELETED"],
+            ["banned", "BANNED"],
+            ["corrupted", "CORRUPTED"],
+            ["unknown", "STATUS UNCONFIRMED"]
+          ];
+
+          buckets.forEach(([key, label]) => {
+            const matching = rows.filter(row => getRowStatus(row) === key);
+            if (!matching.length) return;
+
+            const bucket = document.createElement("div");
+            bucket.className = "status-subgroup";
+            bucket.dataset.status = key;
+
+            const title = document.createElement("div");
+            title.className = "status-subgroup-title";
+            title.textContent = label;
+
+            bucket.appendChild(title);
+            matching.forEach(row => bucket.appendChild(row));
+            inner.appendChild(bucket);
+          });
+        }
+
+        heading.setAttribute("aria-controls", content.id);
+
+        heading.addEventListener("click", () => {
+          const collapsed = group.classList.toggle("is-collapsed");
+          heading.setAttribute("aria-expanded", String(!collapsed));
+
+          heading.classList.remove("is-spinning");
+          void heading.offsetWidth;
+          heading.classList.add("is-spinning");
+
+          window.setTimeout(() => {
+            heading.classList.remove("is-spinning");
+          }, 350);
+
+          refreshScroll();
+        });
+
+        fragment.appendChild(group);
+        headingText = "";
+        rows = [];
+      }
+
+      children.forEach(child => {
+        if (child.classList.contains("group-heading")) {
+          finishGroup();
+          headingText = child.textContent.trim();
+        } else if (child.classList.contains("row")) {
+          rows.push(child);
+        } else {
+          finishGroup();
+          fragment.appendChild(child);
+        }
+      });
+
+      finishGroup();
+      list.replaceChildren(fragment);
+      list.dataset.groupsReady = "true";
+    });
+}
+
+/* Preserve the animated collapse wrapper for each main panel */
+function setupPanels() {
+  allPanels.forEach((panel, index) => {
+    const heading = panel.querySelector(":scope > .panel-top");
+
+    if (!heading || heading.dataset.ready === "true") return;
+
+    heading.dataset.ready = "true";
+
+    if (!panel.id) {
+      panel.id = "archive-panel-" + index;
+    }
+
+    const content = document.createElement("div");
+    content.className = "panel-collapse-content";
+    content.id = panel.id + "-content";
+
+    const inner = document.createElement("div");
+    inner.className = "panel-collapse-inner";
+
+    [...panel.children].forEach(child => {
+      if (child !== heading) inner.appendChild(child);
+    });
+
+    content.appendChild(inner);
+    panel.appendChild(content);
+
+    heading.setAttribute("aria-controls", content.id);
+    heading.setAttribute("aria-expanded", "true");
+
+    heading.addEventListener("click", () => {
+      const collapsed = panel.classList.toggle("is-collapsed");
+      heading.setAttribute("aria-expanded", String(!collapsed));
+
+      heading.classList.remove("is-spinning");
+      void heading.offsetWidth;
+      heading.classList.add("is-spinning");
+
+      window.setTimeout(() => {
+        heading.classList.remove("is-spinning");
+      }, 350);
+
+      refreshScroll();
+    });
+  });
+}
+
+function expandPanel(panel) {
+  if (!panel) return;
+
+  panel.classList.remove("is-collapsed");
+  panel.querySelector(":scope > .panel-top")
+    ?.setAttribute("aria-expanded", "true");
+}
+
+function updateGroupVisibility(panel) {
+  panel.querySelectorAll(".social-group").forEach(group => {
+    const visibleRows = [...group.querySelectorAll(".row")]
+      .some(row => !row.hidden);
+
+    group.hidden = !visibleRows;
+
+    group.querySelectorAll(".status-subgroup").forEach(bucket => {
+      bucket.hidden = ![...bucket.querySelectorAll(".row")]
+        .some(row => !row.hidden);
+    });
+  });
+}
+
+function updateResults() {
+  const query = normalize(searchInput.value);
+  let total = 0;
+
+  searchablePanels.forEach(panel => {
+    const entries = [...panel.querySelectorAll(".row,.alias-link")];
+    let visible = 0;
+
+    entries.forEach(entry => {
+      const show =
+        (!query || searchableText(entry).includes(query)) &&
+        entryMatchesFilter(entry);
+
+      entry.hidden = !show;
+
+      if (show) {
+        visible++;
+        total++;
+      }
+    });
+
+    updateGroupVisibility(panel);
+    panel.hidden = visible === 0;
+
+    if (visible && (query || activeFilter !== "all")) {
+      expandPanel(panel);
+
+      panel.querySelectorAll(".social-group").forEach(group => {
+        if ([...group.querySelectorAll(".row")].some(row => !row.hidden)) {
+          group.classList.remove("is-collapsed");
+          group.querySelector(".social-group-heading")
+            ?.setAttribute("aria-expanded", "true");
+        }
+      });
+    }
+  });
+
+  if (!query && activeFilter === "all") {
+    searchStatus.textContent =
+      "Showing all entries. Use the filters to narrow down the list.";
+  } else if (total === 0) {
+    searchStatus.textContent =
+      "No matches found. Try another name or choose a different filter.";
+  } else {
+    searchStatus.textContent =
+      total + " matching " + (total === 1 ? "entry" : "entries") + " found.";
+  }
+
+  refreshScroll();
+}
+
+function setFilter(filter) {
+  activeFilter = filter || "all";
+
+  filterButtons.forEach(button => {
+    button.setAttribute(
+      "aria-pressed",
+      String(button.dataset.filter === activeFilter)
+    );
+  });
+}
+
+function resetAll() {
+  searchInput.value = "";
+  setFilter("all");
+
+  searchablePanels.forEach(panel => {
+    panel.hidden = false;
+
+    panel.querySelectorAll(".row,.alias-link")
+      .forEach(entry => entry.hidden = false);
+
+    panel.querySelectorAll(".social-group,.status-subgroup")
+      .forEach(group => group.hidden = false);
+  });
+
+  updateResults();
+}
+
+function scrollToTarget(target) {
+  if (!target) return;
+
+  const panel = target.closest(".panel");
+
+  if (panel) expandPanel(panel);
+  if (target.classList.contains("panel")) expandPanel(target);
+
+  target.scrollIntoView({
+    behavior:reducedMotion.matches ? "auto" : "smooth",
+    block:"start"
+  });
+
+  if (panel) {
+    panel.classList.remove("is-glowing");
+    void panel.offsetWidth;
+    panel.classList.add("is-glowing");
+
+    if (glowTimer) clearTimeout(glowTimer);
+
+    glowTimer = setTimeout(() => {
+      panel.classList.remove("is-glowing");
+    }, 1350);
+  }
+
+  refreshScroll();
+}
+
+/* Navigation highlight now flashes briefly, then clears automatically. */
+function setActiveNavigation(targetId) {
+  navButtons.forEach(button => button.classList.remove("is-active"));
+
+  if (navHighlightTimer) {
+    clearTimeout(navHighlightTimer);
+    navHighlightTimer = null;
+  }
+
+  const selected = navButtons.find(
+    button => button.dataset.target === targetId
+  );
+
+  if (!selected) return;
+
+  selected.classList.add("is-active");
+  selected.setAttribute("aria-current", "location");
+
+  navButtons.filter(button => button !== selected).forEach(button => {
+    button.setAttribute("aria-current", "false");
+  });
+
+  navHighlightTimer = window.setTimeout(() => {
+    selected.classList.remove("is-active");
+    selected.setAttribute("aria-current", "false");
+    navHighlightTimer = null;
+  }, reducedMotion.matches ? 100 : 650);
+}
+
+function refreshScroll() {
+  requestAnimationFrame(() => {
+    const max = Math.max(
+      0,
+      document.documentElement.scrollHeight - innerHeight
+    );
+
+    const y = window.scrollY ||
+      document.documentElement.scrollTop ||
+      0;
+
+    progressBar.style.transform =
+      "scaleX(" + (max ? Math.min(1, y / max) : 0) + ")";
+
+    topButton.classList.toggle("is-visible", y > 350);
+  });
+}
+
+/* Search controls */
+searchInput.addEventListener("input", updateResults);
+
+document.getElementById("search-button")
+  .addEventListener("click", updateResults);
+
+document.getElementById("clear-button").addEventListener("click", () => {
+  resetAll();
+  searchInput.focus();
+});
+
+searchInput.addEventListener("keydown", event => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    updateResults();
+  }
+
+  if (event.key === "Escape") {
+    resetAll();
+  }
+});
+
+/* Status and category filters */
+filterButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    setFilter(button.dataset.filter);
+    updateResults();
+  });
+});
+
+/* Main navigation */
+navButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    resetAll();
+
+    const target = document.getElementById(button.dataset.target);
+
+    setActiveNavigation(button.dataset.target);
+    scrollToTarget(target);
+  });
+});
+
+/* Quick links and aliases */
+document.querySelectorAll(
+  ".quick-links a[href^='#'],.alias-link[href^='#'],footer a[href^='#']"
+).forEach(link => {
+  link.addEventListener("click", event => {
+    const href = link.getAttribute("href");
+    const target = href && href.length > 1
+      ? document.getElementById(href.slice(1))
+      : null;
+
+    if (!target) return;
+
+    event.preventDefault();
+    resetAll();
+
+    if (location.hash !== href) {
+      history.pushState(null, "", href);
+    }
+
+    const navMatch = navButtons.find(
+      button => button.dataset.target === target.id
+    );
+
+    setActiveNavigation(navMatch ? navMatch.dataset.target : "");
+    scrollToTarget(target);
+  });
+});
+
+window.addEventListener("popstate", () => {
+  const id = location.hash.slice(1);
+  const target = id
+    ? document.getElementById(id)
+    : document.getElementById("top");
+
+  if (target) {
+    const navMatch = navButtons.find(
+      button => button.dataset.target === target.id
+    );
+
+    setActiveNavigation(navMatch ? navMatch.dataset.target : "");
+    scrollToTarget(target);
+  }
+});
+
+/* Back to top */
+topButton.addEventListener("click", () => {
+  setActiveNavigation("");
+
+  window.scrollTo({
+    top:0,
+    behavior:reducedMotion.matches ? "auto" : "smooth"
+  });
+});
+
+window.addEventListener("scroll", refreshScroll, {passive:true});
+window.addEventListener("resize", refreshScroll, {passive:true});
+window.addEventListener("load", refreshScroll, {once:true});
+
+/* Keyboard shortcuts and access notice focus handling */
+document.addEventListener("keydown", event => {
+  const active = document.activeElement;
+  const typing = active &&
+    (active.matches("input,textarea,select") || active.isContentEditable);
+
+  if (
+    event.key === "/" &&
+    !typing &&
+    !event.ctrlKey &&
+    !event.metaKey &&
+    !event.altKey
+  ) {
+    event.preventDefault();
+    searchInput.focus();
+  }
+
+  if (event.key === "Escape" && !gate.hidden) {
+    entryError.textContent =
+      "Check the agreement box to enter the archive.";
+  }
+
+  if (event.key === "Tab" && !gate.hidden) {
+    const focusable = [
+      ...gate.querySelectorAll(
+        "input,button,a[href],[tabindex]:not([tabindex='-1'])"
+      )
+    ].filter(element => !element.disabled && element.offsetParent !== null);
+
+    if (!focusable.length) return;
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
+});
+
+/* Start the archive */
+createDecorations();
+setupSocialGroups();
+setupPanels();
+updateResults();
+refreshScroll();
+
+})();
+</script>
+</body>
+</html>
