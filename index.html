@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%23101117%22%2F%3E%3Cpath%20d%3D%22M16%203%2019.5%2012.5%2029%2016%2019.5%2019.5%2016%2029%2012.5%2019.5%203%2016%2012.5%2012.5Z%22%20fill%3D%22%23ed7887%22%2F%3E%3Cpath%20d%3D%22M16%209%2018%2014%2023%2016%2018%2018%2016%2023%2014%2018%209%2016%2014%2014Z%22%20fill%3D%22%23a7b9e4%22%2F%3E%3Ccircle%20cx%3D%2226%22%20cy%3D%226%22%20r%3D%222%22%20fill%3D%22%239ed3bd%22%2F%3E%3C%2Fsvg%3E">
 <meta name="theme-color" content="#101117">
 <meta name="description" content="An independent fan-made reference archive of public links and older web resources.">
 <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -110,13 +112,22 @@ html.archive-locked #top-button {
   pointer-events:none;
 }
 
-.wrapper,
-#top-button {
-  transition:opacity .35s ease;
+/* Reveal visibility immediately so the opacity fade is actually visible. */
+.wrapper {
+  transition:
+    opacity .35s ease,
+    visibility 0s linear 0s;
 }
 
+html.archive-locked .wrapper {
+  transition:
+    opacity .35s ease,
+    visibility 0s linear .35s;
+}
+
+/* One opacity transition avoids competing fades and an interrupted animation. */
 html.archive-entering .wrapper {
-  animation:archive-fade-in .55s cubic-bezier(.2,.7,.25,1) both;
+  animation:none;
 }
 
 @keyframes archive-fade-in {
@@ -179,7 +190,6 @@ body:after {
   background-position:43px 17px,83px 61px;
 }
 
-/* Additional atmospheric light */
 .ambient-glow:after {
   content:"";
   position:absolute;
@@ -224,12 +234,6 @@ body:after {
   pointer-events:none;
   border-radius:100%;
   transform-origin:right center;
-
-  /*
-    The bright head stays at the right-hand end.
-    The positive rotation gives the streak a backslash shape on screen.
-    The star travels down and to the right, with its tail behind it.
-  */
   background:linear-gradient(
     90deg,
     transparent 0%,
@@ -238,16 +242,8 @@ body:after {
     #a7b9e4d9 78%,
     #ffffff 100%
   );
-
   box-shadow:0 0 5px #8ca9ef35;
-
-  animation:
-    shooting-star-flight
-    var(--duration,2.4s)
-    linear
-    var(--delay,0s)
-    infinite;
-
+  animation:shooting-star-flight var(--duration,2.4s) linear var(--delay,0s) infinite;
   will-change:transform,opacity;
 }
 
@@ -271,10 +267,7 @@ body:after {
   height:4px;
   border-radius:50%;
   background:#fff;
-  box-shadow:
-    0 0 4px 2px #fff9,
-    0 0 10px 4px #8ca9ef70,
-    0 0 18px 5px #8ca9ef25;
+  box-shadow:0 0 4px 2px #fff9,0 0 10px 4px #8ca9ef70,0 0 18px 5px #8ca9ef25;
   transform:translateY(-50%);
 }
 
@@ -403,9 +396,7 @@ body:after {
   background:transparent;
   opacity:1;
   visibility:visible;
-  transition:
-    opacity .35s ease,
-    visibility 0s linear 0s;
+  transition:opacity .28s ease,visibility 0s linear 0s;
   backdrop-filter:none;
   -webkit-backdrop-filter:none;
 }
@@ -414,9 +405,7 @@ body:after {
   opacity:0;
   visibility:hidden;
   pointer-events:none;
-  transition:
-    opacity .35s ease,
-    visibility 0s linear .36s;
+  transition:opacity .28s ease,visibility 0s linear .28s;
 }
 
 .entry-gate[hidden] {
@@ -576,11 +565,7 @@ body:after {
   border:1px solid #6577a2;
   border-radius:3px;
   background:#101522;
-  transition:
-    background-color .18s ease,
-    border-color .18s ease,
-    box-shadow .18s ease,
-    transform .18s ease;
+  transition:background-color .18s ease,border-color .18s ease,box-shadow .18s ease,transform .18s ease;
 }
 
 .entry-agreement input::after {
@@ -635,13 +620,7 @@ body:after {
   font-weight:bold;
   letter-spacing:.7px;
   cursor:pointer;
-  transition:
-    background-color .2s ease,
-    border-color .2s ease,
-    color .2s ease,
-    opacity .2s ease,
-    box-shadow .2s ease,
-    transform .15s ease;
+  transition:background-color .24s ease,border-color .24s ease,color .24s ease,opacity .24s ease,box-shadow .24s ease,transform .2s cubic-bezier(.2,.7,.25,1);
 }
 
 .entry-agree-button:hover:not(:disabled) {
@@ -759,12 +738,7 @@ h1 {
   border:1px solid var(--border);
   border-radius:7px;
   cursor:pointer;
-  transition:
-    background-color .22s ease,
-    border-color .22s ease,
-    color .22s ease,
-    box-shadow .22s ease,
-    transform .18s ease;
+  transition:background-color .26s ease,border-color .26s ease,color .26s ease,box-shadow .26s ease,transform .24s cubic-bezier(.2,.7,.25,1);
 }
 
 .nav-item:hover {
@@ -811,9 +785,7 @@ h1 {
   border:1px solid var(--border);
   border-radius:10px;
   scroll-margin-top:18px;
-  transition:
-    border-color .2s ease,
-    box-shadow .2s ease;
+  transition:border-color .25s ease,box-shadow .25s ease;
 }
 
 .panel:hover {
@@ -862,7 +834,7 @@ h1 {
   font-weight:bold;
   line-height:1.5;
   cursor:pointer;
-  touch-action:manipulation;
+  transition:background-color .24s ease,color .24s ease;
 }
 
 .panel-top:before {
@@ -889,10 +861,7 @@ h1 {
   transform-origin:center;
   border:1px solid var(--border);
   border-radius:5px;
-  transition:
-    border-color .2s ease,
-    background-size .2s ease,
-    background-color .2s ease;
+  transition:border-color .24s ease,background-size .24s ease,background-color .24s ease;
   pointer-events:none;
 }
 
@@ -934,9 +903,7 @@ h1 {
   min-height:0;
   overflow:hidden;
   opacity:1;
-  transition:
-    grid-template-rows .28s ease,
-    opacity .22s ease;
+  transition:grid-template-rows .32s cubic-bezier(.2,.7,.25,1),opacity .25s ease;
 }
 
 .panel-collapse-inner {
@@ -992,7 +959,7 @@ h1 {
   border:1px solid var(--border);
   border-radius:8px;
   line-height:1.85;
-  transition:border-color .2s ease,transform .2s ease;
+  transition:border-color .25s ease,transform .25s cubic-bezier(.2,.7,.25,1);
 }
 
 .about-box:hover {
@@ -1041,7 +1008,7 @@ h1 {
   line-height:1.75;
   letter-spacing:.5px;
   overflow-wrap:anywhere;
-  transition:border-color .2s ease,background-color .2s ease;
+  transition:border-color .25s ease,background-color .25s ease;
 }
 
 .snapshot-stat:hover {
@@ -1094,11 +1061,7 @@ h1 {
   background:transparent;
   border:1px solid var(--border);
   border-radius:7px;
-  transition:
-    background-color .2s ease,
-    border-color .2s ease,
-    color .2s ease,
-    transform .18s ease;
+  transition:background-color .25s ease,border-color .25s ease,color .25s ease,transform .24s cubic-bezier(.2,.7,.25,1);
 }
 
 .quick-links a:hover,
@@ -1140,6 +1103,7 @@ h1 {
   font-size:16px;
   appearance:none;
   -webkit-appearance:none;
+  transition:border-color .25s ease,box-shadow .25s ease;
 }
 
 #archive-search::placeholder {
@@ -1149,6 +1113,8 @@ h1 {
 #archive-search:focus {
   outline:2px solid #8298c7;
   outline-offset:1px;
+  border-color:#8ca9ef;
+  box-shadow:0 0 12px #8298c71a;
 }
 
 .search-button {
@@ -1165,11 +1131,7 @@ h1 {
   font-weight:bold;
   text-align:center;
   cursor:pointer;
-  transition:
-    background-color .2s ease,
-    border-color .2s ease,
-    color .2s ease,
-    transform .18s ease;
+  transition:background-color .25s ease,border-color .25s ease,color .25s ease,transform .22s cubic-bezier(.2,.7,.25,1);
 }
 
 .search-button:hover {
@@ -1212,10 +1174,7 @@ h1 {
   font-size:11px;
   text-align:center;
   cursor:pointer;
-  transition:
-    background-color .2s ease,
-    border-color .2s ease,
-    color .2s ease;
+  transition:background-color .25s ease,border-color .25s ease,color .25s ease,transform .2s ease;
 }
 
 .filter-chip[aria-pressed="true"],
@@ -1223,6 +1182,10 @@ h1 {
   color:var(--pink-light);
   border-color:#6577a2;
   background:#111522;
+}
+
+.filter-chip:active {
+  transform:scale(.98);
 }
 
 .status-filter-available[aria-pressed="true"] {
@@ -1260,6 +1223,7 @@ h1 {
   line-height:1.8;
   border-bottom:1px solid #303e6033;
   border-radius:5px;
+  transition:background-color .2s ease;
 }
 
 .row:last-child {
@@ -1409,7 +1373,7 @@ h1 {
   border:1px solid var(--border);
   border-radius:9px;
   background:transparent;
-  transition:border-color .2s ease;
+  transition:border-color .25s ease;
 }
 
 .social-group:hover {
@@ -1431,6 +1395,7 @@ h1 {
   overflow-wrap:anywhere;
   cursor:pointer;
   touch-action:manipulation;
+  transition:background-color .24s ease,color .24s ease;
 }
 
 .social-group-heading:before {
@@ -1446,10 +1411,7 @@ h1 {
   overflow:hidden;
   opacity:1;
   border-top:1px solid #303e6059;
-  transition:
-    grid-template-rows .28s ease,
-    opacity .2s ease,
-    border-color .2s ease;
+  transition:grid-template-rows .32s cubic-bezier(.2,.7,.25,1),opacity .24s ease,border-color .24s ease;
 }
 
 .social-group-inner {
@@ -1457,7 +1419,7 @@ h1 {
   min-width:0;
   overflow:hidden;
   padding:7px 8px;
-  transition:padding .22s ease;
+  transition:padding .26s ease;
 }
 
 .social-group.is-collapsed>.social-group-content {
@@ -1624,6 +1586,7 @@ footer .footer-title {
 footer a {
   color:var(--blue);
   text-decoration:none;
+  transition:color .24s ease;
 }
 
 footer a:hover {
@@ -1654,10 +1617,7 @@ footer a:hover {
   border-radius:6px;
   font-size:11px;
   cursor:pointer;
-  transition:
-    color .2s ease,
-    border-color .2s ease,
-    background-color .2s ease;
+  transition:color .25s ease,border-color .25s ease,background-color .25s ease,transform .22s cubic-bezier(.2,.7,.25,1);
 }
 
 .reopen-notice:hover {
@@ -1666,6 +1626,11 @@ footer a:hover {
   background:#111522;
 }
 
+.reopen-notice:active {
+  transform:scale(.98);
+}
+
+/* Smoother back-to-top button */
 .back-to-top {
   position:fixed;
   z-index:20;
@@ -1686,30 +1651,49 @@ footer a:hover {
   opacity:0;
   visibility:hidden;
   pointer-events:none;
-  transform:translateY(8px);
+  transform:translate3d(0,10px,0) scale(.98);
   transition:
-    opacity .2s ease,
-    visibility .2s ease,
-    transform .2s ease,
-    color .2s ease,
-    border-color .2s ease;
+    opacity .3s ease,
+    transform .32s cubic-bezier(.2,.7,.25,1),
+    color .25s ease,
+    border-color .25s ease,
+    background-color .25s ease,
+    visibility 0s linear .32s;
+  will-change:opacity,transform;
 }
 
 .back-to-top.is-visible {
   opacity:1;
   visibility:visible;
   pointer-events:auto;
-  transform:translateY(0);
+  transform:translate3d(0,0,0) scale(1);
+  transition:
+    opacity .3s ease,
+    transform .32s cubic-bezier(.2,.7,.25,1),
+    color .25s ease,
+    border-color .25s ease,
+    background-color .25s ease,
+    visibility 0s linear 0s;
 }
 
 .back-to-top:before {
   content:"↑";
   font-size:16px;
+  transition:transform .25s ease;
 }
 
 .back-to-top:hover {
   color:var(--pink-light);
   border-color:#6577a2;
+  background:#111522;
+}
+
+.back-to-top:hover:before {
+  transform:translateY(-2px);
+}
+
+.back-to-top:active {
+  transform:translate3d(0,1px,0) scale(.98);
 }
 
 /* Mobile layout */
@@ -2002,6 +1986,87 @@ footer a:hover {
     display:none!important;
   }
 }
+/* Consistent, polished buttons and clickable boxes */
+button,
+.nav-item,
+.filter-chip,
+.quick-links a,
+.alias-link,
+.row,
+.panel-top,
+.back-to-top {
+  -webkit-tap-highlight-color:transparent;
+}
+.nav-item,
+.filter-chip,
+.quick-links a,
+.alias-link {
+  border:1px solid var(--border);
+  transition:
+    color .22s ease,
+    border-color .22s ease,
+    background-color .22s ease,
+    box-shadow .22s ease,
+    transform .18s ease;
+}
+.nav-item:hover,
+.filter-chip:hover,
+.quick-links a:hover,
+.alias-link:hover {
+  border-color:#6577a2;
+}
+.nav-item:active,
+.filter-chip:active,
+.quick-links a:active,
+.alias-link:active {
+  transform:scale(.98);
+}
+.row a {
+  display:inline-block;
+}
+button:focus-visible,
+a:focus-visible,
+.row:focus-within {
+  outline:2px solid var(--blue-light);
+  outline-offset:2px;
+}
+html.archive-locked #top-button {
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-item,.filter-chip,.quick-links a,.alias-link,.row,.back-to-top { transition:none; }
+}
+
+/* Small layout refinements; all original styles remain above. */
+html,
+.entry-body {
+  scrollbar-gutter:stable;
+}
+.row:focus-within {
+  outline-offset:-2px;
+}
+.contact-email {
+  text-underline-offset:3px;
+  text-decoration-thickness:1px;
+}
+.back-to-top {
+  right:max(12px,env(safe-area-inset-right));
+  bottom:max(12px,env(safe-area-inset-bottom));
+}
+@media(min-width:601px) {
+  .back-to-top {
+    right:max(20px,env(safe-area-inset-right));
+    bottom:max(20px,env(safe-area-inset-bottom));
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  .ambient-glow:after,
+  .corner-decoration {
+    animation:none;
+  }
+}
 </style>
 </head>
 
@@ -2035,6 +2100,12 @@ footer a:hover {
       <p>The archive is a reference index intended to make older online pages easier to locate. Links and labels may be outdated, incomplete, or incorrect. Status labels are descriptions recorded by this archive, not official statements from account owners or platforms.</p>
       <p>Third-party websites have their own rules and privacy practices. Linking to a page does not mean this archive controls or endorses that page.</p>
 
+      <h3>PHOTO ARCHIVE: RIGHTS AND PRIVACY</h3>
+      <p>The Zombiebeatz2000 Picture Archive opens a photo collection on Google Photos. This page links to that collection; it does not display or store the photographs themselves. Google Photos has its own terms and privacy practices.</p>
+      <p><strong>A public link does not mean every photograph was shared with permission, is free to reuse, or is appropriate to keep available.</strong> This notice is not permission to download, copy, edit, repost, sell, or otherwise use a photograph. Any use must comply with applicable law and respect the rights of photographers and people pictured. Calling something a fan archive does not automatically make its use lawful.</p>
+      <p>Do not use photographs to identify someone's location, reveal private details, impersonate them, make threatening or sexualized edits, or encourage unwanted contact. Do not collect, share, or request private, non-consensual intimate, exploitative, or unlawful images. Never use this archive to sexualize or exploit minors.</p>
+      <p>If a photograph raises a copyright, consent, privacy, or safety concern, contact the site operator through Contact and Corrections. You do not need to be the copyright owner to raise a privacy or safety concern. For a concern about the collection itself, you can also use Google Photos' reporting options.</p>
+
       <h3>OWNERSHIP AND REMOVAL REQUESTS</h3>
       <p>Third-party names, usernames, trademarks, videos, images, music, artwork, and other material remain the property of their respective owners. This archive does not claim ownership of them.</p>
       <p>If you believe a link is inaccurate or raises a legitimate copyright, privacy, or other rights concern, contact the site operator with the specific URL and your concern. Requests can be reviewed and appropriate corrections or removals made where warranted.</p>
@@ -2047,7 +2118,7 @@ footer a:hover {
         <input type="checkbox" id="agree-checkbox">
         <span>I understand this is an independent fan archive and agree not to use it for hacking, doxxing, harassment, privacy violations, or other misuse.</span>
       </label>
-      <button class="entry-agree-button" id="agree-button" type="button" disabled>I agree, enter archive</button>
+      <button class="entry-agree-button" id="agree-button" type="button" disabled>I AGREE — ENTER ARCHIVE</button>
       <p class="entry-error" id="entry-error" aria-live="polite"></p>
       <p class="entry-footnote">✧ INDEPENDENT FAN ARCHIVE · NO OFFICIAL AFFILIATION ✧</p>
     </div>
@@ -2061,6 +2132,7 @@ footer a:hover {
 
   <nav class="top-nav" aria-label="Main navigation">
     <button class="nav-item" data-target="archive-section" type="button">Archive</button>
+    <button class="nav-item" data-target="blogs-section" type="button">Blogs and Websites</button>
     <button class="nav-item" data-target="yt-section" type="button">YouTube</button>
     <button class="nav-item" data-target="media-section" type="button">Other Profiles</button>
     <button class="nav-item" data-target="aliases-section" type="button">Aliases</button>
@@ -2113,6 +2185,7 @@ footer a:hover {
   <div class="quick-links">
     <a href="#snapshot-section">Archive Snapshot</a>
     <a href="#archive-section">Archive Links</a>
+    <a href="#blogs-section">Blogs and Websites</a>
     <a href="#yt-section">YouTube Channels</a>
     <a href="#media-section">Other Profiles</a>
     <a href="#aliases-section">Username Index</a>
@@ -2147,25 +2220,60 @@ footer a:hover {
   </div>
 </section>
 
+<!-- ARCHIVE LINKS -->
 <section class="panel searchable-panel" id="archive-section">
-  <button class="panel-top" type="button" aria-expanded="true">Archive and Website Links</button>
-  <p class="panel-subtext">Archive pages, older websites, and saved links.</p>
+  <button class="panel-top" type="button" aria-expanded="true">Archive and Reference Links</button>
+  <p class="panel-subtext">Saved items and archive resources, including the photo collection.</p>
   <div class="link-list">
-    <div class="row" data-category="youtube"><a href="https://www.youtube.com/@zombiebeatz2000archive" target="_blank" rel="noopener noreferrer">YouTube Archive</a><span class="status-notice status-available">ARCHIVE CHANNEL</span></div>
-    <div class="row" data-category="archived"><a href="https://archive.org/details/i-am-house-cat-gao-gao" target="_blank" rel="noopener noreferrer">I Am House Cat (Gao Gao)</a><span class="status-notice status-available">ARCHIVED ITEM</span></div>
-    <div class="row" data-category="archived"><a href="https://web.archive.org/web/20100819070242/http://hikimate.com/index.php" target="_blank" rel="noopener noreferrer">Hikimate (Wayback Machine)</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="youtube">
+      <a href="https://www.youtube.com/@zombiebeatz2000archive" target="_blank" rel="noopener noreferrer">YouTube Archive</a>
+      <span class="status-notice status-available">ARCHIVE CHANNEL</span>
+    </div>
+
+    <div class="row" data-category="archived">
+      <a href="https://archive.org/details/i-am-house-cat-gao-gao" target="_blank" rel="noopener noreferrer">I Am House Cat (Gao Gao)</a>
+      <span class="status-notice status-available">ARCHIVED ITEM</span>
+    </div>
+
+    <div class="row" data-category="archived">
+      <a href="https://web.archive.org/web/20100819070242/http://hikimate.com/index.php" target="_blank" rel="noopener noreferrer">Hikimate (Wayback Machine)</a>
+      <span class="status-notice status-available">ARCHIVED PAGE</span>
+    </div>
+
+    <div class="row" data-category="archived">
+      <a href="https://photos.google.com/share/AF1QipN0ZgNv6D1AcZurHscwgj8m67RC8JOAvno6UXdvkJbfIag_qKVjEiJBRmNhbayraQ?key=RDBKR2NWOUZhdkVJblpvWWE2V29tUGFJS3hiVmhB" target="_blank" rel="noopener noreferrer">Zombiebeatz2000 Picture Archive</a>
+      <span class="status-notice status-available">600+ PHOTOS</span>
+    </div>
+  </div>
+</section>
+
+<!-- ALL BLOGS AND PERSONAL WEBSITES IN ONE PLACE -->
+<section class="panel searchable-panel" id="blogs-section">
+  <button class="panel-top" type="button" aria-expanded="true">Blogs and Personal Websites</button>
+  <p class="panel-subtext">Blog pages and personal websites collected from different parts of the archive. The links are grouped here so they're easier to find.</p>
+
+  <div class="link-list media">
+    <div class="group-heading">WordPress</div>
     <div class="row" data-category="blog"><a href="https://visiunadeshiko.wordpress.com" target="_blank" rel="noopener noreferrer">VisiuNadeshiko on WordPress</a><span class="status-notice status-available">ACTIVE</span></div>
     <div class="row" data-category="blog"><a href="https://nadesicola.wordpress.com" target="_blank" rel="noopener noreferrer">Nadesicola on WordPress</a><span class="status-notice status-available">ACTIVE</span></div>
+
+    <div class="group-heading">Tumblr</div>
     <div class="row" data-category="blog"><a href="https://shiiiiiiiiiiiiiiiiiiiiiiii-blog2.tumblr.com/" target="_blank" rel="noopener noreferrer">Shiiiiiiiiiiiiiiiiiiiiiiii Blog</a><span class="status-notice status-available">ACTIVE</span></div>
     <div class="row" data-category="blog"><a href="https://tteyuu.tumblr.com/" target="_blank" rel="noopener noreferrer">tteyuu Tumblr</a><span class="status-notice status-available">ACTIVE</span></div>
     <div class="row" data-category="blog"><a href="https://rhombicdodecahedron.tumblr.com/" target="_blank" rel="noopener noreferrer">rhombicdodecahedron Tumblr</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="blog"><a href="https://nadesico-la.tumblr.com/" target="_blank" rel="noopener noreferrer">nadesico-la Tumblr</a><span class="status-notice status-corrupt">CORRUPTED</span></div>
+
+    <div class="group-heading">Blogger and Blogspot</div>
     <div class="row" data-category="blog"><a href="https://dadadadadadadadadadadafullcombo.blogspot.com/" target="_blank" rel="noopener noreferrer">Dadadadadadadadadadadada Full Combo Blog</a><span class="status-notice status-available">ACTIVE</span></div>
     <div class="row" data-category="blog"><a href="https://www.blogger.com/profile/07544973948874550875" target="_blank" rel="noopener noreferrer">Blogger Profile</a><span class="status-notice status-available">ACTIVE</span></div>
     <div class="row" data-category="blog"><a href="https://4649nadeshiko.blogspot.com/" target="_blank" rel="noopener noreferrer">4649nadeshiko Blog</a><span class="status-notice status-available">ACTIVE</span></div>
+
+    <div class="group-heading">Cocolog</div>
     <div class="row" data-category="blog"><a href="http://potatodanmaku.cocolog-nifty.com/" target="_blank" rel="noopener noreferrer">Cocolog: potatodanmaku</a><span class="status-notice status-available">ACTIVE</span></div>
   </div>
 </section>
 
+<!-- YOUTUBE CHANNELS -->
 <section class="panel searchable-panel" id="yt-section">
   <button class="panel-top" type="button" aria-expanded="true">YouTube Channels</button>
   <p class="panel-subtext">YouTube links listed for reference. Statuses reflect information recorded in this archive and are not official platform assessments.</p>
@@ -2190,9 +2298,10 @@ footer a:hover {
   </div>
 </section>
 
+<!-- OTHER PROFILES -->
 <section class="panel searchable-panel" id="media-section">
   <button class="panel-top" type="button" aria-expanded="true">Other Websites and Profiles</button>
-  <p class="panel-subtext">Choose a platform to view its links. Platform sections can be collapsed individually.</p>
+  <p class="panel-subtext">Social accounts, music profiles, and other platform pages. Open a platform heading to view its links.</p>
 
   <div class="link-list media">
     <div class="group-heading">SoundCloud</div>
@@ -2252,15 +2361,21 @@ footer a:hover {
     <div class="group-heading">Instagram</div>
     <div class="row" data-category="media"><a href="https://www.instagram.com/flight.f35/" target="_blank" rel="noopener noreferrer">flight.f35</a><span class="status-notice status-corrupt">CORRUPTED</span></div>
 
+    <div class="group-heading">Facebook</div>
+    <div class="row" data-category="media"><a href="https://www.facebook.com/HotChocolateBassoonMan" target="_blank" rel="noopener noreferrer">HotChocolateBassoonMan</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="media"><a href="https://www.facebook.com/ashley.hanrahan.33" target="_blank" rel="noopener noreferrer">ashley.hanrahan.33</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="media"><a href="https://www.facebook.com/public/Kool-Princess-Nadeshicola" target="_blank" rel="noopener noreferrer">Kool-Princess-Nadeshicola</a><span class="status-notice status-deleted">DELETED</span></div>
+    <div class="row" data-category="media"><a href="https://www.facebook.com/bangingyourmomsofast" target="_blank" rel="noopener noreferrer">bangingyourmomsofast</a><span class="status-notice status-deleted">DELETED</span></div>
+    <div class="row" data-category="media"><a href="https://www.facebook.com/sassssycat" target="_blank" rel="noopener noreferrer">sassssycat</a><span class="status-notice status-deleted">DELETED</span></div>
+    <div class="row" data-category="media"><a href="https://www.facebook.com/hoodcatfresh" target="_blank" rel="noopener noreferrer">hoodcatfresh</a><span class="status-notice status-deleted">DELETED</span></div>
+    <div class="row" data-category="media"><a href="https://www.facebook.com/37564nadeshiko" target="_blank" rel="noopener noreferrer">37564nadeshiko</a><span class="status-notice status-deleted">DELETED</span></div>
+
     <div class="group-heading">Duolingo</div>
     <div class="row" data-category="media"><a href="https://www.duolingo.com/profile/37564nadeshiko" target="_blank" rel="noopener noreferrer">37564nadeshiko</a><span class="status-notice status-deleted">DELETED</span></div>
     <div class="row" data-category="media"><a href="https://www.duolingo.com/profile/sadnesscake" target="_blank" rel="noopener noreferrer">sadnesscake</a><span class="status-notice status-available">ACTIVE</span></div>
 
     <div class="group-heading">Poshmark</div>
     <div class="row" data-category="media"><a href="https://poshmark.com/closet/kiwka" target="_blank" rel="noopener noreferrer">kiwka</a><span class="status-notice status-available">ACTIVE</span></div>
-
-    <div class="group-heading">Tumblr</div>
-    <div class="row" data-category="media"><a href="https://nadesico-la.tumblr.com/" target="_blank" rel="noopener noreferrer">nadesico-la</a><span class="status-notice status-corrupt">CORRUPTED</span></div>
 
     <div class="group-heading">Steam</div>
     <div class="row" data-category="media"><a href="https://steamcommunity.com/id/somesortofinsanelolijetmachine/" target="_blank" rel="noopener noreferrer">somesortofinsane</a><span class="status-notice status-deleted">DELETED</span></div>
@@ -2275,10 +2390,9 @@ footer a:hover {
   <p class="panel-subtext">Browse usernames used as labels throughout this archive. Select one to jump to a related section.</p>
   <div class="alias-grid">
     <a class="alias-link" href="#yt-section" data-category="youtube">Zombiebeatz2000</a>
-    <a class="alias-link" href="#archive-section" data-category="blog">Hikikomori-chan</a>
-    <a class="alias-link" href="#archive-section" data-category="blog">Hikkichan</a>
+    <a class="alias-link" href="#blogs-section" data-category="blog">Hikkichan</a>
     <a class="alias-link" href="#yt-section" data-category="youtube">Noriko</a>
-    <a class="alias-link" href="#archive-section" data-category="blog">4649nadeshiko</a>
+    <a class="alias-link" href="#blogs-section" data-category="blog">4649nadeshiko</a>
     <a class="alias-link" href="#yt-section" data-category="youtube">37564nadeshiko</a>
     <a class="alias-link" href="#media-section" data-category="media">Nadesicola</a>
     <a class="alias-link" href="#media-section" data-category="media">Other Aliases</a>
@@ -2301,6 +2415,7 @@ footer a:hover {
   <button class="panel-top" type="button" aria-expanded="true">Recent Updates</button>
   <p class="panel-subtext">A few recent changes to the archive.</p>
   <ul class="changelog-list">
+    <li><span class="changelog-date">OCTOBER 22, 2026</span>Fixed the Facebook statuses, cleaned up the Username Index, made the buttons and boxes match, and sped up the access notice.</li>
     <li><span class="changelog-date">OCTOBER 19, 2026</span>Added a live archive snapshot and refined search, navigation, and background effects.</li>
     <li><span class="changelog-date">OCTOBER 18, 2026</span>Added and organized links across several platforms.</li>
     <li><span class="changelog-date">OCTOBER 17, 2026</span>Updated the layout and status labels.</li>
@@ -2312,14 +2427,18 @@ footer a:hover {
   <button class="panel-top" type="button" aria-expanded="true">Contact and Corrections</button>
   <div class="panel-content intro-text">
     For link corrections, accessibility issues, or removal requests, contact me below. Please include the specific URL and the change you are requesting. Requests will be reviewed.
+
+    <p class="small-note">For a photo-related request, include the album or image link if available, or enough detail to identify the image, your concern, and whether you want a correction or removal. If you are requesting action on someone else's behalf, explain that connection. Do not send passwords, account access, ID documents, or copies of sensitive images. A privacy or safety concern can be raised without claiming copyright ownership.</p>
+    <p class="small-note">Requests about this page's link and requests about photos in the linked collection are different: removing a link here does not delete the photos from Google Photos or other copies. This site's notice cannot require Google Photos or another website to remove content. No guaranteed response time or outcome is promised.</p>
     <br><br>Discord: <strong>@earththeearthling</strong>
-    <br><br>Email: <a class="contact-email" href="mailto:bokusatsuxtenshi@yahoo.com">bokusatsuxtenshi@yahoo.com</a>
+    <br><br>Email: <a class="contact-email" data-contact="Ym9rdXNhdHN1eHRlbnNoaUB5YWhvby5jb20="></a><noscript><a class="contact-email" href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#98;&#111;&#107;&#117;&#115;&#97;&#116;&#115;&#117;&#120;&#116;&#101;&#110;&#115;&#104;&#105;&#64;&#121;&#97;&#104;&#111;&#111;&#46;&#99;&#111;&#109;">&#98;&#111;&#107;&#117;&#115;&#97;&#116;&#115;&#117;&#120;&#116;&#101;&#110;&#115;&#104;&#105;&#64;&#121;&#97;&#104;&#111;&#111;&#46;&#99;&#111;&#109;</a></noscript>
   </div>
 </section>
 
 <div class="archive-help">
   <strong>ARCHIVE AND RIGHTS NOTICE:</strong>
   This is an independent fan-made reference project and is not affiliated with or endorsed by the people, accounts, or platforms mentioned. Links are provided to identify publicly accessible pages and help visitors locate older online material. The archive does not claim ownership of third-party content. All names, marks, and content remain the property of their respective owners. This archive is not intended for hacking, doxxing, harassment, stalking, or targeting anyone. Do not use its links to access accounts without permission, expose private information, or bypass security. If you believe an entry is inaccurate or have a rights-related concern, please contact me so it can be reviewed. This notice does not override copyright law or guarantee that a platform or rights holder will not request removal.
+  <p>PHOTO ARCHIVE: The linked collection is on Google Photos. Public availability is not proof of permission or a license to reuse photos. Copyright, consent, privacy, and safety concerns can be raised through Contact and Corrections. Removing the archive link here does not remove the underlying images or other copies.</p>
 </div>
 
 <footer>
@@ -2337,6 +2456,18 @@ footer a:hover {
 <script>
 (() => {
 "use strict";
+
+/* Keep the contact address out of plain-text HTML for basic spam scrapers.
+   This is not a security boundary: visitors and advanced scrapers can read it. */
+document.querySelectorAll("a[data-contact]").forEach(link => {
+  const encoded = link.getAttribute("data-contact");
+  if (!encoded) return;
+  const address = atob(encoded);
+  link.textContent = address;
+  link.setAttribute("href","mailto:" + address);
+  link.removeAttribute("data-contact");
+});
+
 
 const root = document.documentElement;
 const gate = document.getElementById("entry-gate");
@@ -2453,7 +2584,7 @@ function closeGate() {
   if (reducedMotion.matches) {
     finish();
   } else {
-    gateFinishTimer = window.setTimeout(finish,580);
+    gateFinishTimer = window.setTimeout(finish,290);
   }
 }
 
