@@ -408,6 +408,30 @@ body:after {
   transition:opacity .28s ease,visibility 0s linear .28s;
 }
 
+.entry-close {
+  position:absolute;
+  top:10px;
+  right:10px;
+  z-index:2;
+  width:36px;
+  height:36px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0;
+  font-size:22px;
+  line-height:1;
+  color:#e8ebf5;
+  background:#ffffff14;
+  border:1px solid #8badff55;
+  border-radius:50%;
+  cursor:pointer;
+  transition:background .2s ease,transform .2s ease;
+}
+.entry-close:hover { background:#8badff33; transform:scale(1.06); }
+.entry-close:focus-visible { outline:2px solid #8badff; outline-offset:2px; }
+.entry-close[hidden] { display:none!important; }
+
 .entry-gate[hidden] {
   display:none!important;
 }
@@ -565,7 +589,7 @@ body:after {
   border:1px solid #6577a2;
   border-radius:3px;
   background:#101522;
-  transition:background-color .18s ease,border-color .18s ease,box-shadow .18s ease,transform .18s ease;
+  transition:background-color .25s ease,border-color .25s ease,box-shadow .25s ease,transform .18s ease;
 }
 
 .entry-agreement input::after {
@@ -620,7 +644,11 @@ body:after {
   font-weight:bold;
   letter-spacing:.7px;
   cursor:pointer;
-  transition:background-color .24s ease,border-color .24s ease,color .24s ease,opacity .24s ease,box-shadow .24s ease,transform .2s cubic-bezier(.2,.7,.25,1);
+  transition:background-color .3s ease,border-color .3s ease,color .3s ease,opacity .3s ease,box-shadow .3s ease,filter .3s ease,transform .2s cubic-bezier(.2,.7,.25,1);
+}
+
+.entry-agree-button:not(:disabled) {
+  transition-timing-function:cubic-bezier(.22,.9,.3,1.15);
 }
 
 .entry-agree-button:hover:not(:disabled) {
@@ -631,9 +659,10 @@ body:after {
 }
 
 .entry-agree-button:disabled {
-  opacity:.65;
+  opacity:.6;
   cursor:not-allowed;
   box-shadow:none;
+  filter:saturate(.55) brightness(.94);
 }
 
 .entry-agree-button:not(:disabled) {
@@ -943,6 +972,10 @@ h1 {
   color:var(--muted);
   font-size:12px;
   line-height:1.85;
+}
+
+.status-note p + p {
+  margin-top:12px;
 }
 
 .about-boxes {
@@ -1351,16 +1384,38 @@ h1 {
   background:#826b4612;
 }
 
-.status-notice.status-available:before,
-.status-notice.status-deleted:before,
-.status-notice.status-banned:before,
-.status-notice.status-corrupt:before {
-  animation:pulse 2.2s ease-in-out infinite;
+.status-notice.status-available:before {
+  animation:pulse-available 2.2s ease-in-out infinite;
 }
 
-@keyframes pulse {
+.status-notice.status-deleted:before,
+.status-notice.status-banned:before {
+  animation:pulse-danger 2.2s ease-in-out infinite;
+}
+
+.status-notice.status-corrupt:before {
+  animation:pulse-corrupt 2.2s ease-in-out infinite;
+}
+
+/* Each dot dims by the same amount of light, so all four pulse with the
+   same visible strength even though their colours differ in brightness. */
+@keyframes pulse-available {
+  50% {
+    opacity:.84;
+    transform:scale(.88);
+  }
+}
+
+@keyframes pulse-danger {
   50% {
     opacity:.55;
+    transform:scale(.88);
+  }
+}
+
+@keyframes pulse-corrupt {
+  50% {
+    opacity:.84;
     transform:scale(.88);
   }
 }
@@ -1533,6 +1588,36 @@ h1 {
   margin-bottom:4px;
 }
 
+.changelog-toggle {
+  display:inline-block;
+  margin:0 15px 16px;
+  padding:7px 14px;
+  border:1px solid var(--border);
+  border-radius:7px;
+  background-color:var(--panel);
+  color:var(--blue);
+  cursor:pointer;
+  font:12px var(--font);
+  letter-spacing:.05em;
+  transition:background-color .2s ease,border-color .2s ease,color .2s ease;
+}
+
+.changelog-toggle:hover {
+  color:var(--pink-light);
+  border-color:#6577a2;
+}
+
+.changelog-list .changelog-extra-group {
+  overflow:hidden;
+  padding:0;
+}
+
+.changelog-extra-list {
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+
 .contact-email {
   color:var(--blue);
   font-weight:bold;
@@ -1568,6 +1653,15 @@ h1 {
   color:var(--pink);
 }
 
+.archive-help p {
+  margin-top:10px;
+}
+
+.archive-help .help-heading {
+  display:block;
+  margin-top:16px;
+}
+
 footer {
   margin-top:24px;
   padding:24px 10px 5px;
@@ -1594,14 +1688,22 @@ footer a:hover {
   text-decoration:underline;
 }
 
-.status-dot {
-  display:inline-block;
-  width:8px;
-  height:8px;
-  margin-left:7px;
-  border-radius:50%;
-  background:#55f29b;
-  box-shadow:0 0 5px #55f29b;
+.status-working {
+  color:#3fae7a;
+  font-weight:700;
+  animation:working-pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes working-pulse {
+  0%, 100% {
+    color:#3fae7a;
+    text-shadow:0 0 0 rgba(85,242,155,0);
+  }
+
+  50% {
+    color:#55f29b;
+    text-shadow:0 0 10px rgba(85,242,155,.8);
+  }
 }
 
 .reopen-notice {
@@ -1971,6 +2073,13 @@ footer a:hover {
   html {
     scroll-behavior:auto;
   }
+  /* State fades on the access notice are feedback, not motion; keep them smooth. */
+  .entry-agree-button,
+  .entry-agreement input,
+  .entry-agreement input::after {
+    transition-duration:.25s!important;
+    transition-delay:0s!important;
+  }
 
   *,
   *:before,
@@ -2079,56 +2188,56 @@ html,
 <!-- ACCESS NOTICE -->
 <div class="entry-gate" id="entry-gate" role="dialog" aria-modal="true" aria-labelledby="entry-title" aria-describedby="entry-description">
   <div class="entry-card">
+    <button type="button" class="entry-close" id="entry-close" aria-label="Close notice" hidden>&times;</button>
     <div class="entry-heading">
-      <p class="entry-kicker">ZOMBIEBEATZ2000 · INDEPENDENT FAN PROJECT</p>
-      <h2 id="entry-title">ARCHIVE ACCESS NOTICE</h2>
-      <p class="entry-subtitle">PLEASE READ BEFORE ENTERING</p>
+      <p class="entry-kicker">Zombiebeatz2000 · an independent fan project</p>
+      <h2 id="entry-title">Archive Notice</h2>
+      <p class="entry-subtitle">Please read before entering</p>
       <div class="entry-ornament" aria-hidden="true"><span>✧</span><span>✦</span><span>✧</span></div>
     </div>
 
     <div class="entry-body" id="entry-description" tabindex="0">
-      <p>This website is an <strong>independent, non-commercial fan archive</strong> that organizes links and references to publicly accessible online material associated with Zombiebeatz2000 and related usernames.</p>
+      <p>This is an <strong>independent, non-commercial fan archive</strong> for links related to Zombiebeatz2000 and other usernames connected to the project. It helps people find older pages and content that can be found online.</p>
 
-      <h3>INDEPENDENT PROJECT</h3>
-      <p>This website is not affiliated with, endorsed by, or operated by Ashley Sakura Hanrahan, Hikkiarchive, or any person or platform mentioned here. It does not represent them or speak on their behalf.</p>
+      <h3>About This Website</h3>
+      <p>This archive is <strong>not run by or affiliated with Ashley Sakura Hanrahan, Hikkiarchive, or anyone else mentioned here</strong>. It does not speak for them or represent their views.</p>
 
-      <h3>NO HACKING, DOXXING OR HARASSMENT</h3>
-      <p><strong>This archive is not intended for hacking, doxxing, harassment, stalking, threats, or targeting anyone.</strong> Do not use this website or its links to access accounts without permission, bypass security, expose private or sensitive information, impersonate anyone, or interfere with another person's accounts or activities.</p>
-      <p>Only use third-party websites lawfully and respectfully. Do not use publicly accessible information as an excuse to invade someone's privacy or contact them in an unwanted or threatening way.</p>
+      <h3>Please Use This Site Responsibly</h3>
+      <p><strong>Do not use this archive to hack accounts, expose private information, harass or threaten anyone, stalk people, or pretend to be someone else.</strong> Do not use its links to get around security or <strong>access accounts without permission</strong>.</p>
+      <p>Just because something is public <strong>doesn’t mean it’s okay to invade someone’s privacy</strong> or contact them when they don’t want you to.</p>
 
-      <h3>LINKS AND STATUS LABELS</h3>
-      <p>The archive is a reference index intended to make older online pages easier to locate. Links and labels may be outdated, incomplete, or incorrect. Status labels are descriptions recorded by this archive, not official statements from account owners or platforms.</p>
-      <p>Third-party websites have their own rules and privacy practices. Linking to a page does not mean this archive controls or endorses that page.</p>
+      <h3>Links and Status Labels</h3>
+      <p>This site is a reference list to make older pages easier to find. Some links may stop working, and information or status labels may be incomplete or out of date. The labels are added by this archive and <strong>are not official statements from the people or platforms mentioned</strong>.</p>
+      <p>The linked websites have their own rules and privacy settings. Including a link here does not mean I own or control that website or agree with everything on it.</p>
 
-      <h3>PHOTO ARCHIVE: RIGHTS AND PRIVACY</h3>
-      <p>The Zombiebeatz2000 Picture Archive opens a photo collection on Google Photos. This page links to that collection; it does not display or store the photographs themselves. Google Photos has its own terms and privacy practices.</p>
-      <p><strong>A public link does not mean every photograph was shared with permission, is free to reuse, or is appropriate to keep available.</strong> This notice is not permission to download, copy, edit, repost, sell, or otherwise use a photograph. Any use must comply with applicable law and respect the rights of photographers and people pictured. Calling something a fan archive does not automatically make its use lawful.</p>
-      <p>Do not use photographs to identify someone's location, reveal private details, impersonate them, make threatening or sexualized edits, or encourage unwanted contact. Do not collect, share, or request private, non-consensual intimate, exploitative, or unlawful images. Never use this archive to sexualize or exploit minors.</p>
-      <p>If a photograph raises a copyright, consent, privacy, or safety concern, contact the site operator through Contact and Corrections. You do not need to be the copyright owner to raise a privacy or safety concern. For a concern about the collection itself, you can also use Google Photos' reporting options.</p>
+      <h3>Photo Archive</h3>
+      <p>The Zombiebeatz2000 Picture Archive links to a photo collection hosted on Google Photos. The photos are hosted there, not on this website.</p>
+      <p>Photos may be reused, but please respect people’s privacy and safety. Do not use them to expose private details, impersonate someone, threaten anyone, or encourage unwanted contact. <strong>Never use this archive to exploit or sexualize minors or to share unlawful or intimate images.</strong></p>
+      <p>If you have a concern about a photo, including copyright, consent, privacy, or safety, contact me through Contact and Corrections. <strong>You don’t need to own the copyright to report a concern.</strong> You can also report issues directly to Google Photos.</p>
 
-      <h3>OWNERSHIP AND REMOVAL REQUESTS</h3>
-      <p>Third-party names, usernames, trademarks, videos, images, music, artwork, and other material remain the property of their respective owners. This archive does not claim ownership of them.</p>
-      <p>If you believe a link is inaccurate or raises a legitimate copyright, privacy, or other rights concern, contact the site operator with the specific URL and your concern. Requests can be reviewed and appropriate corrections or removals made where warranted.</p>
+      <h3>Ownership and Removal Requests</h3>
+      <p>The names, usernames, images, videos, music, artwork, and other material linked here <strong>belong to their respective owners</strong>. This archive does not claim ownership of their work.</p>
+      <p>If a link is broken or something raises a copyright, privacy, or other concern, contact me with the link and a short explanation. I’ll review it and make changes or remove material where appropriate.</p>
 
-      <p class="legal-small">This notice explains the intended purpose of the site. It does not grant permission to use third-party content, override applicable law, or guarantee that the site or any entry will not be challenged or removed.</p>
+      <p class="legal-small">This notice explains the purpose of the archive. It does not give permission to use someone else’s content, override the law, or guarantee that a link or page cannot be challenged or removed.</p>
     </div>
 
     <div class="entry-footer">
       <label class="entry-agreement" for="agree-checkbox">
         <input type="checkbox" id="agree-checkbox">
-        <span>I understand this is an independent fan archive and agree not to use it for hacking, doxxing, harassment, privacy violations, or other misuse.</span>
+        <span>I understand this is an independent fan archive, and I agree not to use it for hacking, doxxing, harassment, or any other harm.</span>
       </label>
-      <button class="entry-agree-button" id="agree-button" type="button" disabled>I AGREE — ENTER ARCHIVE</button>
+      <button class="entry-agree-button" id="agree-button" type="button" disabled>I agree — enter the archive</button>
       <p class="entry-error" id="entry-error" aria-live="polite"></p>
-      <p class="entry-footnote">✧ INDEPENDENT FAN ARCHIVE · NO OFFICIAL AFFILIATION ✧</p>
+      <p class="entry-footnote">✧ Independent fan archive · no official affiliation ✧</p>
     </div>
   </div>
 </div>
 
 <main class="wrapper">
 <header id="top">
-  <h1>EARTH’S HIKKICHAN ARCHIVE</h1>
-  <p class="subtitle">USERNAME SHOWCASE · EST. 2026</p>
+  <h1>Earth’s Hikkichan Archive</h1>
+  <p class="subtitle">A username showcase · est. 2026</p>
 
   <nav class="top-nav" aria-label="Main navigation">
     <button class="nav-item" data-target="archive-section" type="button">Archive</button>
@@ -2145,64 +2254,63 @@ html,
 <section class="panel" id="about-section">
   <button class="panel-top" type="button" aria-expanded="true">About This Archive</button>
   <div class="about-boxes">
-    <div class="about-box"><h3>WHAT IS THIS?</h3><p>This is an independent fan-made archive of public links and older online resources connected by usernames and archive references. It brings channels, websites, and profiles together in one place.</p></div>
-    <div class="about-box"><h3>WHY WAS IT MADE?</h3><p>I made this version to bring more links together than the previous one, making older online pages easier to browse in one place.</p></div>
-    <div class="about-box full-width"><h3>INDEPENDENT FAN PROJECT</h3><p>This archive is not affiliated with, sponsored by, or officially connected to Ashley Sakura Hanrahan or the original Hikkiarchive. It does not claim to represent them.</p></div>
-    <div class="about-box full-width"><h3>REFERENCE AND OWNERSHIP</h3><p>Names and links are included for reference and informational purposes. This site does not claim ownership of third-party accounts, names, photographs, videos, music, artwork, or other material. Rights remain with their respective owners.</p></div>
-    <div class="about-box full-width"><h3>STILL BEING UPDATED</h3><p>Links and status labels may change over time. Some pages may be unavailable, deleted, changed, or reassigned. Labels reflect the information recorded in this archive and may not always be up to date.</p></div>
+    <div class="about-box"><h3>What is this?</h3><p>This is a fan-made archive of public links and older web pages connected to different usernames. It brings channels, websites, and profiles together so they’re easier to find in one place.</p></div>
+    <div class="about-box"><h3>Why was it made?</h3><p>I made this version to include more links than the last one and make everything easier to browse.</p></div>
+    <div class="about-box full-width"><h3>An independent fan project</h3><p>This archive isn’t connected to, sponsored by, or approved by Ashley Sakura Hanrahan or the original Hikkiarchive. It doesn’t represent their views or opinions.</p></div>
+    <div class="about-box full-width"><h3>Links and ownership</h3><p>The links are here for reference. I don’t own the accounts or content linked on this site. Names, photos, videos, music, artwork, and other material belong to their respective owners.</p></div>
   </div>
 </section>
 
 <section class="panel" id="snapshot-section">
-  <button class="panel-top" type="button" aria-expanded="true">Archive Snapshot</button>
+  <button class="panel-top" type="button" aria-expanded="true">Archive snapshot</button>
   <p class="panel-subtext">A quick look at what's currently listed in the archive.</p>
 
   <div class="snapshot-stats" aria-label="Archive statistics">
     <div class="snapshot-stat">
       <span class="snapshot-number" data-count="all-links">0</span>
-      <span class="snapshot-label">LINKS INDEXED</span>
+      <span class="snapshot-label">Links indexed</span>
     </div>
     <div class="snapshot-stat">
       <span class="snapshot-number" data-count="youtube-links">0</span>
-      <span class="snapshot-label">YOUTUBE LINKS</span>
+      <span class="snapshot-label">YouTube links</span>
     </div>
     <div class="snapshot-stat">
       <span class="snapshot-number" data-count="profile-links">0</span>
-      <span class="snapshot-label">OTHER PROFILES</span>
+      <span class="snapshot-label">Other profiles</span>
     </div>
     <div class="snapshot-stat">
       <span class="snapshot-number" data-count="aliases">0</span>
-      <span class="snapshot-label">ALIASES LISTED</span>
+      <span class="snapshot-label">Aliases listed</span>
     </div>
   </div>
 
-  <p class="snapshot-note">These numbers are counted from the entries on this page. A link being listed does not guarantee that it still works or that its status has been independently verified.</p>
+  <p class="snapshot-note">These numbers come from the entries listed on this page. A link being listed here doesn’t mean it still works, or that its status has been double-checked.</p>
 </section>
 
 <section class="panel" id="quick-section">
-  <button class="panel-top" type="button" aria-expanded="true">Quick Links</button>
-  <p class="panel-subtext">Jump to a section of the archive.</p>
+  <button class="panel-top" type="button" aria-expanded="true">Quick links</button>
+  <p class="panel-subtext">Jump straight to any section.</p>
   <div class="quick-links">
-    <a href="#snapshot-section">Archive Snapshot</a>
-    <a href="#archive-section">Archive Links</a>
+    <a href="#snapshot-section">Archive snapshot</a>
+    <a href="#archive-section">Archive links</a>
     <a href="#blogs-section">Blogs and Websites</a>
-    <a href="#yt-section">YouTube Channels</a>
+    <a href="#yt-section">YouTube channels</a>
     <a href="#media-section">Other Profiles</a>
-    <a href="#aliases-section">Username Index</a>
-    <a href="#status-section">Status Labels</a>
+    <a href="#aliases-section">Username index</a>
+    <a href="#status-section">Status labels</a>
     <a href="#updates-section">Updates</a>
     <a href="#contact-section">Contact</a>
   </div>
 </section>
 
 <section class="panel" id="search-section">
-  <button class="panel-top" type="button" aria-expanded="true">Search and Filter the Archive</button>
+  <button class="panel-top" type="button" aria-expanded="true">Search and filter the archive</button>
   <div class="search-area">
-    <label class="search-label" for="archive-search">SEARCH FOR A NAME, CHANNEL OR LINK</label>
+    <label class="search-label" for="archive-search">Search for a name, channel or link</label>
     <div class="search-row">
       <input id="archive-search" type="search" placeholder="Type a name or keyword..." autocomplete="off" aria-label="Search the archive" aria-describedby="search-status" spellcheck="false">
       <button class="search-button" id="search-button" type="button">Search</button>
-      <button class="search-button" id="clear-button" type="button">Reset All</button>
+      <button class="search-button" id="clear-button" type="button">Reset all</button>
     </div>
     <p id="search-status" aria-live="polite">Showing all entries. Use the filters to narrow down the list.</p>
   </div>
@@ -2212,182 +2320,199 @@ html,
     <button class="filter-chip" data-filter="youtube" aria-pressed="false" type="button">YouTube</button>
     <button class="filter-chip" data-filter="blog" aria-pressed="false" type="button">Blogs and Websites</button>
     <button class="filter-chip" data-filter="media" aria-pressed="false" type="button">Other Profiles</button>
-    <button class="filter-chip" data-filter="archived" aria-pressed="false" type="button">Archived / Unavailable</button>
-    <button class="filter-chip status-filter-available" data-filter="available" aria-pressed="false" type="button">ACTIVE</button>
-    <button class="filter-chip status-filter-corrupted" data-filter="corrupted" aria-pressed="false" type="button">CORRUPTED</button>
-    <button class="filter-chip status-filter-banned" data-filter="banned" aria-pressed="false" type="button">BANNED</button>
-    <button class="filter-chip status-filter-deleted" data-filter="deleted" aria-pressed="false" type="button">DELETED</button>
+    <button class="filter-chip" data-filter="archived" aria-pressed="false" type="button">Archived / unavailable</button>
+    <button class="filter-chip status-filter-available" data-filter="available" aria-pressed="false" type="button">Active</button>
+    <button class="filter-chip status-filter-corrupted" data-filter="corrupted" aria-pressed="false" type="button">Corrupted</button>
+    <button class="filter-chip status-filter-banned" data-filter="banned" aria-pressed="false" type="button">Banned</button>
+    <button class="filter-chip status-filter-deleted" data-filter="deleted" aria-pressed="false" type="button">Deleted</button>
   </div>
 </section>
 
 <!-- ARCHIVE LINKS -->
 <section class="panel searchable-panel" id="archive-section">
-  <button class="panel-top" type="button" aria-expanded="true">Archive and Reference Links</button>
+  <button class="panel-top" type="button" aria-expanded="true">Archive and reference links</button>
   <p class="panel-subtext">Saved items and archive resources, including the photo collection.</p>
   <div class="link-list">
     <div class="row" data-category="youtube">
       <a href="https://www.youtube.com/@zombiebeatz2000archive" target="_blank" rel="noopener noreferrer">YouTube Archive</a>
-      <span class="status-notice status-available">ARCHIVE CHANNEL</span>
+      <span class="status-notice status-available">Archive channel</span>
     </div>
 
     <div class="row" data-category="archived">
       <a href="https://archive.org/details/i-am-house-cat-gao-gao" target="_blank" rel="noopener noreferrer">I Am House Cat (Gao Gao)</a>
-      <span class="status-notice status-available">ARCHIVED ITEM</span>
+      <span class="status-notice status-available">Archived item</span>
     </div>
 
     <div class="row" data-category="archived">
       <a href="https://web.archive.org/web/20100819070242/http://hikimate.com/index.php" target="_blank" rel="noopener noreferrer">Hikimate (Wayback Machine)</a>
-      <span class="status-notice status-available">ARCHIVED PAGE</span>
+      <span class="status-notice status-available">Archived page</span>
     </div>
 
     <div class="row" data-category="archived">
       <a href="https://photos.google.com/share/AF1QipN0ZgNv6D1AcZurHscwgj8m67RC8JOAvno6UXdvkJbfIag_qKVjEiJBRmNhbayraQ?key=RDBKR2NWOUZhdkVJblpvWWE2V29tUGFJS3hiVmhB" target="_blank" rel="noopener noreferrer">Zombiebeatz2000 Picture Archive</a>
-      <span class="status-notice status-available">600+ PHOTOS</span>
+      <span class="status-notice status-available">600+ photos</span>
     </div>
+
   </div>
 </section>
 
 <!-- ALL BLOGS AND PERSONAL WEBSITES IN ONE PLACE -->
 <section class="panel searchable-panel" id="blogs-section">
-  <button class="panel-top" type="button" aria-expanded="true">Blogs and Personal Websites</button>
-  <p class="panel-subtext">Blog pages and personal websites collected from different parts of the archive. The links are grouped here so they're easier to find.</p>
+  <button class="panel-top" type="button" aria-expanded="true">Blogs and personal websites</button>
+  <p class="panel-subtext">Blog pages and personal websites from different parts of the archive, grouped here so they’re easier to find.</p>
 
   <div class="link-list media">
     <div class="group-heading">WordPress</div>
-    <div class="row" data-category="blog"><a href="https://visiunadeshiko.wordpress.com" target="_blank" rel="noopener noreferrer">VisiuNadeshiko on WordPress</a><span class="status-notice status-available">ACTIVE</span></div>
-    <div class="row" data-category="blog"><a href="https://nadesicola.wordpress.com" target="_blank" rel="noopener noreferrer">Nadesicola on WordPress</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="blog"><a href="https://visiunadeshiko.wordpress.com" target="_blank" rel="noopener noreferrer">VisiuNadeshiko on WordPress</a><span class="status-notice status-available">Active</span></div>
+    <div class="row" data-category="blog"><a href="https://nadesicola.wordpress.com" target="_blank" rel="noopener noreferrer">Nadesicola on WordPress</a><span class="status-notice status-available">Active</span></div>
 
     <div class="group-heading">Tumblr</div>
-    <div class="row" data-category="blog"><a href="https://shiiiiiiiiiiiiiiiiiiiiiiii-blog2.tumblr.com/" target="_blank" rel="noopener noreferrer">Shiiiiiiiiiiiiiiiiiiiiiiii Blog</a><span class="status-notice status-available">ACTIVE</span></div>
-    <div class="row" data-category="blog"><a href="https://tteyuu.tumblr.com/" target="_blank" rel="noopener noreferrer">tteyuu Tumblr</a><span class="status-notice status-available">ACTIVE</span></div>
-    <div class="row" data-category="blog"><a href="https://rhombicdodecahedron.tumblr.com/" target="_blank" rel="noopener noreferrer">rhombicdodecahedron Tumblr</a><span class="status-notice status-available">ACTIVE</span></div>
-    <div class="row" data-category="blog"><a href="https://nadesico-la.tumblr.com/" target="_blank" rel="noopener noreferrer">nadesico-la Tumblr</a><span class="status-notice status-corrupt">CORRUPTED</span></div>
+    <div class="row" data-category="blog"><a href="https://shiiiiiiiiiiiiiiiiiiiiiiii-blog2.tumblr.com/" target="_blank" rel="noopener noreferrer">Shiiiiiiiiiiiiiiiiiiiiiiii Blog</a><span class="status-notice status-available">Active</span></div>
+    <div class="row" data-category="blog"><a href="https://tteyuu.tumblr.com/" target="_blank" rel="noopener noreferrer">tteyuu Tumblr</a><span class="status-notice status-available">Active</span></div>
+    <div class="row" data-category="blog"><a href="https://rhombicdodecahedron.tumblr.com/" target="_blank" rel="noopener noreferrer">rhombicdodecahedron Tumblr</a><span class="status-notice status-available">Active</span></div>
+    <div class="row" data-category="blog"><a href="https://nadesico-la.tumblr.com/" target="_blank" rel="noopener noreferrer">nadesico-la Tumblr</a><span class="status-notice status-corrupt">Corrupted</span></div>
 
     <div class="group-heading">Blogger and Blogspot</div>
-    <div class="row" data-category="blog"><a href="https://dadadadadadadadadadadafullcombo.blogspot.com/" target="_blank" rel="noopener noreferrer">Dadadadadadadadadadadada Full Combo Blog</a><span class="status-notice status-available">ACTIVE</span></div>
-    <div class="row" data-category="blog"><a href="https://www.blogger.com/profile/07544973948874550875" target="_blank" rel="noopener noreferrer">Blogger Profile</a><span class="status-notice status-available">ACTIVE</span></div>
-    <div class="row" data-category="blog"><a href="https://4649nadeshiko.blogspot.com/" target="_blank" rel="noopener noreferrer">4649nadeshiko Blog</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="blog"><a href="https://dadadadadadadadadadadafullcombo.blogspot.com/" target="_blank" rel="noopener noreferrer">Dadadadadadadadadadadada Full Combo Blog</a><span class="status-notice status-available">Active</span></div>
+    <div class="row" data-category="blog"><a href="https://www.blogger.com/profile/07544973948874550875" target="_blank" rel="noopener noreferrer">Blogger Profile</a><span class="status-notice status-available">Active</span></div>
+    <div class="row" data-category="blog"><a href="https://4649nadeshiko.blogspot.com/" target="_blank" rel="noopener noreferrer">4649nadeshiko Blog</a><span class="status-notice status-available">Active</span></div>
 
     <div class="group-heading">Cocolog</div>
-    <div class="row" data-category="blog"><a href="http://potatodanmaku.cocolog-nifty.com/" target="_blank" rel="noopener noreferrer">Cocolog: potatodanmaku</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="blog"><a href="http://potatodanmaku.cocolog-nifty.com/" target="_blank" rel="noopener noreferrer">Cocolog: potatodanmaku</a><span class="status-notice status-available">Active</span></div>
   </div>
 </section>
 
 <!-- YOUTUBE CHANNELS -->
 <section class="panel searchable-panel" id="yt-section">
-  <button class="panel-top" type="button" aria-expanded="true">YouTube Channels</button>
-  <p class="panel-subtext">YouTube links listed for reference. Statuses reflect information recorded in this archive and are not official platform assessments.</p>
+  <button class="panel-top" type="button" aria-expanded="true">YouTube channels</button>
+  <p class="panel-subtext">YouTube links kept for reference. The statuses are notes from this archive, not official statements from the platforms.</p>
 
   <div class="link-list youtube-list">
-    <div class="group-heading">ACTIVE</div>
-    <div class="row" data-category="youtube"><a href="https://www.youtube.com/@zombiebeatz2000" target="_blank" rel="noopener noreferrer">Zombiebeatz2000</a><span class="status-notice status-available">ACTIVE</span></div>
-    <div class="row" data-category="youtube"><a href="https://www.youtube.com/@37564nadeshiko" target="_blank" rel="noopener noreferrer">37564nadeshiko</a><span class="status-notice status-available">ACTIVE</span></div>
-    <div class="row" data-category="youtube"><a href="https://www.youtube.com/SadnessCake" target="_blank" rel="noopener noreferrer">SadnessCake</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="group-heading">Active</div>
+    <div class="row" data-category="youtube"><a href="https://www.youtube.com/@zombiebeatz2000" target="_blank" rel="noopener noreferrer">Zombiebeatz2000</a><span class="status-notice status-available">Active</span></div>
+    <div class="row" data-category="youtube"><a href="https://www.youtube.com/@37564nadeshiko" target="_blank" rel="noopener noreferrer">37564nadeshiko</a><span class="status-notice status-available">Active</span></div>
+    <div class="row" data-category="youtube"><a href="https://www.youtube.com/SadnessCake" target="_blank" rel="noopener noreferrer">SadnessCake</a><span class="status-notice status-available">Active</span></div>
 
-    <div class="group-heading">DELETED</div>
-    <div class="row" data-category="youtube"><a href="https://www.youtube.com/@nadesicola" target="_blank" rel="noopener noreferrer">Nadesicola</a><span class="status-notice status-deleted">DELETED</span></div>
-    <div class="row" data-category="youtube"><a href="https://www.youtube.com/@AtsumiNyan" target="_blank" rel="noopener noreferrer">AtsumiNyan</a><span class="status-notice status-deleted">DELETED</span></div>
-    <div class="row" data-category="youtube"><a href="https://www.youtube.com/@nnnnnnhhhhhhhhh" target="_blank" rel="noopener noreferrer">nnnnnnhhhhhhhhh</a><span class="status-notice status-deleted">DELETED</span></div>
-    <div class="row" data-category="youtube"><a href="https://www.youtube.com/@binabinabinaaa" target="_blank" rel="noopener noreferrer">binabinabinaaa</a><span class="status-notice status-deleted">DELETED</span></div>
-    <div class="row" data-category="youtube"><a href="https://www.youtube.com/@Ddead__channel" target="_blank" rel="noopener noreferrer">Ddead__channel</a><span class="status-notice status-deleted">DELETED</span></div>
+    <div class="group-heading">Deleted</div>
+    <div class="row" data-category="youtube"><a href="https://www.youtube.com/@nadesicola" target="_blank" rel="noopener noreferrer">Nadesicola</a><span class="status-notice status-deleted">Deleted</span></div>
+    <div class="row" data-category="youtube"><a href="https://www.youtube.com/@AtsumiNyan" target="_blank" rel="noopener noreferrer">AtsumiNyan</a><span class="status-notice status-deleted">Deleted</span></div>
+    <div class="row" data-category="youtube"><a href="https://www.youtube.com/@nnnnnnhhhhhhhhh" target="_blank" rel="noopener noreferrer">nnnnnnhhhhhhhhh</a><span class="status-notice status-deleted">Deleted</span></div>
+    <div class="row" data-category="youtube"><a href="https://www.youtube.com/@binabinabinaaa" target="_blank" rel="noopener noreferrer">binabinabinaaa</a><span class="status-notice status-deleted">Deleted</span></div>
+    <div class="row" data-category="youtube"><a href="https://www.youtube.com/@Ddead__channel" target="_blank" rel="noopener noreferrer">Ddead__channel</a><span class="status-notice status-deleted">Deleted</span></div>
 
-    <div class="group-heading">CORRUPTED</div>
-    <div class="row" data-category="youtube"><a href="https://www.youtube.com/@NorikonStation" target="_blank" rel="noopener noreferrer">NorikonStation</a><span class="status-notice status-corrupt">CORRUPTED</span></div>
-    <div class="row" data-category="youtube"><a href="https://www.youtube.com/@nori314156" target="_blank" rel="noopener noreferrer">nori314156</a><span class="status-notice status-corrupt">CORRUPTED</span></div>
-    <div class="row" data-category="youtube"><a href="https://www.youtube.com/@nyaxnyaxnekoxnyaxx" target="_blank" rel="noopener noreferrer">nyaxnyaxnekoxnyaxx</a><span class="status-notice status-corrupt">CORRUPTED</span></div>
+    <div class="group-heading">Corrupted</div>
+    <div class="row" data-category="youtube"><a href="https://www.youtube.com/@NorikonStation" target="_blank" rel="noopener noreferrer">NorikonStation</a><span class="status-notice status-corrupt">Corrupted</span></div>
+    <div class="row" data-category="youtube"><a href="https://www.youtube.com/@nori314156" target="_blank" rel="noopener noreferrer">nori314156</a><span class="status-notice status-corrupt">Corrupted</span></div>
+    <div class="row" data-category="youtube"><a href="https://www.youtube.com/@nyaxnyaxnekoxnyaxx" target="_blank" rel="noopener noreferrer">nyaxnyaxnekoxnyaxx</a><span class="status-notice status-corrupt">Corrupted</span></div>
   </div>
 </section>
 
 <!-- OTHER PROFILES -->
 <section class="panel searchable-panel" id="media-section">
-  <button class="panel-top" type="button" aria-expanded="true">Other Websites and Profiles</button>
-  <p class="panel-subtext">Social accounts, music profiles, and other platform pages. Open a platform heading to view its links.</p>
+  <button class="panel-top" type="button" aria-expanded="true">Other websites and profiles</button>
+  <p class="panel-subtext">Social accounts, music profiles, and other platform pages. Open a platform heading to see its links.</p>
 
   <div class="link-list media">
     <div class="group-heading">SoundCloud</div>
-    <div class="row" data-category="media"><a href="https://soundcloud.com/37564nadeshiko" target="_blank" rel="noopener noreferrer">37564nadeshiko</a><span class="status-notice status-corrupt">CORRUPTED</span></div>
-    <div class="row" data-category="media"><a href="https://soundcloud.com/4649nadeshiko" target="_blank" rel="noopener noreferrer">4649nadeshiko</a><span class="status-notice status-corrupt">CORRUPTED</span></div>
-    <div class="row" data-category="media"><a href="https://soundcloud.com/nadesicodeine" target="_blank" rel="noopener noreferrer">nadesicodeine</a><span class="status-notice status-corrupt">CORRUPTED</span></div>
-    <div class="row" data-category="media"><a href="https://soundcloud.com/nadeshicola" target="_blank" rel="noopener noreferrer">nadeshicola</a><span class="status-notice status-available">ACTIVE</span></div>
-    <div class="row" data-category="media"><a href="https://soundcloud.com/nadesico-la" target="_blank" rel="noopener noreferrer">nadesico-la</a><span class="status-notice status-corrupt">CORRUPTED</span></div>
+    <div class="row" data-category="media"><a href="https://soundcloud.com/37564nadeshiko" target="_blank" rel="noopener noreferrer">37564nadeshiko</a><span class="status-notice status-corrupt">Corrupted</span></div>
+    <div class="row" data-category="media"><a href="https://soundcloud.com/4649nadeshiko" target="_blank" rel="noopener noreferrer">4649nadeshiko</a><span class="status-notice status-corrupt">Corrupted</span></div>
+    <div class="row" data-category="media"><a href="https://soundcloud.com/nadesicodeine" target="_blank" rel="noopener noreferrer">nadesicodeine</a><span class="status-notice status-corrupt">Corrupted</span></div>
+    <div class="row" data-category="media"><a href="https://soundcloud.com/nadeshicola" target="_blank" rel="noopener noreferrer">nadeshicola</a><span class="status-notice status-available">Active</span></div>
+    <div class="row" data-category="media"><a href="https://soundcloud.com/nadesico-la" target="_blank" rel="noopener noreferrer">nadesico-la</a><span class="status-notice status-corrupt">Corrupted</span></div>
 
     <div class="group-heading">Discogs</div>
-    <div class="row" data-category="media"><a href="https://www.discogs.com/release/3794052-4649nadeshiko-Cooliostreetcat" target="_blank" rel="noopener noreferrer">4649nadeshiko - Cooliostreetcat</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="media"><a href="https://www.discogs.com/release/3794052-4649nadeshiko-Cooliostreetcat" target="_blank" rel="noopener noreferrer">4649nadeshiko - Cooliostreetcat</a><span class="status-notice status-available">Active</span></div>
 
     <div class="group-heading">Last.fm</div>
-    <div class="row" data-category="media"><a href="https://www.last.fm/music/4649nadeshiko" target="_blank" rel="noopener noreferrer">4649nadeshiko</a><span class="status-notice status-corrupt">CORRUPTED</span></div>
-    <div class="row" data-category="media"><a href="https://www.last.fm/user/nadesicola" target="_blank" rel="noopener noreferrer">nadesicola</a><span class="status-notice status-deleted">DELETED</span></div>
-    <div class="row" data-category="media"><a href="https://www.last.fm/user/n37564" target="_blank" rel="noopener noreferrer">n37564</a><span class="status-notice status-deleted">DELETED</span></div>
+    <div class="row" data-category="media"><a href="https://www.last.fm/music/4649nadeshiko" target="_blank" rel="noopener noreferrer">4649nadeshiko</a><span class="status-notice status-corrupt">Corrupted</span></div>
+    <div class="row" data-category="media"><a href="https://www.last.fm/user/nadesicola" target="_blank" rel="noopener noreferrer">nadesicola</a><span class="status-notice status-deleted">Deleted</span></div>
+    <div class="row" data-category="media"><a href="https://www.last.fm/user/n37564" target="_blank" rel="noopener noreferrer">n37564</a><span class="status-notice status-deleted">Deleted</span></div>
 
     <div class="group-heading">DeviantArt</div>
-    <div class="row" data-category="media"><a href="https://www.deviantart.com/4649nadeshiko" target="_blank" rel="noopener noreferrer">4649nadeshiko</a><span class="status-notice status-available">ACTIVE</span></div>
-    <div class="row" data-category="media"><a href="https://www.deviantart.com/tamama-nitouhei" target="_blank" rel="noopener noreferrer">tamama-nitouhei</a><span class="status-notice status-available">ACTIVE</span></div>
-    <div class="row" data-category="media"><a href="https://www.deviantart.com/sukiix" target="_blank" rel="noopener noreferrer">sukiix</a><span class="status-notice status-available">ACTIVE</span></div>
-    <div class="row" data-category="media"><a href="https://www.deviantart.com/rinserona" target="_blank" rel="noopener noreferrer">rinserona</a><span class="status-notice status-deleted">DELETED</span></div>
-    <div class="row" data-category="media"><a href="https://www.deviantart.com/supremekitty" target="_blank" rel="noopener noreferrer">supremekitty</a><span class="status-notice status-deleted">DELETED</span></div>
+    <div class="row" data-category="media"><a href="https://www.deviantart.com/4649nadeshiko" target="_blank" rel="noopener noreferrer">4649nadeshiko</a><span class="status-notice status-available">Active</span></div>
+    <div class="row" data-category="media"><a href="https://www.deviantart.com/tamama-nitouhei" target="_blank" rel="noopener noreferrer">tamama-nitouhei</a><span class="status-notice status-available">Active</span></div>
+    <div class="row" data-category="media"><a href="https://www.deviantart.com/sukiix" target="_blank" rel="noopener noreferrer">sukiix</a><span class="status-notice status-available">Active</span></div>
+    <div class="row" data-category="media"><a href="https://www.deviantart.com/rinserona" target="_blank" rel="noopener noreferrer">rinserona</a><span class="status-notice status-deleted">Deleted</span></div>
+    <div class="row" data-category="media"><a href="https://www.deviantart.com/supremekitty" target="_blank" rel="noopener noreferrer">supremekitty</a><span class="status-notice status-deleted">Deleted</span></div>
+    <div class="row" data-category="media"><a href="https://www.deviantart.com/norikology" target="_blank" rel="noopener noreferrer">norikology</a><span class="status-notice status-deleted">Deleted</span></div>
+    <div class="row" data-category="media"><a href="https://www.deviantart.com/cooliostreetcat" target="_blank" rel="noopener noreferrer">cooliostreetcat</a><span class="status-notice status-deleted">Deleted</span></div>
+
+    <div class="group-heading">Ask.fm</div>
+    <div class="row" data-category="media"><a href="https://ask.fm/nadesicola" target="_blank" rel="noopener noreferrer">nadesicola</a><span class="status-notice status-deleted">Deleted</span></div>
+    <div class="row" data-category="media"><a href="https://ask.fm/4649nadeshiko" target="_blank" rel="noopener noreferrer">4649nadeshiko</a><span class="status-notice status-deleted">Deleted</span></div>
+    <div class="row" data-category="media"><a href="https://ask.fm/norikology" target="_blank" rel="noopener noreferrer">norikology</a><span class="status-notice status-deleted">Deleted</span></div>
+
+    <div class="group-heading">Reddit</div>
+    <div class="row" data-category="media"><a href="https://www.reddit.com/user/vipstar0000/" target="_blank" rel="noopener noreferrer">vipstar0000</a><span class="status-notice status-deleted">Deleted</span></div>
 
     <div class="group-heading">ED Support Forum</div>
-    <div class="row" data-category="media"><a href="https://www.edsupportforum.com/threads/i-really-need-you-guys.44426/" target="_blank" rel="noopener noreferrer">I Really Need You Guys</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="media"><a href="https://www.edsupportforum.com/threads/i-really-need-you-guys.44426/" target="_blank" rel="noopener noreferrer">I Really Need You Guys</a><span class="status-notice status-available">Active</span></div>
 
     <div class="group-heading">Gravatar</div>
-    <div class="row" data-category="media"><a href="https://gravatar.com/nadesicola" target="_blank" rel="noopener noreferrer">nadesicola</a><span class="status-notice status-available">ACTIVE</span></div>
-    <div class="row" data-category="media"><a href="https://gravatar.com/visiunadeshiko" target="_blank" rel="noopener noreferrer">visiunadeshiko</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="media"><a href="https://gravatar.com/nadesicola" target="_blank" rel="noopener noreferrer">nadesicola</a><span class="status-notice status-available">Active</span></div>
+    <div class="row" data-category="media"><a href="https://gravatar.com/visiunadeshiko" target="_blank" rel="noopener noreferrer">visiunadeshiko</a><span class="status-notice status-available">Active</span></div>
 
     <div class="group-heading">MySpace</div>
-    <div class="row" data-category="media"><a href="https://myspace.com/nori314159265" target="_blank" rel="noopener noreferrer">nori314159265</a><span class="status-notice status-available">ACTIVE</span></div>
-    <div class="row" data-category="media"><a href="https://myspace.com/hardcorexnekoxnyaxx" target="_blank" rel="noopener noreferrer">hardcorexnekoxnyaxx</a><span class="status-notice status-available">ACTIVE</span></div>
-    <div class="row" data-category="media"><a href="https://myspace.com/randommusictimegt3" target="_blank" rel="noopener noreferrer">randommusictimegt3</a><span class="status-notice status-available">ACTIVE</span></div>
-    <div class="row" data-category="media"><a href="https://myspace.com/2d2d2d" target="_blank" rel="noopener noreferrer">2d2d2d</a><span class="status-notice status-available">ACTIVE</span></div>
-    <div class="row" data-category="media"><a href="https://myspace.com/okrhombus" target="_blank" rel="noopener noreferrer">okrhombus</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="media"><a href="https://myspace.com/nori314159265" target="_blank" rel="noopener noreferrer">nori314159265</a><span class="status-notice status-available">Active</span></div>
+    <div class="row" data-category="media"><a href="https://myspace.com/hardcorexnekoxnyaxx" target="_blank" rel="noopener noreferrer">hardcorexnekoxnyaxx</a><span class="status-notice status-available">Active</span></div>
+    <div class="row" data-category="media"><a href="https://myspace.com/randommusictimegt3" target="_blank" rel="noopener noreferrer">randommusictimegt3</a><span class="status-notice status-available">Active</span></div>
+    <div class="row" data-category="media"><a href="https://myspace.com/2d2d2d" target="_blank" rel="noopener noreferrer">2d2d2d</a><span class="status-notice status-available">Active</span></div>
+    <div class="row" data-category="media"><a href="https://myspace.com/okrhombus" target="_blank" rel="noopener noreferrer">okrhombus</a><span class="status-notice status-available">Active</span></div>
 
     <div class="group-heading">Pinterest</div>
-    <div class="row" data-category="media"><a href="https://www.pinterest.com/cooliostreetcat/" target="_blank" rel="noopener noreferrer">cooliostreetcat</a><span class="status-notice status-corrupt">CORRUPTED</span></div>
+    <div class="row" data-category="media"><a href="https://www.pinterest.com/cooliostreetcat/" target="_blank" rel="noopener noreferrer">cooliostreetcat</a><span class="status-notice status-corrupt">Corrupted</span></div>
 
     <div class="group-heading">Twitter / X</div>
-    <div class="row" data-category="media"><a href="https://x.com/nadesicola" target="_blank" rel="noopener noreferrer">nadesicola</a><span class="status-notice status-banned">BANNED</span></div>
-    <div class="row" data-category="media"><a href="https://x.com/nadesicodeine" target="_blank" rel="noopener noreferrer">nadesicodeine</a><span class="status-notice status-deleted">DELETED</span></div>
-    <div class="row" data-category="media"><a href="https://x.com/cooliostreetcat" target="_blank" rel="noopener noreferrer">cooliostreetcat</a><span class="status-notice status-deleted">DELETED</span></div>
-    <div class="row" data-category="media"><a href="https://x.com/norikology" target="_blank" rel="noopener noreferrer">norikology</a><span class="status-notice status-corrupt">CORRUPTED</span></div>
-    <div class="row" data-category="media"><a href="https://x.com/potatodanmaku" target="_blank" rel="noopener noreferrer">potatodanmaku</a><span class="status-notice status-available">ACTIVE</span></div>
-    <div class="row" data-category="media"><a href="https://x.com/norikonchan" target="_blank" rel="noopener noreferrer">norikonchan</a><span class="status-notice status-available">ACTIVE</span></div>
-    <div class="row" data-category="media"><a href="https://x.com/bombiberite" target="_blank" rel="noopener noreferrer">bombiberite</a><span class="status-notice status-deleted">DELETED</span></div>
-    <div class="row" data-category="media"><a href="https://x.com/sonyashnyky" target="_blank" rel="noopener noreferrer">sonyashnyky</a><span class="status-notice status-available">ACTIVE</span></div>
-    <div class="row" data-category="media"><a href="https://x.com/mori.shiba720" target="_blank" rel="noopener noreferrer">mori.shiba720</a><span class="status-notice status-deleted">DELETED</span></div>
-    <div class="row" data-category="media"><a href="https://x.com/dancefloor_degrader" target="_blank" rel="noopener noreferrer">dancefloor_degrader</a><span class="status-notice status-deleted">DELETED</span></div>
-    <div class="row" data-category="media"><a href="https://x.com/sodapopangel" target="_blank" rel="noopener noreferrer">sodapopangel</a><span class="status-notice status-deleted">DELETED</span></div>
-    <div class="row" data-category="media"><a href="https://x.com/vipstar0000" target="_blank" rel="noopener noreferrer">vipstar0000</a><span class="status-notice status-deleted">DELETED</span></div>
-    <div class="row" data-category="media"><a href="https://x.com/dopamina" target="_blank" rel="noopener noreferrer">dopamina</a><span class="status-notice status-deleted">DELETED</span></div>
+    <div class="row" data-category="media"><a href="https://x.com/nadesicola" target="_blank" rel="noopener noreferrer">nadesicola</a><span class="status-notice status-banned">Banned</span></div>
+    <div class="row" data-category="media"><a href="https://x.com/nadesicodeine" target="_blank" rel="noopener noreferrer">nadesicodeine</a><span class="status-notice status-deleted">Deleted</span></div>
+    <div class="row" data-category="media"><a href="https://x.com/cooliostreetcat" target="_blank" rel="noopener noreferrer">cooliostreetcat</a><span class="status-notice status-deleted">Deleted</span></div>
+    <div class="row" data-category="media"><a href="https://x.com/norikology" target="_blank" rel="noopener noreferrer">norikology</a><span class="status-notice status-corrupt">Corrupted</span></div>
+    <div class="row" data-category="media"><a href="https://x.com/potatodanmaku" target="_blank" rel="noopener noreferrer">potatodanmaku</a><span class="status-notice status-available">Active</span></div>
+    <div class="row" data-category="media"><a href="https://x.com/norikonchan" target="_blank" rel="noopener noreferrer">norikonchan</a><span class="status-notice status-available">Active</span></div>
+    <div class="row" data-category="media"><a href="https://x.com/bombiberite" target="_blank" rel="noopener noreferrer">bombiberite</a><span class="status-notice status-deleted">Deleted</span></div>
+    <div class="row" data-category="media"><a href="https://x.com/sonyashnyky" target="_blank" rel="noopener noreferrer">sonyashnyky</a><span class="status-notice status-available">Active</span></div>
+    <div class="row" data-category="media"><a href="https://x.com/mori.shiba720" target="_blank" rel="noopener noreferrer">mori.shiba720</a><span class="status-notice status-deleted">Deleted</span></div>
+    <div class="row" data-category="media"><a href="https://x.com/dancefloor_degrader" target="_blank" rel="noopener noreferrer">dancefloor_degrader</a><span class="status-notice status-deleted">Deleted</span></div>
+    <div class="row" data-category="media"><a href="https://x.com/sodapopangel" target="_blank" rel="noopener noreferrer">sodapopangel</a><span class="status-notice status-deleted">Deleted</span></div>
+    <div class="row" data-category="media"><a href="https://x.com/vipstar0000" target="_blank" rel="noopener noreferrer">vipstar0000</a><span class="status-notice status-deleted">Deleted</span></div>
+    <div class="row" data-category="media"><a href="https://x.com/dopamina" target="_blank" rel="noopener noreferrer">dopamina</a><span class="status-notice status-deleted">Deleted</span></div>
 
     <div class="group-heading">Instagram</div>
-    <div class="row" data-category="media"><a href="https://www.instagram.com/flight.f35/" target="_blank" rel="noopener noreferrer">flight.f35</a><span class="status-notice status-corrupt">CORRUPTED</span></div>
+    <div class="row" data-category="media"><a href="https://www.instagram.com/flight.f35/" target="_blank" rel="noopener noreferrer">flight.f35</a><span class="status-notice status-corrupt">Corrupted</span></div>
+    <div class="row" data-category="media"><a href="https://www.instagram.com/sonyashnyky/" target="_blank" rel="noopener noreferrer">sonyashnyky</a><span class="status-notice status-available">Active</span></div>
+    <div class="row" data-category="media"><a href="https://www.instagram.com/vipstar0000/" target="_blank" rel="noopener noreferrer">vipstar0000</a><span class="status-notice status-available">Active</span></div>
+    <div class="row" data-category="media"><a href="https://www.instagram.com/dopamina/" target="_blank" rel="noopener noreferrer">dopamina</a><span class="status-notice status-available">Active</span></div>
+    <div class="row" data-category="media"><a href="https://www.instagram.com/mori.shiba720/" target="_blank" rel="noopener noreferrer">mori.shiba720</a><span class="status-notice status-corrupt">Corrupted</span></div>
+    <div class="row" data-category="media"><a href="https://www.instagram.com/dancefloor_degrader/" target="_blank" rel="noopener noreferrer">dancefloor_degrader</a><span class="status-notice status-corrupt">Corrupted</span></div>
+    <div class="row" data-category="media"><a href="https://www.instagram.com/sodapopangel/" target="_blank" rel="noopener noreferrer">sodapopangel</a><span class="status-notice status-deleted">Deleted</span></div>
 
     <div class="group-heading">Facebook</div>
-    <div class="row" data-category="media"><a href="https://www.facebook.com/HotChocolateBassoonMan" target="_blank" rel="noopener noreferrer">HotChocolateBassoonMan</a><span class="status-notice status-available">ACTIVE</span></div>
-    <div class="row" data-category="media"><a href="https://www.facebook.com/ashley.hanrahan.33" target="_blank" rel="noopener noreferrer">ashley.hanrahan.33</a><span class="status-notice status-available">ACTIVE</span></div>
-    <div class="row" data-category="media"><a href="https://www.facebook.com/public/Kool-Princess-Nadeshicola" target="_blank" rel="noopener noreferrer">Kool-Princess-Nadeshicola</a><span class="status-notice status-deleted">DELETED</span></div>
-    <div class="row" data-category="media"><a href="https://www.facebook.com/bangingyourmomsofast" target="_blank" rel="noopener noreferrer">bangingyourmomsofast</a><span class="status-notice status-deleted">DELETED</span></div>
-    <div class="row" data-category="media"><a href="https://www.facebook.com/sassssycat" target="_blank" rel="noopener noreferrer">sassssycat</a><span class="status-notice status-deleted">DELETED</span></div>
-    <div class="row" data-category="media"><a href="https://www.facebook.com/hoodcatfresh" target="_blank" rel="noopener noreferrer">hoodcatfresh</a><span class="status-notice status-deleted">DELETED</span></div>
-    <div class="row" data-category="media"><a href="https://www.facebook.com/37564nadeshiko" target="_blank" rel="noopener noreferrer">37564nadeshiko</a><span class="status-notice status-deleted">DELETED</span></div>
+    <div class="row" data-category="media"><a href="https://www.facebook.com/HotChocolateBassoonMan" target="_blank" rel="noopener noreferrer">HotChocolateBassoonMan</a><span class="status-notice status-available">Active</span></div>
+    <div class="row" data-category="media"><a href="https://www.facebook.com/ashley.hanrahan.33" target="_blank" rel="noopener noreferrer">ashley.hanrahan.33</a><span class="status-notice status-available">Active</span></div>
+    <div class="row" data-category="media"><a href="https://www.facebook.com/public/Kool-Princess-Nadeshicola" target="_blank" rel="noopener noreferrer">Kool-Princess-Nadeshicola</a><span class="status-notice status-deleted">Deleted</span></div>
+    <div class="row" data-category="media"><a href="https://www.facebook.com/bangingyourmomsofast" target="_blank" rel="noopener noreferrer">bangingyourmomsofast</a><span class="status-notice status-deleted">Deleted</span></div>
+    <div class="row" data-category="media"><a href="https://www.facebook.com/sassssycat" target="_blank" rel="noopener noreferrer">sassssycat</a><span class="status-notice status-deleted">Deleted</span></div>
+    <div class="row" data-category="media"><a href="https://www.facebook.com/hoodcatfresh" target="_blank" rel="noopener noreferrer">hoodcatfresh</a><span class="status-notice status-deleted">Deleted</span></div>
+    <div class="row" data-category="media"><a href="https://www.facebook.com/37564nadeshiko" target="_blank" rel="noopener noreferrer">37564nadeshiko</a><span class="status-notice status-deleted">Deleted</span></div>
 
     <div class="group-heading">Duolingo</div>
-    <div class="row" data-category="media"><a href="https://www.duolingo.com/profile/37564nadeshiko" target="_blank" rel="noopener noreferrer">37564nadeshiko</a><span class="status-notice status-deleted">DELETED</span></div>
-    <div class="row" data-category="media"><a href="https://www.duolingo.com/profile/sadnesscake" target="_blank" rel="noopener noreferrer">sadnesscake</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="media"><a href="https://www.duolingo.com/profile/37564nadeshiko" target="_blank" rel="noopener noreferrer">37564nadeshiko</a><span class="status-notice status-deleted">Deleted</span></div>
+    <div class="row" data-category="media"><a href="https://www.duolingo.com/profile/sadnesscake" target="_blank" rel="noopener noreferrer">sadnesscake</a><span class="status-notice status-available">Active</span></div>
 
     <div class="group-heading">Poshmark</div>
-    <div class="row" data-category="media"><a href="https://poshmark.com/closet/kiwka" target="_blank" rel="noopener noreferrer">kiwka</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="media"><a href="https://poshmark.com/closet/kiwka" target="_blank" rel="noopener noreferrer">kiwka</a><span class="status-notice status-available">Active</span></div>
 
     <div class="group-heading">Steam</div>
-    <div class="row" data-category="media"><a href="https://steamcommunity.com/id/somesortofinsanelolijetmachine/" target="_blank" rel="noopener noreferrer">somesortofinsane</a><span class="status-notice status-deleted">DELETED</span></div>
+    <div class="row" data-category="media"><a href="https://steamcommunity.com/id/somesortofinsanelolijetmachine/" target="_blank" rel="noopener noreferrer">somesortofinsane</a><span class="status-notice status-deleted">Deleted</span></div>
 
     <div class="group-heading">Steam Groups</div>
-    <div class="row" data-category="media"><a href="https://steamcommunity.com/groups/777crycry" target="_blank" rel="noopener noreferrer">777crycry</a><span class="status-notice status-available">ACTIVE</span></div>
+    <div class="row" data-category="media"><a href="https://steamcommunity.com/groups/777crycry" target="_blank" rel="noopener noreferrer">777crycry</a><span class="status-notice status-available">Active</span></div>
   </div>
 </section>
 
 <section class="panel searchable-panel" id="aliases-section">
-  <button class="panel-top" type="button" aria-expanded="true">Username Index</button>
-  <p class="panel-subtext">Browse usernames used as labels throughout this archive. Select one to jump to a related section.</p>
+  <button class="panel-top" type="button" aria-expanded="true">Username index</button>
+  <p class="panel-subtext">All the usernames used as labels on this page. Pick one to jump to a related section.</p>
   <div class="alias-grid">
     <a class="alias-link" href="#yt-section" data-category="youtube">Zombiebeatz2000</a>
     <a class="alias-link" href="#blogs-section" data-category="blog">Hikkichan</a>
@@ -2400,58 +2525,73 @@ html,
 </section>
 
 <section class="panel" id="status-section">
-  <button class="panel-top" type="button" aria-expanded="true">What the Status Labels Mean</button>
+  <button class="panel-top" type="button" aria-expanded="true">What the status labels mean</button>
   <p class="panel-subtext">A quick guide to the labels used on this page.</p>
   <div class="legend-list">
-    <span class="status-notice status-available">ACTIVE</span>
-    <span class="status-notice status-deleted">DELETED</span>
-    <span class="status-notice status-banned">BANNED</span>
-    <span class="status-notice status-corrupt">CORRUPTED</span>
+    <span class="status-notice status-available">Active</span>
+    <span class="status-notice status-deleted">Deleted</span>
+    <span class="status-notice status-banned">Banned</span>
+    <span class="status-notice status-corrupt">Corrupted</span>
   </div>
-  <div class="panel-content small-note">ACTIVE means an entry has been marked as active in this archive. It does not guarantee that the account is currently active or controlled by its original owner. DELETED means an account or channel is recorded here as deleted. BANNED means it is recorded here as banned. CORRUPTED means the original content or account is unavailable, incomplete, or has an uncertain status. These labels are archive descriptions, not official platform statements. Statuses may change over time.</div>
+  <div class="panel-content small-note status-note">
+    <p>Active means the link was working when it was checked. It doesn’t mean the account is still active or belongs to the same person.</p>
+    <p>Deleted means the account or channel was recorded as deleted.</p>
+    <p>Banned means the account or channel was recorded as banned.</p>
+    <p>Corrupted means the account or content is missing, incomplete, or has been changed in some way, such as an account being taken over.</p>
+    <p>These labels are based on the archive’s own records, not official statements. They may change as new information comes up.</p>
+  </div>
 </section>
 
 <section class="panel" id="updates-section">
   <button class="panel-top" type="button" aria-expanded="true">Recent Updates</button>
-  <p class="panel-subtext">A few recent changes to the archive.</p>
   <ul class="changelog-list">
-    <li><span class="changelog-date">OCTOBER 22, 2026</span>Fixed the Facebook statuses, cleaned up the Username Index, made the buttons and boxes match, and sped up the access notice.</li>
-    <li><span class="changelog-date">OCTOBER 19, 2026</span>Added a live archive snapshot and refined search, navigation, and background effects.</li>
-    <li><span class="changelog-date">OCTOBER 18, 2026</span>Added and organized links across several platforms.</li>
-    <li><span class="changelog-date">OCTOBER 17, 2026</span>Updated the layout and status labels.</li>
-    <li><span class="changelog-date">ONGOING</span>Reviewing links and adding missing archive references.</li>
+    <li><span class="changelog-date">October 23, 2026</span>Added back a couple of links that were missing from the old Hikkichan Archive, including Instagram, Ask.fm, Reddit, and DeviantArt. Checked their statuses again.</li>
+    <li><span class="changelog-date">October 22, 2026</span>Fixed the Facebook statuses, tidied up the username index, made the buttons and boxes more consistent, and made the access notice faster.</li>
+    <li class="changelog-extra-group" id="updates-extra" hidden aria-hidden="true">
+      <div class="changelog-extra-clip">
+        <ul class="changelog-extra-list">
+          <li><span class="changelog-date">October 19, 2026</span>Added a live archive snapshot and made a few improvements to search, navigation, and the background effects.</li>
+          <li><span class="changelog-date">October 18, 2026</span>Added more links from different platforms and sorted them into the right sections.</li>
+          <li><span class="changelog-date">October 17, 2026</span>Made some changes to the layout and updated the status labels.</li>
+        </ul>
+      </div>
+    </li>
+    <li><span class="changelog-date">Ongoing</span>Going through links, checking what still works, and adding anything that’s missing.</li>
   </ul>
+  <button class="changelog-toggle" id="updates-toggle" type="button" aria-expanded="false" aria-controls="updates-extra">View more updates (3)</button>
 </section>
 
 <section class="panel" id="contact-section">
-  <button class="panel-top" type="button" aria-expanded="true">Contact and Corrections</button>
+  <button class="panel-top" type="button" aria-expanded="true">Contact and corrections</button>
   <div class="panel-content intro-text">
-    For link corrections, accessibility issues, or removal requests, contact me below. Please include the specific URL and the change you are requesting. Requests will be reviewed.
+    If a link needs fixing or removing, let me know below and explain what needs changing. For photo requests, include the album or image link if you have it. If you’re contacting me for someone else, briefly explain the situation. You can also report privacy or safety concerns, even if you don’t own the copyright.
 
-    <p class="small-note">For a photo-related request, include the album or image link if available, or enough detail to identify the image, your concern, and whether you want a correction or removal. If you are requesting action on someone else's behalf, explain that connection. Do not send passwords, account access, ID documents, or copies of sensitive images. A privacy or safety concern can be raised without claiming copyright ownership.</p>
-    <p class="small-note">Requests about this page's link and requests about photos in the linked collection are different: removing a link here does not delete the photos from Google Photos or other copies. This site's notice cannot require Google Photos or another website to remove content. No guaranteed response time or outcome is promised.</p>
+    <p class="small-note">Removing a link from this page won’t remove the original content from other websites. I can review and remove photos from my Google Photos collection, but I can’t control what other websites do. I can’t guarantee a response time or outcome.</p>
     <br><br>Discord: <strong>@earththeearthling</strong>
     <br><br>Email: <a class="contact-email" data-contact="Ym9rdXNhdHN1eHRlbnNoaUB5YWhvby5jb20="></a><noscript><a class="contact-email" href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#98;&#111;&#107;&#117;&#115;&#97;&#116;&#115;&#117;&#120;&#116;&#101;&#110;&#115;&#104;&#105;&#64;&#121;&#97;&#104;&#111;&#111;&#46;&#99;&#111;&#109;">&#98;&#111;&#107;&#117;&#115;&#97;&#116;&#115;&#117;&#120;&#116;&#101;&#110;&#115;&#104;&#105;&#64;&#121;&#97;&#104;&#111;&#111;&#46;&#99;&#111;&#109;</a></noscript>
   </div>
 </section>
 
 <div class="archive-help">
-  <strong>ARCHIVE AND RIGHTS NOTICE:</strong>
-  This is an independent fan-made reference project and is not affiliated with or endorsed by the people, accounts, or platforms mentioned. Links are provided to identify publicly accessible pages and help visitors locate older online material. The archive does not claim ownership of third-party content. All names, marks, and content remain the property of their respective owners. This archive is not intended for hacking, doxxing, harassment, stalking, or targeting anyone. Do not use its links to access accounts without permission, expose private information, or bypass security. If you believe an entry is inaccurate or have a rights-related concern, please contact me so it can be reviewed. This notice does not override copyright law or guarantee that a platform or rights holder will not request removal.
-  <p>PHOTO ARCHIVE: The linked collection is on Google Photos. Public availability is not proof of permission or a license to reuse photos. Copyright, consent, privacy, and safety concerns can be raised through Contact and Corrections. Removing the archive link here does not remove the underlying images or other copies.</p>
+  <strong>Archive and rights notice</strong>
+  <p>This is an independent fan archive, not affiliated with or endorsed by the people or platforms mentioned. All content belongs to its respective owners.</p>
+  <p>Please don’t use this site for hacking, harassment, stalking, doxxing, or accessing accounts without permission. Contact me about broken links or copyright, privacy, or safety concerns.</p>
+  <p>This notice does not override the law or prevent removal requests.</p>
+  <strong class="help-heading">Photo archive</strong>
+  <p>Photos are hosted on Google Photos and may be reused. If you have concerns about a photo or want it reviewed or removed from my collection, contact me. Removing a link from this site does not delete copies saved or shared elsewhere.</p>
 </div>
 
 <footer>
-  <span class="footer-title">ARCHIVE STATUS: ALIVE</span><span class="status-dot" aria-hidden="true"></span>
+  <span class="footer-title">Archive status: <span class="status-working">Working</span></span>
   <br><br>Independent fan archive. Not affiliated with Ashley Sakura Hanrahan or the original Hikkiarchive.
-  <br>© 2026 Earth’s Hikkichan Archive.
+  <br><br>© 2026 Earth’s Hikkichan Archive.
   <br><span style="color:#53668f">✧ ─────── ✦ ─────── ✧</span>
   <br><a href="#top">Return to the top ↑</a>
-  <br><button type="button" class="reopen-notice" id="reopen-notice">View Access Notice</button>
+  <br><button type="button" class="reopen-notice" id="reopen-notice">View access notice</button>
 </footer>
 </main>
 
-<button class="back-to-top" id="top-button" type="button" aria-label="Back to top">Back to Top</button>
+<button class="back-to-top" id="top-button" type="button" aria-label="Back to top">Back to top</button>
 
 <script>
 (() => {
@@ -2475,6 +2615,7 @@ const checkbox = document.getElementById("agree-checkbox");
 const agreeButton = document.getElementById("agree-button");
 const entryError = document.getElementById("entry-error");
 const reopenButton = document.getElementById("reopen-notice");
+const closeButton = document.getElementById("entry-close");
 const searchInput = document.getElementById("archive-search");
 const searchStatus = document.getElementById("search-status");
 const topButton = document.getElementById("top-button");
@@ -2529,6 +2670,7 @@ function openGate() {
   root.classList.remove("archive-entering");
   root.classList.add("archive-locked");
 
+  closeButton.hidden = !hasAgreed();
   checkbox.checked = false;
   agreeButton.disabled = true;
   agreeButton.setAttribute("aria-disabled","true");
@@ -2543,8 +2685,9 @@ function openGate() {
   },30);
 }
 
-function closeGate() {
-  if (!checkbox.checked || gateClosing) {
+function closeGate(event) {
+  const dismissing = event && event.dismiss === true && hasAgreed();
+  if ((!checkbox.checked && !dismissing) || gateClosing) {
     if (!checkbox.checked) {
       entryError.textContent = "Please check the agreement box before continuing.";
       safelyFocus(checkbox);
@@ -2616,6 +2759,7 @@ checkbox.addEventListener("change",() => {
 
 agreeButton.addEventListener("click",closeGate);
 reopenButton.addEventListener("click",openGate);
+closeButton.addEventListener("click",() => closeGate({dismiss:true}));
 
 /* Decorative stars */
 function createDecorations() {
@@ -2825,10 +2969,10 @@ function setupSocialGroups() {
           rows.forEach(row => inner.appendChild(row));
         } else {
           const buckets = [
-            ["available","ACTIVE"],
-            ["deleted","DELETED"],
-            ["banned","BANNED"],
-            ["corrupted","CORRUPTED"],
+            ["available","Active"],
+            ["deleted","Deleted"],
+            ["banned","Banned"],
+            ["corrupted","Corrupted"],
             ["unknown","STATUS UNCONFIRMED"]
           ];
 
@@ -3190,7 +3334,12 @@ document.querySelectorAll(
     resetAll();
 
     if (location.hash !== href) {
-      history.pushState(null,"",href);
+      try {
+        history.pushState(null,"",href);
+      } catch (error) {
+        // Some browsers block history changes in downloaded HTML files.
+        // The section jump must still work when the address cannot change.
+      }
     }
 
     const navMatch = navButtons.find(
@@ -3252,6 +3401,12 @@ document.addEventListener("keydown",event => {
     safelyFocus(searchInput);
   }
 
+  if (event.key === "Escape" && !gate.hidden && hasAgreed()) {
+    event.preventDefault();
+    closeGate({dismiss:true});
+    return;
+  }
+
   if (event.key === "Escape" && !gate.hidden) {
     event.preventDefault();
     entryError.textContent =
@@ -3291,6 +3446,76 @@ createShootingStars();
 setupSocialGroups();
 setupPanels();
 updateSnapshot();
+
+/* Show more / fewer updates */
+(function () {
+  const button = document.getElementById("updates-toggle");
+  const group = document.getElementById("updates-extra");
+
+  if (!group || !button) return;
+
+  const clip = group.querySelector(".changelog-extra-clip");
+  let animating = false;
+
+  const setExpanded = expand => {
+    if (animating) return;
+
+    animating = true;
+    button.disabled = true;
+
+    let animation;
+
+    if (expand) {
+      group.style.overflow = "hidden";
+      group.style.height = "0px";
+      group.hidden = false;
+      group.setAttribute("aria-hidden","false");
+
+      animation = group.animate(
+        [{height:"0px",opacity:0},{height:clip.scrollHeight + "px",opacity:1}],
+        {duration:320,easing:"cubic-bezier(.3,.7,.25,1)"}
+      );
+      animation.onfinish = () => {
+        group.style.height = "";
+        group.style.overflow = "";
+        animating = false;
+        button.disabled = false;
+        refreshScroll();
+      };
+    } else {
+      const start = group.getBoundingClientRect().height;
+
+      group.style.overflow = "hidden";
+
+      animation = group.animate(
+        [{height:start + "px",opacity:1},{height:"0px",opacity:0}],
+        {duration:280,easing:"cubic-bezier(.4,0,.6,1)"}
+      );
+      animation.onfinish = () => {
+        group.style.height = "";
+        group.style.overflow = "";
+        group.hidden = true;
+        group.setAttribute("aria-hidden","true");
+        animating = false;
+        button.disabled = false;
+        refreshScroll();
+      };
+    }
+  };
+
+  button.hidden = false;
+
+  button.addEventListener("click",() => {
+    const expanded = button.getAttribute("aria-expanded") === "true";
+
+    button.setAttribute("aria-expanded",String(!expanded));
+    button.textContent = expanded
+      ? "View more updates (3)"
+      : "Show fewer updates";
+
+    setExpanded(!expanded);
+  });
+})();
 updateResults();
 refreshScroll();
 
