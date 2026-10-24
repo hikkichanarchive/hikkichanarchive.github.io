@@ -213,6 +213,87 @@ body:after {
   }
 }
 
+/* Extra background decoration: faint blueprint grid, drifting colour orbs, soft vignette */
+.bg-grid {
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  opacity:.55;
+  background-image:
+    linear-gradient(#8ca9ef0a 1px,transparent 1px),
+    linear-gradient(90deg,#8ca9ef0a 1px,transparent 1px);
+  background-size:46px 46px;
+  -webkit-mask-image:radial-gradient(ellipse at 50% 28%,#000 0%,transparent 80%);
+  mask-image:radial-gradient(ellipse at 50% 28%,#000 0%,transparent 80%);
+}
+
+.bg-orbs {
+  position:fixed;
+  inset:0;
+  z-index:0;
+  overflow:hidden;
+  pointer-events:none;
+  contain:strict;
+}
+
+.bg-orb {
+  position:absolute;
+  display:block;
+  border-radius:50%;
+  opacity:.14;
+  animation:orb-drift var(--duration,38s) ease-in-out var(--delay,0s) infinite alternate;
+  will-change:transform;
+}
+
+.bg-orb.blue {
+  width:34vmax;
+  height:34vmax;
+  left:-8vmax;
+  top:10vh;
+  background:radial-gradient(circle at 35% 35%,#8ca9ef,transparent 68%);
+}
+
+.bg-orb.pink {
+  width:28vmax;
+  height:28vmax;
+  right:-10vmax;
+  top:44vh;
+  background:radial-gradient(circle at 60% 40%,#ed7887,transparent 68%);
+  --duration:46s;
+  --delay:-14s;
+  opacity:.11;
+}
+
+.bg-orb.mint {
+  width:24vmax;
+  height:24vmax;
+  left:14vw;
+  bottom:-12vmax;
+  background:radial-gradient(circle at 50% 45%,#9ed3bd,transparent 66%);
+  --duration:54s;
+  --delay:-28s;
+  opacity:.09;
+}
+
+@keyframes orb-drift {
+  from {
+    transform:translate3d(0,0,0) scale(1);
+  }
+
+  to {
+    transform:translate3d(6vw,-5vh,0) scale(1.14);
+  }
+}
+
+.bg-vignette {
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  background:radial-gradient(ellipse at 50% 36%,transparent 55%,#08090dbf 120%);
+}
+
 /* Shooting stars */
 #shooting-stars {
   position:fixed;
@@ -2172,16 +2253,46 @@ html,
 }
 @media(prefers-reduced-motion:reduce) {
   .ambient-glow:after,
-  .corner-decoration {
+  .corner-decoration,
+  .bg-orb {
     animation:none;
   }
 }
+
+/* Fine-line archive details: original typography and layout retained. */
+header { position:relative; border-top:3px double var(--border); }
+header::after { content:""; display:block; width:96px; margin:20px auto 0; border-top:3px double var(--pink); }
+.archive-decoration::before, .archive-decoration::after { content:""; flex:1 1 24px; max-width:140px; border-top:1px solid var(--border); }
+.panel-top { border-left:3px solid var(--blue); border-bottom:1px solid var(--border); }
+.panel:nth-of-type(3n + 2) > .panel-top { border-left-color:var(--pink); }
+.panel:nth-of-type(3n) > .panel-top { border-left-color:var(--mint); }
+.row::before { content:"→"; flex:0 0 14px; color:var(--muted); line-height:1.8; }
+.row:hover::before, .row:focus-within::before { color:var(--pink-light); }
+.snapshot-stat { border-top:2px solid var(--mint); }
+.snapshot-stat:nth-child(2) { border-top-color:var(--pink); }
+.snapshot-stat:nth-child(3) { border-top-color:var(--blue); }
+.snapshot-stat:nth-child(4) { border-top-color:var(--yellow); }
+.alias-link { border-left:2px solid var(--blue); }
+.alias-link::after { color:var(--blue-light); }
+.changelog-list li { position:relative; }
+.changelog-list li:not(.changelog-extra-group)::before { content:""; position:absolute; left:-3px; top:7px; width:5px; height:5px; background:var(--pink); }
+footer { border-top:3px double var(--border); }
+
+/* Hikimate link chooser — reuses the access notice components */
+.hm-gate{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .28s ease,visibility 0s linear .28s}
+.hm-gate.is-open{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .28s ease,visibility 0s linear 0s}
+.hm-gate .entry-card{max-width:520px}
+.hm-gate .entry-agree-button{text-decoration:none;margin-bottom:10px}
+.hm-gate .entry-agree-button.hm-live{color:#9eafd7}
 </style>
 </head>
 
 <body>
 <div id="scroll-progress" aria-hidden="true"></div>
 <div class="ambient-glow" aria-hidden="true"></div>
+<div class="bg-grid" aria-hidden="true"></div>
+<div class="bg-orbs" aria-hidden="true"><span class="bg-orb blue"></span><span class="bg-orb pink"></span><span class="bg-orb mint"></span></div>
+<div class="bg-vignette" aria-hidden="true"></div>
 <div id="cornerDecorations" aria-hidden="true"></div>
 <div id="shooting-stars" aria-hidden="true"></div>
 
@@ -2211,7 +2322,7 @@ html,
       <p>The linked websites have their own rules and privacy settings. Including a link here does not mean I own or control that website or agree with everything on it.</p>
 
       <h3>Photo Archive</h3>
-      <p>The Zombiebeatz2000 Picture Archive links to a photo collection hosted on Google Photos. The photos are hosted there, not on this website.</p>
+      <p>The Hikkichan Picture Archive links to a photo collection hosted on Google Photos. The photos are hosted there, not on this website.</p>
       <p>Photos may be reused, but please respect people’s privacy and safety. Do not use them to expose private details, impersonate someone, threaten anyone, or encourage unwanted contact. <strong>Never use this archive to exploit or sexualize minors or to share unlawful or intimate images.</strong></p>
       <p>If you have a concern about a photo, including copyright, consent, privacy, or safety, contact me through Contact and Corrections. <strong>You don’t need to own the copyright to report a concern.</strong> You can also report issues directly to Google Photos.</p>
 
@@ -2349,8 +2460,8 @@ html,
     </div>
 
     <div class="row" data-category="archived">
-      <a href="https://photos.google.com/share/AF1QipN0ZgNv6D1AcZurHscwgj8m67RC8JOAvno6UXdvkJbfIag_qKVjEiJBRmNhbayraQ?key=RDBKR2NWOUZhdkVJblpvWWE2V29tUGFJS3hiVmhB" target="_blank" rel="noopener noreferrer">Zombiebeatz2000 Picture Archive</a>
-      <span class="status-notice status-available">600+ photos</span>
+      <a href="https://photos.google.com/share/AF1QipN0ZgNv6D1AcZurHscwgj8m67RC8JOAvno6UXdvkJbfIag_qKVjEiJBRmNhbayraQ?key=RDBKR2NWOUZhdkVJblpvWWE2V29tUGFJS3hiVmhB" target="_blank" rel="noopener noreferrer">Hikkichan Picture Archive</a>
+      <span class="status-notice status-available">650+ photos</span>
     </div>
 
   </div>
@@ -2373,8 +2484,8 @@ html,
     <div class="row" data-category="blog"><a href="https://nadesico-la.tumblr.com/" target="_blank" rel="noopener noreferrer">nadesico-la Tumblr</a><span class="status-notice status-corrupt">Corrupted</span></div>
 
     <div class="group-heading">Blogger and Blogspot</div>
-    <div class="row" data-category="blog"><a href="https://dadadadadadadadadadadafullcombo.blogspot.com/" target="_blank" rel="noopener noreferrer">Dadadadadadadadadadadada Full Combo Blog</a><span class="status-notice status-available">Active</span></div>
-    <div class="row" data-category="blog"><a href="https://www.blogger.com/profile/07544973948874550875" target="_blank" rel="noopener noreferrer">Blogger Profile</a><span class="status-notice status-available">Active</span></div>
+    <div class="row" data-category="blog"><a href="https://dadadadadadadadadadadafullcombo.blogspot.com/" target="_blank" rel="noopener noreferrer">Dadadadadadadadadadadada Full Combo Blog</a><span class="status-notice status-deleted">Deleted</span></div>
+    <div class="row" data-category="blog"><a href="https://www.blogger.com/profile/07544973948874550875" target="_blank" rel="noopener noreferrer">Blogger Profile</a><span class="status-notice status-deleted">Deleted</span></div>
     <div class="row" data-category="blog"><a href="https://4649nadeshiko.blogspot.com/" target="_blank" rel="noopener noreferrer">4649nadeshiko Blog</a><span class="status-notice status-available">Active</span></div>
 
     <div class="group-heading">Cocolog</div>
@@ -2419,6 +2530,9 @@ html,
     <div class="row" data-category="media"><a href="https://soundcloud.com/nadesicodeine" target="_blank" rel="noopener noreferrer">nadesicodeine</a><span class="status-notice status-corrupt">Corrupted</span></div>
     <div class="row" data-category="media"><a href="https://soundcloud.com/nadeshicola" target="_blank" rel="noopener noreferrer">nadeshicola</a><span class="status-notice status-available">Active</span></div>
     <div class="row" data-category="media"><a href="https://soundcloud.com/nadesico-la" target="_blank" rel="noopener noreferrer">nadesico-la</a><span class="status-notice status-corrupt">Corrupted</span></div>
+
+    <div class="group-heading">Freesound</div>
+    <div class="row" data-category="media"><a href="https://freesound.org/people/nnnnnnhhhhhhhhh/#sounds" target="_blank" rel="noopener noreferrer">nnnnnnhhhhhhhhh</a><span class="status-notice status-available">Active</span></div>
 
     <div class="group-heading">Discogs</div>
     <div class="row" data-category="media"><a href="https://www.discogs.com/release/3794052-4649nadeshiko-Cooliostreetcat" target="_blank" rel="noopener noreferrer">4649nadeshiko - Cooliostreetcat</a><span class="status-notice status-available">Active</span></div>
@@ -2476,6 +2590,7 @@ html,
     <div class="row" data-category="media"><a href="https://x.com/sodapopangel" target="_blank" rel="noopener noreferrer">sodapopangel</a><span class="status-notice status-deleted">Deleted</span></div>
     <div class="row" data-category="media"><a href="https://x.com/vipstar0000" target="_blank" rel="noopener noreferrer">vipstar0000</a><span class="status-notice status-deleted">Deleted</span></div>
     <div class="row" data-category="media"><a href="https://x.com/dopamina" target="_blank" rel="noopener noreferrer">dopamina</a><span class="status-notice status-deleted">Deleted</span></div>
+    <div class="row" data-category="media"><a href="https://x.com/rzfdsddsrk" target="_blank" rel="noopener noreferrer">rzfdsddsrk</a><span class="status-notice status-deleted">Deleted</span></div>
 
     <div class="group-heading">Instagram</div>
     <div class="row" data-category="media"><a href="https://www.instagram.com/flight.f35/" target="_blank" rel="noopener noreferrer">flight.f35</a><span class="status-notice status-corrupt">Corrupted</span></div>
@@ -2485,6 +2600,8 @@ html,
     <div class="row" data-category="media"><a href="https://www.instagram.com/mori.shiba720/" target="_blank" rel="noopener noreferrer">mori.shiba720</a><span class="status-notice status-corrupt">Corrupted</span></div>
     <div class="row" data-category="media"><a href="https://www.instagram.com/dancefloor_degrader/" target="_blank" rel="noopener noreferrer">dancefloor_degrader</a><span class="status-notice status-corrupt">Corrupted</span></div>
     <div class="row" data-category="media"><a href="https://www.instagram.com/sodapopangel/" target="_blank" rel="noopener noreferrer">sodapopangel</a><span class="status-notice status-deleted">Deleted</span></div>
+    <div class="row" data-category="media"><a href="https://www.instagram.com/goodchoice_cc/" target="_blank" rel="noopener noreferrer">goodchoice_cc</a><span class="status-notice status-available">Active</span></div>
+    <div class="row" data-category="media"><a href="https://www.instagram.com/teamgoodchoice/" target="_blank" rel="noopener noreferrer">teamgoodchoice</a><span class="status-notice status-deleted">Deleted</span></div>
 
     <div class="group-heading">Facebook</div>
     <div class="row" data-category="media"><a href="https://www.facebook.com/HotChocolateBassoonMan" target="_blank" rel="noopener noreferrer">HotChocolateBassoonMan</a><span class="status-notice status-available">Active</span></div>
@@ -2545,6 +2662,7 @@ html,
 <section class="panel" id="updates-section">
   <button class="panel-top" type="button" aria-expanded="true">Recent Updates</button>
   <ul class="changelog-list">
+    <li><span class="changelog-date">October 24, 2026</span>Added goodchoice_cc and teamgoodchoice to Instagram and checked their statuses.</li>
     <li><span class="changelog-date">October 23, 2026</span>Added back a couple of links that were missing from the old Hikkichan Archive, including Instagram, Ask.fm, Reddit, and DeviantArt. Checked their statuses again.</li>
     <li><span class="changelog-date">October 22, 2026</span>Fixed the Facebook statuses, tidied up the username index, made the buttons and boxes more consistent, and made the access notice faster.</li>
     <li class="changelog-extra-group" id="updates-extra" hidden aria-hidden="true">
@@ -2578,7 +2696,7 @@ html,
   <p>Please don’t use this site for hacking, harassment, stalking, doxxing, or accessing accounts without permission. Contact me about broken links or copyright, privacy, or safety concerns.</p>
   <p>This notice does not override the law or prevent removal requests.</p>
   <strong class="help-heading">Photo archive</strong>
-  <p>Photos are hosted on Google Photos and may be reused. If you have concerns about a photo or want it reviewed or removed from my collection, contact me. Removing a link from this site does not delete copies saved or shared elsewhere.</p>
+  <p>Photos are hosted on Google Photos and may be reused. If you have concerns about a photo or want it reviewed or removed from my archive, contact me. Removing a link from this site does not delete copies saved or shared elsewhere.</p>
 </div>
 
 <footer>
@@ -2588,10 +2706,41 @@ html,
   <br><span style="color:#53668f">✧ ─────── ✦ ─────── ✧</span>
   <br><a href="#top">Return to the top ↑</a>
   <br><button type="button" class="reopen-notice" id="reopen-notice">View access notice</button>
+  <br><a class="reopen-notice" id="download-html" href="/archive.html" download="earth-hikkichan-archive.html">Download this page (HTML)</a>
 </footer>
 </main>
 
 <button class="back-to-top" id="top-button" type="button" aria-label="Back to top">Back to top</button>
+
+
+<!-- HIKIMATE CHOOSER -->
+<div class="entry-gate hm-gate" id="hm-gate" role="dialog" aria-modal="true" aria-labelledby="hm-title" aria-describedby="hm-description" aria-hidden="true">
+  <div class="entry-card">
+    <button type="button" class="entry-close" id="hm-close" aria-label="Close notice">&times;</button>
+    <div class="entry-heading">
+      <p class="entry-kicker">Hikimate · choose a version</p>
+      <h2 id="hm-title">Before You Visit</h2>
+      <p class="entry-subtitle">Please choose which version to open</p>
+      <div class="entry-ornament" aria-hidden="true"><span>✧</span><span>✦</span><span>✧</span></div>
+    </div>
+
+    <div class="entry-body" id="hm-description" tabindex="0">
+      <h3>Wayback Machine Save</h3>
+      <p>The <strong>safe archived copy from 2010</strong>, preserved by the Internet Archive. This is the recommended way to view Hikimate.</p>
+
+      <h3>Current hikimate.com</h3>
+      <p><strong>The live site is no longer safe to visit.</strong> It is no longer run by the original owner and <strong>can redirect to unwanted or harmful content</strong>. That is why the archived version is recommended.</p>
+
+      <p class="legal-small">This archive does not control hikimate.com or the Internet Archive and cannot guarantee what either page shows.</p>
+    </div>
+
+    <div class="entry-footer">
+      <a class="entry-agree-button" id="hm-safe" href="https://web.archive.org/web/20100819070242/http://hikimate.com/index.php" target="_blank" rel="noopener noreferrer">Open the Wayback Machine save</a>
+      <a class="entry-agree-button hm-live" href="http://hikimate.com" target="_blank" rel="noopener noreferrer nofollow">Visit current hikimate.com (not safe)</a>
+      <p class="entry-footnote">✧ The archived 2010 copy is recommended ✧</p>
+    </div>
+  </div>
+</div>
 
 <script>
 (() => {
@@ -3519,6 +3668,83 @@ updateSnapshot();
 updateResults();
 refreshScroll();
 
+})();
+
+(function(){
+  const gate=document.getElementById("hm-gate");
+  const closeBtn=document.getElementById("hm-close");
+  let lastFocus=null;
+  function open(e){e.preventDefault();lastFocus=document.activeElement;gate.classList.add("is-open");gate.setAttribute("aria-hidden","false");setTimeout(()=>document.getElementById("hm-safe").focus(),50);}
+  function close(){if(!gate.classList.contains("is-open"))return;gate.classList.remove("is-open");gate.setAttribute("aria-hidden","true");if(lastFocus)lastFocus.focus();}
+  document.querySelectorAll('a[href*="web.archive.org/web/20100819070242/http://hikimate.com"]').forEach(a=>{if(!gate.contains(a))a.addEventListener("click",open);});
+  closeBtn.addEventListener("click",close);
+  gate.addEventListener("click",e=>{if(e.target===gate)close();});
+  gate.querySelectorAll(".entry-agree-button").forEach(a=>a.addEventListener("click",()=>setTimeout(close,100)));
+  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&gate.classList.contains("is-open")){e.stopPropagation();close();}},true);
+})();
+(function(){
+  const link = document.getElementById("download-html");
+  if (!link) return;
+
+  const FILE_NAME = "earth-hikkichan-archive.html";
+  let blob = null;
+  let loading = null;
+
+  function load() {
+    if (blob || loading) return;
+    loading = fetch("/archive.html", { cache: "no-store" })
+      .then(response => {
+        if (!response.ok) throw new Error("download unavailable");
+        return response.blob();
+      })
+      .then(data => {
+        blob = new Blob([data], { type: "text/html;charset=utf-8" });
+        return blob;
+      })
+      .catch(() => { loading = null; return null; });
+  }
+
+  function downloadBlob(data, filename) {
+    const url = URL.createObjectURL(data);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 30000);
+  }
+
+  function deliver(data, filename) {
+    const file = new File([data], filename, { type: data.type });
+    const touch = window.matchMedia("(pointer: coarse)").matches;
+    if (touch && navigator.canShare && navigator.canShare({ files: [file] })) {
+      navigator.share({ files: [file], title: filename }).catch(err => {
+        if (!err || err.name !== "AbortError") downloadBlob(data, filename);
+      });
+      return;
+    }
+    downloadBlob(data, filename);
+  }
+
+  link.addEventListener("pointerenter", load);
+  link.addEventListener("focus", load);
+  window.addEventListener("load", () => {
+    if (typeof window.requestIdleCallback === "function") {
+      window.requestIdleCallback(load, { timeout: 4000 });
+    } else {
+      setTimeout(load, 2000);
+    }
+  });
+
+  link.addEventListener("click", event => {
+    if (blob) {
+      event.preventDefault();
+      deliver(blob, FILE_NAME);
+      return;
+    }
+    load();
+  });
 })();
 </script>
 </body>
