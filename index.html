@@ -2284,6 +2284,166 @@ footer { border-top:3px double var(--border); }
 .hm-gate .entry-card{max-width:520px}
 .hm-gate .entry-agree-button{text-decoration:none;margin-bottom:10px}
 .hm-gate .entry-agree-button.hm-live{color:#9eafd7}
+/* Quick links on phones: compact two-column grid, comfortable tap targets. */
+@media(max-width:600px) {
+  .quick-links {
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    align-items:stretch;
+    justify-content:stretch;
+    gap:8px;
+    padding:12px;
+  }
+
+  .quick-links a {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:44px;
+    padding:10px 12px;
+    font-size:12px;
+    line-height:1.25;
+    border-radius:8px;
+    touch-action:manipulation;
+  }
+}
+
+@media(max-width:350px) {
+  .quick-links {
+    gap:7px;
+    padding:10px;
+  }
+
+  .quick-links a {
+    padding:9px 8px;
+    font-size:11px;
+  }
+}
+
+/* Focus and press feedback on quick links */
+.quick-links a:focus-visible {
+  outline:2px solid var(--pink-light);
+  outline-offset:3px;
+  border-color:var(--pink-light);
+  background:#111522;
+  box-shadow:0 0 0 4px rgba(255,180,201,.18);
+}
+
+.quick-links a:active {
+  background:#151b2b;
+  border-color:#6577a2;
+}
+
+/* Sticky section menu for phones: compact bar that follows the scroll */
+.section-menu {
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  z-index:30;
+  display:none;
+  padding:8px 10px calc(8px + env(safe-area-inset-bottom));
+  background:#08090dee;
+  border-top:1px solid var(--border);
+  opacity:0;
+  visibility:hidden;
+  transform:translate3d(0,10px,0);
+  transition:
+    opacity .28s ease,
+    transform .3s cubic-bezier(.2,.7,.25,1),
+    visibility 0s linear .3s;
+}
+
+.section-menu.is-visible {
+  opacity:1;
+  visibility:visible;
+  transform:translate3d(0,0,0);
+  transition:
+    opacity .28s ease,
+    transform .3s cubic-bezier(.2,.7,.25,1),
+    visibility 0s linear 0s;
+}
+
+.section-menu-track {
+  display:flex;
+  gap:7px;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+  padding:1px;
+}
+
+.section-menu-track::-webkit-scrollbar {
+  display:none;
+}
+
+.section-menu a {
+  flex:0 0 auto;
+  display:inline-flex;
+  align-items:center;
+  min-height:42px;
+  padding:8px 13px;
+  color:var(--blue);
+  font-size:11px;
+  font-weight:bold;
+  white-space:nowrap;
+  text-decoration:none;
+  background:transparent;
+  border:1px solid var(--border);
+  border-radius:7px;
+  touch-action:manipulation;
+  transition:color .25s ease,border-color .25s ease,background-color .25s ease;
+}
+
+.section-menu a:hover {
+  color:var(--pink-light);
+  border-color:#6577a2;
+  background:#111522;
+}
+
+.section-menu a:focus-visible {
+  outline:2px solid var(--pink-light);
+  outline-offset:3px;
+  border-color:var(--pink-light);
+  background:#111522;
+  box-shadow:0 0 0 4px rgba(255,180,201,.18);
+}
+
+.section-menu a:active {
+  background:#151b2b;
+  border-color:#6577a2;
+}
+
+.section-menu a[aria-current="location"] {
+  color:var(--pink-light);
+  border-color:#6577a2;
+  background:#111522;
+}
+
+@media(max-width:600px) {
+  .section-menu {
+    display:block;
+  }
+
+  body.menu-shown {
+    padding-bottom:74px;
+  }
+
+  body.menu-shown .back-to-top {
+    bottom:calc(66px + env(safe-area-inset-bottom));
+  }
+}
+
+html.archive-locked .section-menu {
+  display:none !important;
+}
+
+@media(prefers-reduced-motion:reduce) {
+  .section-menu,
+  .section-menu a {
+    transition:none;
+  }
+}
 </style>
 </head>
 
@@ -2349,15 +2509,6 @@ footer { border-top:3px double var(--border); }
 <header id="top">
   <h1>Earth’s Hikkichan Archive</h1>
   <p class="subtitle">A username showcase · est. 2026</p>
-
-  <nav class="top-nav" aria-label="Main navigation">
-    <button class="nav-item" data-target="archive-section" type="button">Archive</button>
-    <button class="nav-item" data-target="blogs-section" type="button">Blogs and Websites</button>
-    <button class="nav-item" data-target="yt-section" type="button">YouTube</button>
-    <button class="nav-item" data-target="media-section" type="button">Other Profiles</button>
-    <button class="nav-item" data-target="aliases-section" type="button">Aliases</button>
-    <button class="nav-item" data-target="updates-section" type="button">Updates</button>
-  </nav>
 </header>
 
 <div class="archive-decoration" aria-hidden="true"><span>✧</span><span>✦</span><span>✧</span><span>✦</span><span>✧</span></div>
@@ -2662,7 +2813,6 @@ footer { border-top:3px double var(--border); }
 <section class="panel" id="updates-section">
   <button class="panel-top" type="button" aria-expanded="true">Recent Updates</button>
   <ul class="changelog-list">
-    <li><span class="changelog-date">October 24, 2026</span>Added goodchoice_cc and teamgoodchoice to Instagram and checked their statuses.</li>
     <li><span class="changelog-date">October 23, 2026</span>Added back a couple of links that were missing from the old Hikkichan Archive, including Instagram, Ask.fm, Reddit, and DeviantArt. Checked their statuses again.</li>
     <li><span class="changelog-date">October 22, 2026</span>Fixed the Facebook statuses, tidied up the username index, made the buttons and boxes more consistent, and made the access notice faster.</li>
     <li class="changelog-extra-group" id="updates-extra" hidden aria-hidden="true">
@@ -2706,11 +2856,25 @@ footer { border-top:3px double var(--border); }
   <br><span style="color:#53668f">✧ ─────── ✦ ─────── ✧</span>
   <br><a href="#top">Return to the top ↑</a>
   <br><button type="button" class="reopen-notice" id="reopen-notice">View access notice</button>
-  <br><a class="reopen-notice" id="download-html" href="/archive.html" download="earth-hikkichan-archive.html">Download this page (HTML)</a>
 </footer>
 </main>
 
 <button class="back-to-top" id="top-button" type="button" aria-label="Back to top">Back to top</button>
+
+<nav class="section-menu" id="section-menu" aria-label="Jump to a section">
+  <div class="section-menu-track">
+    <a href="#top">Top</a>
+    <a href="#snapshot-section">Archive snapshot</a>
+    <a href="#archive-section">Archive links</a>
+    <a href="#blogs-section">Blogs and Websites</a>
+    <a href="#yt-section">YouTube channels</a>
+    <a href="#media-section">Other Profiles</a>
+    <a href="#aliases-section">Username index</a>
+    <a href="#status-section">Status labels</a>
+    <a href="#updates-section">Updates</a>
+    <a href="#contact-section">Contact</a>
+  </div>
+</nav>
 
 
 <!-- HIKIMATE CHOOSER -->
@@ -3422,6 +3586,8 @@ function refreshScroll() {
       "scaleX(" + (max ? Math.min(1,y / max) : 0) + ")";
 
     topButton.classList.toggle("is-visible",y > 350);
+
+    updateSectionMenu(y);
   });
 }
 
@@ -3469,7 +3635,7 @@ navButtons.forEach(button => {
 
 /* Quick links and aliases */
 document.querySelectorAll(
-  ".quick-links a[href^='#'],.alias-link[href^='#'],footer a[href^='#']"
+  ".quick-links a[href^='#'],.alias-link[href^='#'],footer a[href^='#'],.section-menu a[href^='#']"
 ).forEach(link => {
   link.addEventListener("click",event => {
     const href = link.getAttribute("href");
@@ -3527,6 +3693,46 @@ topButton.addEventListener("click",() => {
     behavior:reducedMotion.matches ? "auto" : "smooth"
   });
 });
+
+/* Sticky section menu (phones) */
+const sectionMenu = document.getElementById("section-menu");
+const sectionMenuLinks = sectionMenu
+  ? [...sectionMenu.querySelectorAll("a[href^='#']")]
+  : [];
+
+function updateSectionMenu(y) {
+  if (!sectionMenu) return;
+
+  const quickPanel = document.getElementById("quick-section");
+  const show = quickPanel
+    ? quickPanel.getBoundingClientRect().bottom < 40
+    : y > 600;
+
+  sectionMenu.classList.toggle("is-visible",show);
+  document.body.classList.toggle("menu-shown",show);
+
+  if (!show) return;
+
+  let currentId = "";
+  sectionMenuLinks.forEach(link => {
+    const target = document.getElementById(
+      (link.getAttribute("href") || "").slice(1)
+    );
+
+    if (target && target.getBoundingClientRect().top <= 130) {
+      currentId = target.id;
+    }
+  });
+
+  sectionMenuLinks.forEach(link => {
+    const href = (link.getAttribute("href") || "").slice(1);
+    const isCurrent = href === currentId;
+
+    link.classList.toggle("is-current",isCurrent);
+    if (isCurrent) link.setAttribute("aria-current","location");
+    else link.removeAttribute("aria-current");
+  });
+}
 
 window.addEventListener("scroll",refreshScroll,{passive:true});
 window.addEventListener("resize",refreshScroll,{passive:true});
@@ -3681,70 +3887,6 @@ refreshScroll();
   gate.addEventListener("click",e=>{if(e.target===gate)close();});
   gate.querySelectorAll(".entry-agree-button").forEach(a=>a.addEventListener("click",()=>setTimeout(close,100)));
   document.addEventListener("keydown",e=>{if(e.key==="Escape"&&gate.classList.contains("is-open")){e.stopPropagation();close();}},true);
-})();
-(function(){
-  const link = document.getElementById("download-html");
-  if (!link) return;
-
-  const FILE_NAME = "earth-hikkichan-archive.html";
-  let blob = null;
-  let loading = null;
-
-  function load() {
-    if (blob || loading) return;
-    loading = fetch("/archive.html", { cache: "no-store" })
-      .then(response => {
-        if (!response.ok) throw new Error("download unavailable");
-        return response.blob();
-      })
-      .then(data => {
-        blob = new Blob([data], { type: "text/html;charset=utf-8" });
-        return blob;
-      })
-      .catch(() => { loading = null; return null; });
-  }
-
-  function downloadBlob(data, filename) {
-    const url = URL.createObjectURL(data);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 30000);
-  }
-
-  function deliver(data, filename) {
-    const file = new File([data], filename, { type: data.type });
-    const touch = window.matchMedia("(pointer: coarse)").matches;
-    if (touch && navigator.canShare && navigator.canShare({ files: [file] })) {
-      navigator.share({ files: [file], title: filename }).catch(err => {
-        if (!err || err.name !== "AbortError") downloadBlob(data, filename);
-      });
-      return;
-    }
-    downloadBlob(data, filename);
-  }
-
-  link.addEventListener("pointerenter", load);
-  link.addEventListener("focus", load);
-  window.addEventListener("load", () => {
-    if (typeof window.requestIdleCallback === "function") {
-      window.requestIdleCallback(load, { timeout: 4000 });
-    } else {
-      setTimeout(load, 2000);
-    }
-  });
-
-  link.addEventListener("click", event => {
-    if (blob) {
-      event.preventDefault();
-      deliver(blob, FILE_NAME);
-      return;
-    }
-    load();
-  });
 })();
 </script>
 </body>
